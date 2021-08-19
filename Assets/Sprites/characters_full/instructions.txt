@@ -1,0 +1,34 @@
+
+
+LAYERS
+
+1. Characters
+2. Eyes -> Blush/Lipstick
+3. Clothes: 
+	1. Shoes
+	2. Shirt
+	3. Pants/Skirt (you want pants on top because skirts are higher than the bottom of the shirts)
+4. Hair
+5. Accessories 
+	1. Beard
+	2. Glasses
+	3. Hat
+
+
+ANIMATIONS
+
+Not all frames should be displayed at the same frame rate. This is because movements have anticipation, for example right before a jump
+your character will anticipate for the jump, and also spend a little bit more time at the highest point of the jump. You might want to adjust the frame rate based on 
+how fast your character moves/ how far jumps etc. The included gifs have the following frame rates:
+
+Carry 	FR: all 100
+Die 	FR: all 300
+Jump 	FR: 100, 200,100, 120, 100
+Pickaxe 	FR: 100, 100, 250, 60, 100
+Walk       	FR: all 100
+Water 	FR: 200, 400
+
+
+
+
+
