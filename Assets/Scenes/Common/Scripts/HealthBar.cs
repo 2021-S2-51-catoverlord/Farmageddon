@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /**
-* Used for th health bar.
+* Used for the health bar.
 */
 public class HealthBar : MonoBehaviour
 {
