@@ -16,6 +16,7 @@ public class Player : Entity
     {
         GetInput();
        
+        // Call the parent's Update which calls the parent's Move method. 
         base.Update();
     }
 
