@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class edible : material
+public class Edible : Material
 {
     private int healthGain;
     private int StaminaGain;
-    public edible(string itemName, int ID, string description, int value, int healthGain, int staminaGain) : base(itemName, ID, description, value)
+    public Edible(string itemName, int ID, string description, int value, int healthGain, int staminaGain) : base(itemName, ID, description, value)
     {
         this.healthGain = healthGain;
         this.StaminaGain = staminaGain;
@@ -15,7 +15,7 @@ public class edible : material
     /*
      * todo: add method, requires addition code elsewere
      */
-    public void eatFood()
+    public void EatFood()
     {
 
     }

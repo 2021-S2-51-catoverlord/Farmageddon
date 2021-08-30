@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class item : ScriptableObject
+[CreateAssetMenu(fileName = "New Item", menuName = "Item")]
+public class Item : ScriptableObject
 {
-    private string itemName = "uninported item";
-    private int ID;
-    private string description;
-    private int price;
+    public string itemName;
+    public int ID;
+    public string description;
+    public int price;
+    public Sprite itemArt;
 
-
-    public item(string itemName, int ID, string description)
+    public Item(string itemName, int ID, string description)
     {
         this.itemName = itemName;
         this.ID = ID;

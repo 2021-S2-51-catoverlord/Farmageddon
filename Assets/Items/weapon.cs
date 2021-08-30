@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class weapon : equipment
+public class Weapon : Equipment
 {
-    public weapon(string itemName, int ID, string description) : base(itemName, ID, description)
+    public Weapon(string itemName, int ID, string description) : base(itemName, ID, description)
         {
 
         }
