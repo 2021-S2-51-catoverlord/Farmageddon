@@ -115,10 +115,10 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 24
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -238,10 +238,10 @@ TextureImporter:
       name: babybunny animations_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 90
-        width: 9
-        height: 11
+        x: 0
+        y: 87
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -259,10 +259,10 @@ TextureImporter:
       name: babybunny animations_1
       rect:
         serializedVersion: 2
-        x: 19
-        y: 93
-        width: 9
-        height: 10
+        x: 16
+        y: 89
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -280,10 +280,10 @@ TextureImporter:
       name: babybunny animations_2
       rect:
         serializedVersion: 2
-        x: 35
-        y: 92
-        width: 9
-        height: 12
+        x: 32
+        y: 90
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -301,10 +301,10 @@ TextureImporter:
       name: babybunny animations_3
       rect:
         serializedVersion: 2
-        x: 51
-        y: 90
-        width: 9
-        height: 11
+        x: 48
+        y: 88
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -322,10 +322,10 @@ TextureImporter:
       name: babybunny animations_4
       rect:
         serializedVersion: 2
-        x: 3
-        y: 72
-        width: 9
-        height: 11
+        x: 0
+        y: 69
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -343,10 +343,10 @@ TextureImporter:
       name: babybunny animations_5
       rect:
         serializedVersion: 2
-        x: 19
-        y: 76
-        width: 9
-        height: 10
+        x: 16
+        y: 72
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -364,10 +364,10 @@ TextureImporter:
       name: babybunny animations_6
       rect:
         serializedVersion: 2
-        x: 35
-        y: 75
-        width: 9
-        height: 9
+        x: 32
+        y: 71
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -385,10 +385,10 @@ TextureImporter:
       name: babybunny animations_7
       rect:
         serializedVersion: 2
-        x: 51
-        y: 72
-        width: 9
-        height: 10
+        x: 48
+        y: 69
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -406,10 +406,10 @@ TextureImporter:
       name: babybunny animations_8
       rect:
         serializedVersion: 2
-        x: 1
-        y: 54
-        width: 13
-        height: 10
+        x: 0
+        y: 51
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -427,10 +427,10 @@ TextureImporter:
       name: babybunny animations_9
       rect:
         serializedVersion: 2
-        x: 17
-        y: 55
-        width: 13
-        height: 11
+        x: 16
+        y: 52
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -448,10 +448,10 @@ TextureImporter:
       name: babybunny animations_10
       rect:
         serializedVersion: 2
-        x: 33
-        y: 58
-        width: 13
-        height: 10
+        x: 32
+        y: 55
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -469,10 +469,10 @@ TextureImporter:
       name: babybunny animations_11
       rect:
         serializedVersion: 2
-        x: 49
-        y: 54
-        width: 13
-        height: 9
+        x: 48
+        y: 51
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -490,10 +490,10 @@ TextureImporter:
       name: babybunny animations_12
       rect:
         serializedVersion: 2
-        x: 2
-        y: 36
-        width: 13
-        height: 10
+        x: 0
+        y: 33
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -511,10 +511,10 @@ TextureImporter:
       name: babybunny animations_13
       rect:
         serializedVersion: 2
-        x: 18
-        y: 37
-        width: 13
-        height: 11
+        x: 16
+        y: 35
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -532,10 +532,10 @@ TextureImporter:
       name: babybunny animations_14
       rect:
         serializedVersion: 2
-        x: 34
-        y: 40
-        width: 13
-        height: 10
+        x: 32
+        y: 37
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -553,10 +553,10 @@ TextureImporter:
       name: babybunny animations_15
       rect:
         serializedVersion: 2
-        x: 50
-        y: 36
-        width: 13
-        height: 9
+        x: 48
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -574,10 +574,10 @@ TextureImporter:
       name: babybunny animations_16
       rect:
         serializedVersion: 2
-        x: 3
-        y: 18
-        width: 11
-        height: 9
+        x: 0
+        y: 28
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -595,10 +595,10 @@ TextureImporter:
       name: babybunny animations_17
       rect:
         serializedVersion: 2
-        x: 19
-        y: 18
-        width: 11
-        height: 10
+        x: 16
+        y: 28
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -616,10 +616,10 @@ TextureImporter:
       name: babybunny animations_18
       rect:
         serializedVersion: 2
-        x: 35
-        y: 18
-        width: 11
-        height: 9
+        x: 32
+        y: 28
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -637,10 +637,10 @@ TextureImporter:
       name: babybunny animations_19
       rect:
         serializedVersion: 2
-        x: 52
-        y: 18
-        width: 9
-        height: 8
+        x: 48
+        y: 28
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -650,90 +650,6 @@ TextureImporter:
       bones: []
       spriteID: 59a23db3cb78ad460800000000000000
       internalID: 7267270191243012757
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: babybunny animations_22
-      rect:
-        serializedVersion: 2
-        x: 3
-        y: 0
-        width: 9
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: eb562330369644f20800000000000000
-      internalID: 3405963092175250878
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: babybunny animations_23
-      rect:
-        serializedVersion: 2
-        x: 19
-        y: 0
-        width: 9
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3c5dfe86118f0e070800000000000000
-      internalID: 8133773680689796547
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: babybunny animations_24
-      rect:
-        serializedVersion: 2
-        x: 33
-        y: 0
-        width: 13
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 812b578526c7198f0800000000000000
-      internalID: -535510118847630824
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: babybunny animations_25
-      rect:
-        serializedVersion: 2
-        x: 49
-        y: 0
-        width: 13
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3b859dde4fdf3ad90800000000000000
-      internalID: -7087542160146736973
       vertices: []
       indices: 
       edges: []
