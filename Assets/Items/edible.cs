@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Edible : Material
+public class Edible : Mat
 {
     private int healthGain;
     private int StaminaGain;

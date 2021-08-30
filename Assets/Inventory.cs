@@ -6,12 +6,12 @@ public class Inventory : MonoBehaviour
 {
     public List<Item> items = new List<Item>();
 
-    public void Add(Item item)
+    public void AddItem(Item item)
     {
         items.Add(item);
     }
 
-    public void OnRectTransformRemoved(Item item)
+    public void RemoveItem(Item item)
     {
         items.Remove(item);
     }
