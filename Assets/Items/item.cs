@@ -9,6 +9,7 @@ public class Item : ScriptableObject
     public int ID;
     public string description;
     public int price;
+    internal Sprite icon;
 
     [SerializeField]
     public Sprite itemArt
