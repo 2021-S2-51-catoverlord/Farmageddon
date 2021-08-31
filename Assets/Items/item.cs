@@ -9,7 +9,29 @@ public class Item : ScriptableObject
     public int ID;
     public string description;
     public int price;
-    public Sprite itemArt;
+
+    [SerializeField]
+    public Sprite itemArt
+    {
+        get
+        {
+            return itemArt;
+        }
+    }
+
+    protected InventorySlotScript slot
+    {
+        get
+        {
+            return slot;
+        }
+
+        set
+        {
+            slot = value;
+        }
+    }
+
 
     public Item(string itemName, int ID, string description)
     {
@@ -17,5 +39,4 @@ public class Item : ScriptableObject
         this.ID = ID;
         this.description = description;
     }
-
 }
