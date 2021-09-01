@@ -11,10 +11,10 @@ public class Item : ScriptableObject
     public int price = 0;
     public Sprite icon = null;
 
-    public Item(string itemName, int ID, string description)
-    {
-        this.itemName = itemName;
-        this.ID = ID;
-        this.description = description;
-    }
+    //public Item(string itemName, int ID, string description)
+    //{
+    //    this.itemName = itemName;
+    //    this.ID = ID;
+    //    this.description = description;
+    //}
 }

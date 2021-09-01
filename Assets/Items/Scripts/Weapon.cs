@@ -5,8 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Weapon", menuName = "Inventory/Equipment/Weapon")]
 public class Weapon : Equipment
 {
-    public Weapon(string itemName, int ID, string description) : base(itemName, ID, description)
-    {
+    public WeaponCategory weaponCat;
+    public int weaponAtk;
 
+    public enum WeaponCategory
+    {
+        Sword
     }
 }
