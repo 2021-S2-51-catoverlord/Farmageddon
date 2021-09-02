@@ -19,10 +19,9 @@ public abstract class Entity : MonoBehaviour
     public int HealthPoints { get; set; }
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
-        // Initialize the entity's hp to 100.
-        healthPoints = MAX_HP;
+        
     }
 
     // Update is called once per frame
