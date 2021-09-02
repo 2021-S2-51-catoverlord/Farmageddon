@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class Player : Entity
 {
+    private int staminaPoints;
+    private int experiencePoints;
+
+    // Get and set methods.
+    public int StaminaPoints { get; set; }
+    public int ExperiencePoints { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
+        base.name = "Player";
+
         // Get the instance of the Animator the GameObject is linked to and save it locally.
         base.animator = GetComponent<Animator>();
     }
@@ -15,8 +24,8 @@ public class Player : Entity
     protected override void Update()
     {
         GetInput();
-       
-        // Call the parent's Update which calls the parent's Move method. 
+
+        // Call the parent's Update method which will call the parent's Move method. 
         base.Update();
     }
 

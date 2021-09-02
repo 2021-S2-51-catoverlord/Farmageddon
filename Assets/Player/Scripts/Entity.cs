@@ -4,19 +4,25 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
 {
-    protected string name;
-    protected double healthPoints;
-    protected static double MAX_HP = 100d;
+    protected static int MAX_HP = 100;
+    
+    private string entityName;
+    private int healthPoints;
 
     [SerializeField]
     protected float speed; // Speed of movement.
     protected Vector2 direction; // Vector.
     protected Animator animator;
 
+    // Get and set methods for name and hp.
+    public string EntityName { get; set; }
+    public int HealthPoints { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Initialize the entity's hp to 100.
+        healthPoints = MAX_HP;
     }
 
     // Update is called once per frame
