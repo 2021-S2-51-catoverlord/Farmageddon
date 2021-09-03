@@ -5,27 +5,43 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
     protected static int MAX_HP = 100;
-    
-    private string entityName;
-    private int healthPoints;
 
     [SerializeField]
     protected float speed; // Speed of movement.
-    protected Vector2 direction; // Vector.
-    protected Animator animator;
 
-    // Get and set methods for name and hp.
+    protected Vector2 direction; // Vector.
+    private string entityName;
+    private int healthPoints;
+    private Animator entityAnimator;
+    private Rigidbody2D entityRigidbody;
+
+    // Get and set methods for entity's attributes.
     public string EntityName { get; set; }
     public int HealthPoints { get; set; }
+    public Animator EntityAnimator { get; set; }
+    public Rigidbody2D EntityRigidbody { get; set; }
+    public bool IsMoving => direction.x != 0 || direction.y != 0;
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        
+        // Get the instance of the Rigidbody2D the GameObject is linked to and save it locally.
+        EntityRigidbody = GetComponent<Rigidbody2D>();
+
+        // Get the instance of the Animator the GameObject is linked to and save it locally.
+        EntityAnimator = GetComponent<Animator>();
+
+        // Initialise entity's hp.
+        HealthPoints = Entity.MAX_HP;
     }
 
     // Update is called once per frame
     protected virtual void Update()
+    {
+        HandleAnimLayers();
+    }
+
+    private void FixedUpdate()
     {
         Move();
     }
@@ -35,34 +51,83 @@ public abstract class Entity : MonoBehaviour
     /// </summary>
     public void Move()
     {
-        // Move the sprite on the scene.
-        transform.Translate(direction * speed * Time.deltaTime);
+        // Move the sprite on the scene based on the calculated vector and magnitude.
+        EntityRigidbody.velocity = direction.normalized * speed;
+    }
 
+    /// <summary>
+    /// Method to determine which animation state based
+    /// on the entity's change in movement.
+    /// </summary>
+    public void HandleAnimLayers()
+    {
         // If the character is moving...
-        if(direction.x != 0 || direction.y != 0)
+        if (IsMoving)
         {
-            // Configure settings so that the sprite can be animated appropriately.
-            AnimateMovement(direction);
+            // Change the main layer to the walking layer.
+            ActivateAnimLayer("Walk Layer");
+
+            // Specify the direction so that the sprite can face the appropriate direction.
+            EntityAnimator.SetFloat("x", direction.x);
+            EntityAnimator.SetFloat("y", direction.y);
         }
         else // Otherwise...
         {
             // Set the idle layer to be the main layer.
-            animator.SetLayerWeight(1, 0);
+            EntityAnimator.SetLayerWeight(1, 0);
+            ActivateAnimLayer("Idle Layer");
         }
     }
 
     /// <summary>
-    /// Determines the state of which the Sprite should be in depending 
-    /// on its direction it is heading towards.
+    /// Method to disable all animation layers and activate the one the  
+    /// entity is currently in (using the layer's name).
     /// </summary>
-    /// <param name="direction"></param>
-    public void AnimateMovement(Vector2 direction)
+    /// <param name="layerName"></param>
+    public void ActivateAnimLayer(string layerName)
     {
-        // Change the main layer to thje walking layer.
-        animator.SetLayerWeight(1, 1); 
+        // For each animation layer of the Entity...
+        for (int i = 0; i < EntityAnimator.layerCount; i++)
+        {
+            // Disable all the layers.
+            EntityAnimator.SetLayerWeight(i, 0);
+        }
 
-        // Specify the direction so that the sprite can face the appropriate direction.
-        animator.SetFloat("x", direction.x);
-        animator.SetFloat("y", direction.y);
+        // Activate the specific layer using the passed in name.
+        EntityAnimator.SetLayerWeight(EntityAnimator.GetLayerIndex(layerName), 1);
+    }
+
+    /// <summary>
+    /// Method to decrease entity's hp.
+    /// </summary>
+    /// <param name="damage"></param>
+    public void TakeDamage(int damage)
+    {
+        // If current health points is greater than 0...
+        if (HealthPoints > 0)
+        {
+            // Decrement hp.
+            HealthPoints -= damage;
+
+            // Ensure HP is not a negative.
+            HealthPoints = HealthPoints < 0 ? 0 : HealthPoints;
+        }
+    }
+
+    /// <summary>
+    /// Method to increase entity's hp.
+    /// </summary>
+    /// <param name="healing"></param>
+    public void Heal(int healing)
+    {
+        // If current health points is less than the maximum (100)...
+        if (HealthPoints < Entity.MAX_HP)
+        {
+            // Increment hp.
+            HealthPoints += healing;
+
+            // Ensure HP is not over the maximum.
+            HealthPoints = HealthPoints > Entity.MAX_HP ? Entity.MAX_HP : HealthPoints;
+        }
     }
 }

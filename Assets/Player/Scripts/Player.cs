@@ -24,10 +24,12 @@ public class Player : Entity
     // Start is called before the first frame update
     protected override void Start()
     {
+        base.Start();
+
         InitStats();
 
         // Get the instance of the Animator the GameObject is linked to and save it locally.
-        base.animator = GetComponent<Animator>();
+        //base.animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -45,9 +47,8 @@ public class Player : Entity
     /// </summary>
     private void InitStats()
     {
-        // Initialise entity name, hp, stamina, and exp.
+        // Initialise entity name, stamina, and exp.
         EntityName = "Player";
-        HealthPoints = Entity.MAX_HP;
         StaminaPoints = Player.MAX_STAMINA;
         ExperiencePoints = 0;
 
@@ -63,39 +64,43 @@ public class Player : Entity
     private void GetInput()
     {
         // Reset the vector at every loop/call.
-        direction = Vector2.zero;
+        this.direction = Vector2.zero;
 
         /// Code for single direction.
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             // Move up.
-            direction += Vector2.up;
+            this.direction += Vector2.up;
         }
         else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             // Move left.
-            direction += Vector2.left;
+            this.direction += Vector2.left;
         }
         else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             // Move down.
-            direction += Vector2.down;
+            this.direction += Vector2.down;
         }
         else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             // Move right.
-            direction += Vector2.right;
+            this.direction += Vector2.right;
         }
 
         // Test health bar.
         if (Input.GetKeyDown(KeyCode.Z))
         {
             TakeDamage(3);
+            // Update the health bar slider.
+            healthBar.SetCurrentValue(HealthPoints);
             //Debug.Log("HP: " + HealthPoints);
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
             Heal(3);
+            // Update the health bar slider.
+            healthBar.SetCurrentValue(HealthPoints);
             //Debug.Log("HP: " + HealthPoints);
         }
 
@@ -105,46 +110,6 @@ public class Player : Entity
             UseStamina(2);
             //Debug.Log("Stamina: " + StaminaPoints);
         }
-    }
-
-    /// <summary>
-    /// Method to decrease player's hp and update UI.
-    /// </summary>
-    /// <param name="damage"></param>
-    public void TakeDamage(int damage)
-    {
-        // If current health points is greater than 0...
-        if (HealthPoints > 0)
-        {
-            // Decrement hp.
-            HealthPoints -= damage;
-
-            // Ensure HP is not a negative.
-            HealthPoints = HealthPoints < 0 ? 0 : HealthPoints;
-        }
-
-        // Update the health bar slider.
-        healthBar.SetCurrentValue(HealthPoints);
-    }
-
-    /// <summary>
-    /// Method to increase player's hp and update UI (health bar).
-    /// </summary>
-    /// <param name="healing"></param>
-    public void Heal(int healing)
-    {
-        // If current health points is less than the maximum (100)...
-        if (HealthPoints < Entity.MAX_HP)
-        {
-            // Increment hp.
-            HealthPoints += healing;
-
-            // Ensure HP is not over the maximum.
-            HealthPoints = HealthPoints > Entity.MAX_HP ? Entity.MAX_HP : HealthPoints;
-        }
-
-        // Update the health bar slider.
-        healthBar.SetCurrentValue(HealthPoints);
     }
 
     /// <summary>
