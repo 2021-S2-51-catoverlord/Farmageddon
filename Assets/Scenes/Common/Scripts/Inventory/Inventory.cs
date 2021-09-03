@@ -21,6 +21,9 @@ public class Inventory : MonoBehaviour
 
     #endregion
 
+    public delegate void OnItemChanged();
+    public OnItemChanged onItemChangedCallback;
+
     public static int NUM_SLOTS = 36; //Slots in inv
     public List<Item> items = new List<Item>(); //Current list of items in inv
 
@@ -31,7 +34,7 @@ public class Inventory : MonoBehaviour
     /// <returns></returns>
     public bool AddI(Item item)
     {
-        if (items.Count >= NUM_SLOTS)
+        if(items.Count >= NUM_SLOTS)
         {
             Debug.Log("Not enough room");
             return false;
@@ -39,8 +42,15 @@ public class Inventory : MonoBehaviour
 
         items.Add(item);
 
+        if(onItemChangedCallback != null)
+        {
+            // Notify listeners that an item change has happened.
+            onItemChangedCallback.Invoke();
+        }
+
         return true;
     }
+
     /// <summary>
     /// Returns item.
     /// </summary>
@@ -48,5 +58,11 @@ public class Inventory : MonoBehaviour
     public void RemoveI(Item item)
     {
         items.Remove(item);
+
+        if(onItemChangedCallback != null)
+        {
+            // Notify listeners that an item change has happened.
+            onItemChangedCallback.Invoke();
+        }
     }
 }

@@ -15,6 +15,12 @@ public class InventoryUI : MonoBehaviour
     {
         inventory = Inventory.instance;
 
+        // Adds the inventory ui as a listener and what action to do upon being notified.
+        inventory.onItemChangedCallback += UpdateUI;
+        
+        // Hides the inventory during the start of gameplay.
+        inventoryUI.SetActive(false);
+
         slots = itemsParent.GetComponentsInChildren<InventorySlot>();
     }
 
