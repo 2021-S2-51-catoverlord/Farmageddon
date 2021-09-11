@@ -4,17 +4,29 @@ using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
 {
-    public Transform itemsParent;
-    public GameObject inventoryUI;
+    // Limited inventory bar related attributes.
+    public GameObject ltdInventoryUI;
+    public Transform ltdItemsParent;
+    LimitedInventory limitedInventory;
+    InventorySlot[] ltdSlots;
 
+    // Main inventory attributes.
+    public GameObject inventoryUI;
+    public Transform itemsParent;
     Inventory inventory; //Current inv
     InventorySlot[] slots; //List all slots
 
     // Start is called before the first frame update
     void Start()
     {
-        inventory = Inventory.instance;
+        limitedInventory = LimitedInventory.instance;
+        limitedInventory.onItemChangedCallback += UpdateUI; // Adds the inventory ui as a listener and what action to do upon being notified.
+        //limitedInventoryUI.SetActive(true); // Hides the inventory during the start of gameplay.
+        ltdSlots = ltdItemsParent.GetComponentsInChildren<InventorySlot>();
 
+        inventory = Inventory.instance;
+        inventory.onItemChangedCallback += UpdateUI; // Adds the inventory ui as a listener and what action to do upon being notified.
+        inventoryUI.SetActive(false); // Hides the inventory during the start of gameplay.
         slots = itemsParent.GetComponentsInChildren<InventorySlot>();
     }
 
@@ -34,6 +46,20 @@ public class InventoryUI : MonoBehaviour
     /// </summary>
     void UpdateUI()
     {
+        // For loop for limited inventory bar.
+        for(int i =0; i < ltdSlots.Length; i++)
+        {
+            if(i < limitedInventory.items.Count)
+            {
+                ltdSlots[i].AddItem(limitedInventory.items[i]);
+            }
+            else
+            {
+                ltdSlots[i].ClearSlot();
+            }
+        }
+
+        // For loop for main inventory.
         for (int i = 0; i < slots.Length; i++) //loop through slots
         {
             if(i < inventory.items.Count)

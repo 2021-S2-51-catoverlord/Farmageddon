@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class LimitedInventory : MonoBehaviour
 {
     #region Singleton
 
-    public static Inventory instance;
+    public static LimitedInventory instance;
 
     private void Awake()
     {
-        if(instance != null && instance != this)
+        if (instance != null && instance != this)
         {
             Destroy(this.gameObject);
             return;
@@ -23,9 +23,9 @@ public class Inventory : MonoBehaviour
 
     public delegate void OnItemChanged();
     public OnItemChanged onItemChangedCallback;
-
-    public static int NUM_SLOTS = 36; //Slots in inv
-    public List<Item> items = new List<Item>(); //Current list of items in inv
+    
+    public static int NUM_SLOTS = 12; // Number of slots the limited inventory bar has.
+    public List<Item> items = new List<Item>(); // Current list of items in the limited inventory bar.
 
     /// <summary>
     /// Add new item, if enough room return true, else return false.
