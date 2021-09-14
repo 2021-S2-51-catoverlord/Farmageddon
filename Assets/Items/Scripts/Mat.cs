@@ -9,6 +9,6 @@ public class Mat : Item
 
     public enum MaterialCategory
     {
-        Minerals, Jewels, Sticks, Stones, Grass
+        Minerals, Jewels, Sticks, Stones, Grass, Food
     }
 }
