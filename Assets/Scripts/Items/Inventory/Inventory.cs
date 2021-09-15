@@ -34,21 +34,29 @@ public class Inventory : MonoBehaviour
     /// <returns></returns>
     public bool AddI(Item item)
     {
+        // If the inventory already has the item...
         if (items.Contains(item))
         {
-            ++item.itemAmount;
-            return true;
+            // Access the collection and modify item count by incrementing it.
+            items[items.IndexOf(item)].itemAmount++;
+            //++item.itemAmount;  
         }
-
-        if (items.Count >= NUM_SLOTS)
+        else if (!items.Contains(item)) // If the collection does not have the item to be added...
         {
-            Debug.Log("Not enough room");
-            return false;
+            // Check if maximum capacity has been reached for the inventory...
+            if(items.Count >= NUM_SLOTS)
+            {
+                Debug.Log("Not enough room");
+                return false;
+            }
+            else // If there are still slots available...
+            {
+                // Add it to the collection.
+                items.Add(item);
+            }
         }
 
-        items.Add(item);
-
-        if(onItemChangedCallback != null)
+        if (onItemChangedCallback != null)
         {
             // Notify listeners that an item change has happened.
             onItemChangedCallback.Invoke();
@@ -63,12 +71,17 @@ public class Inventory : MonoBehaviour
     /// <param name="item"></param>
     public void RemoveI(Item item)
     {
-        if (items.Contains(item) && item.itemAmount >= 1)
+        //if (items.Contains(item) && item.itemAmount >= 1)
+        if (items.Contains(item) && items[items.IndexOf(item)].itemAmount > 1) // If item to be removed is in the collection and theres more than 1 instance count..
         {
-            --item.itemAmount;
+            //--item.itemAmount;
+            // Access the collection via index search and modify item count (decrement).
+            items[items.IndexOf(item)].itemAmount--;
         }
-        else if(items.Contains(item) && item.itemAmount <= 1)
+        //else if(items.Contains(item) && item.itemAmount <= 1)
+        else if (items.Contains(item) && items[items.IndexOf(item)].itemAmount == 1) // If there is only one instance...
         {
+            // Remove it from the list.
             items.Remove(item);
         }
 

@@ -34,13 +34,27 @@ public class LimitedInventory : MonoBehaviour
     /// <returns></returns>
     public bool AddI(Item item)
     {
-        if (items.Count >= NUM_SLOTS)
+        // If the inventory already has the item...
+        if (items.Contains(item))
         {
-            Debug.Log("Not enough room");
-            return false;
+            // Access the collection and modify item count by incrementing it.
+            items[items.IndexOf(item)].itemAmount++;
+            //++item.itemAmount;  
         }
-
-        items.Add(item);
+        else if (!items.Contains(item)) // If the collection does not have the item to be added...
+        {
+            // Check if maximum capacity has been reached for the inventory...
+            if (items.Count >= NUM_SLOTS)
+            {
+                Debug.Log("Not enough room");
+                return false;
+            }
+            else // If there are still slots available...
+            {
+                // Add it to the collection.
+                items.Add(item);
+            }
+        }
 
         if (onItemChangedCallback != null)
         {
@@ -57,7 +71,19 @@ public class LimitedInventory : MonoBehaviour
     /// <param name="item"></param>
     public void RemoveI(Item item)
     {
-        items.Remove(item);
+        //if (items.Contains(item) && item.itemAmount >= 1)
+        if (items.Contains(item) && items[items.IndexOf(item)].itemAmount > 1) // If item to be removed is in the collection and theres more than 1 instance count..
+        {
+            //--item.itemAmount;
+            // Access the collection via index search and modify item count (decrement).
+            items[items.IndexOf(item)].itemAmount--;
+        }
+        //else if(items.Contains(item) && item.itemAmount <= 1)
+        else if (items.Contains(item) && items[items.IndexOf(item)].itemAmount == 1) // If there is only one instance...
+        {
+            // Remove it from the list.
+            items.Remove(item);
+        }
 
         if (onItemChangedCallback != null)
         {
