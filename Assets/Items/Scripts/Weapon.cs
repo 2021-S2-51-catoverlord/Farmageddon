@@ -7,9 +7,8 @@ public class Weapon : Equipment
 {
     public WeaponCategory weaponCat;
     public int weaponAtk;
-
-    public enum WeaponCategory
-    {
-        Sword
-    }
+}
+public enum WeaponCategory
+{
+    Sword
 }
