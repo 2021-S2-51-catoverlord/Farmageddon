@@ -34,7 +34,7 @@ public class Inventory : MonoBehaviour
     /// <returns></returns>
     public bool AddI(Item item)
     {
-        if (items.Count >= NUM_SLOTS)
+        if(items.Count >= NUM_SLOTS)
         {
             Debug.Log("Not enough room");
             return false;
@@ -42,7 +42,7 @@ public class Inventory : MonoBehaviour
 
         items.Add(item);
 
-        if (onItemChangedCallback != null)
+        if(onItemChangedCallback != null)
         {
             // Notify listeners that an item change has happened.
             onItemChangedCallback.Invoke();
@@ -59,7 +59,7 @@ public class Inventory : MonoBehaviour
     {
         items.Remove(item);
 
-        if (onItemChangedCallback != null)
+        if(onItemChangedCallback != null)
         {
             // Notify listeners that an item change has happened.
             onItemChangedCallback.Invoke();
