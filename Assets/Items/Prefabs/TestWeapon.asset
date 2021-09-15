@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: TestWeapon
   m_EditorClassIdentifier: 
   itemName: TestWeapon
-  ID: 0
-  description: Add Description
-  price: 0
-  icon: {fileID: 0}
-  equipSlot: 0
+  ID: 50
+  description: Testing
+  price: 500
+  icon: {fileID: 6960096479862379934, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
+  equipSlot: 3
   weaponCat: 0
-  weaponAtk: 0
+  weaponAtk: 100
