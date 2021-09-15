@@ -79,7 +79,7 @@ public class Inventory : MonoBehaviour
             items[items.IndexOf(item)].itemAmount--;
         }
         //else if(items.Contains(item) && item.itemAmount <= 1)
-        else if (items.Contains(item) && items[items.IndexOf(item)].itemAmount == 1) // If there is only one instance...
+        else // If there is only one instance...
         {
             // Remove it from the list.
             items.Remove(item);

@@ -17,4 +17,6 @@ MonoBehaviour:
   description: Full grown carrot.
   price: 1
   icon: {fileID: 8243356241797845907, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
+  itemAmount: 1
+  maxStack: 5
   materialCat: 5
