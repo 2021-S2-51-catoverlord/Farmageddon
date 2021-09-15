@@ -65,6 +65,8 @@ public class PlayerController : EntityController
     {
         // Reset the vector at every loop/call.
         this.direction = Vector2.zero;
+        this.IsJumping = false;
+        this.IsAttacking = false;
 
         /// Code for single direction.
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
@@ -86,6 +88,18 @@ public class PlayerController : EntityController
         {
             // Move right.
             this.direction += Vector2.right;
+        }
+
+        // Input for jump.
+        if(Input.GetKey(KeyCode.Space))
+        {
+            Jump();
+        }
+
+        // Input for attack (left mouse-click)
+        if(Input.GetMouseButton(0))
+        {
+            Attack();
         }
 
         // Test health bar.
@@ -167,5 +181,23 @@ public class PlayerController : EntityController
             // Create a 10 ms delay.
             yield return regenTick; 
         }
+    }
+
+    private void Jump()
+    {
+        // Set the entity's state to jumping.
+        IsJumping = true;
+
+        // Set Attack in animator parameter to true.
+        EntityAnimator.SetBool("Jump", IsJumping);
+    }
+
+    private void Attack()
+    {
+        // Set the entity's state to attacking.
+        IsAttacking = true;
+
+        // Set Attack in animator parameter to true.
+        EntityAnimator.SetBool("Attack", IsAttacking);
     }
 }

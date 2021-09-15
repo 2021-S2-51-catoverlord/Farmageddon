@@ -14,6 +14,9 @@ public abstract class EntityController : MonoBehaviour
     private int healthPoints;
     private Animator entityAnimator;
     private Rigidbody2D entityRigidbody;
+    private bool isJumping;
+    private bool isAttacking;
+    private bool isAlive;
 
     // Get and set methods for entity's attributes.
     public string EntityName { get; set; }
@@ -21,6 +24,9 @@ public abstract class EntityController : MonoBehaviour
     public Animator EntityAnimator { get; set; }
     public Rigidbody2D EntityRigidbody { get; set; }
     public bool IsMoving => direction.x != 0 || direction.y != 0;
+    public bool IsJumping { get; set; }
+    public bool IsAttacking { get; set; }
+    public bool IsAlive { get; set; }
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -33,6 +39,9 @@ public abstract class EntityController : MonoBehaviour
 
         // Initialise entity's hp.
         HealthPoints = EntityController.MAX_HP;
+
+        // Set the entity to be alive.
+        IsAlive = true;
     }
 
     // Update is called once per frame
@@ -70,6 +79,20 @@ public abstract class EntityController : MonoBehaviour
             // Specify the direction so that the sprite can face the appropriate direction.
             EntityAnimator.SetFloat("x", direction.x);
             EntityAnimator.SetFloat("y", direction.y);
+        }
+        else if(IsJumping)
+        {
+            // Change the main layer to the jumping layer.
+            ActivateAnimLayer("Jump Layer");
+        }
+        else if(IsAttacking)
+        {
+            // Change the main layer to the attacking layer.
+            ActivateAnimLayer("Attack Layer");
+        }
+        else if(!IsAlive)
+        {
+            ActivateAnimLayer("Death Layer");
         }
         else // Otherwise...
         {
@@ -112,6 +135,18 @@ public abstract class EntityController : MonoBehaviour
             // Ensure HP is not a negative.
             HealthPoints = HealthPoints < 0 ? 0 : HealthPoints;
         }
+        
+        // If current health points is 0 or less....
+        if(HealthPoints <= 0)
+        {
+            // Ensure entity stops moving when it is dead.
+            direction = Vector2.zero;
+            EntityRigidbody.velocity = direction;
+
+            // Trigger the death layer.
+            EntityAnimator.SetTrigger("Die");
+            IsAlive = false;
+        }
     }
 
     /// <summary>
@@ -129,5 +164,17 @@ public abstract class EntityController : MonoBehaviour
             // Ensure HP is not over the maximum.
             HealthPoints = HealthPoints > EntityController.MAX_HP ? EntityController.MAX_HP : HealthPoints;
         }
+    }
+
+    public void StopJump()
+    {
+        IsJumping = false;
+        EntityAnimator.SetBool("Jump", IsJumping);
+    }
+
+    public void StopAttack()
+    {
+        IsAttacking = false;
+        EntityAnimator.SetBool("Attack", IsAttacking);
     }
 }
