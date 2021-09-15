@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d23f83952f2d2dd498de8a01f6d84a0c, type: 3}
+  m_Name: Pumpkin Seed
+  m_EditorClassIdentifier: 
+  itemName: Pumpkin Seed
+  ID: 3
+  description: Pumpkin seeds.
+  price: 5
+  icon: {fileID: -8463751307097313094, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
+  growthTime: 4
