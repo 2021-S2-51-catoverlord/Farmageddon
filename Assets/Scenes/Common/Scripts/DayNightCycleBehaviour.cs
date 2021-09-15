@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.Rendering;
 using UnityEngine.Tilemaps;
 
 // Seasons, in chunks of 3 months
@@ -45,9 +46,10 @@ public class DayNightCycleBehaviour : MonoBehaviour
     // Global light source
     private Light2D timelight;
 
-    public Tilemap[] tilemaps; 
+    public Tilemap[] summer_tiles;
+    public Tilemap[] spring_tiles;
 
-    public Season season;
+    private Season season;
     public MonthName month;
     public int monthLength;
     private int yearLength;
@@ -55,16 +57,16 @@ public class DayNightCycleBehaviour : MonoBehaviour
     private Gradient seasonGradient;
     private GradientColorKey[] seasonKey;
     private GradientAlphaKey[] seasonalAlpha;
-    public Color warmColor = new Color(1.0f, 0.90f, 0.90f);
-    public Color neutralColor = new Color(0.90f, 1.0f, 0.90f);
-    public Color coolColor = new Color(0.90f, 0.90f, 1.0f);
+
+    public Color neutralColor = new Color(1.0f, 1.0f, 1.0f);
 
     public float timeElapsed { get; private set; }
 
     public int dayCount { get; private set; }
     private int totalDayCount;
+    private int seasonalDayCount;
     public int yearCount { get; private set; }
-
+    public float g;//debugging
     public float localTimeElapsed { get; private set; }
 
     public float time;
@@ -72,9 +74,62 @@ public class DayNightCycleBehaviour : MonoBehaviour
     public bool isDay;
     public bool isNight;
 
-    // Start is called before the first frame update
-    void Start()
+ 
+class TransparencySortGraphicsHelper
+{
+    static TransparencySortGraphicsHelper()
     {
+        OnLoad();
+    }
+
+    [RuntimeInitializeOnLoadMethod]
+    static void OnLoad()
+    {
+        GraphicsSettings.transparencySortMode = TransparencySortMode.CustomAxis;
+        GraphicsSettings.transparencySortAxis = new Vector3(0.0f, 1.0f, 0.0f);
+    }
+}
+
+
+
+// Start is called before the first frame update
+void Start()
+    {
+        timelight = GetComponent<Light2D>();
+
+        // Populate the color keys at the relative time 0 and 1 (0 and 100%)
+        gradient = new Gradient();
+        colorKey = new GradientColorKey[3];
+        colorKey[0].color = nightColor;
+        colorKey[0].time = 0.0f;
+        colorKey[1].color = dayColor;
+        colorKey[1].time = 0.5f;
+        colorKey[2].color = nightColor;
+        colorKey[2].time = 1.0f;
+
+        // Populate the alpha  keys at relative time 0
+        alphaKey = new GradientAlphaKey[1];
+        alphaKey[0].alpha = 1.0f;
+        alphaKey[0].time = 0.0f;
+
+        gradient.SetKeys(colorKey, alphaKey);
+
+        seasonGradient = new Gradient();
+        seasonKey = new GradientColorKey[2];
+
+        seasonKey[0].color = neutralColor;
+        seasonKey[0].time = 0.0f;
+        seasonKey[1].color = neutralColor;
+        seasonKey[1].time = 1.0f;
+
+        seasonalAlpha = new GradientAlphaKey[2];
+        seasonalAlpha[0].alpha = 0.0f;
+        seasonalAlpha[0].time = 0.0f;
+        seasonalAlpha[1].alpha = 1.0f;
+        seasonalAlpha[1].time = 1.0f;
+
+        seasonGradient.SetKeys(seasonKey, seasonalAlpha);
+
         yearLength = (Enum.GetNames(typeof(MonthName)).Length - 1) * monthLength;
         if (initTime != 0)
         {
@@ -101,7 +156,30 @@ public class DayNightCycleBehaviour : MonoBehaviour
             season = Season.SPRIMMER;
         }
 
-        if(monthLength < 1)
+        float g = (float)totalDayCount / ((float)yearLength / 4);
+        switch (season)
+        {
+            case Season.SPRIMMER:
+                setSeasonGradient(spring_tiles, g);
+                setSeasonGradient(summer_tiles, 0);
+                break;
+            case Season.SUMTUMN:
+                setSeasonGradient(summer_tiles, g);
+                setSeasonGradient(spring_tiles, 1 - g);
+                break;
+            case Season.AUNTER:
+                setSeasonGradient(summer_tiles, 1 - g);
+                setSeasonGradient(spring_tiles, 0);
+                break;
+            case Season.WINTING:
+                setSeasonGradient(spring_tiles, 0);
+                setSeasonGradient(summer_tiles, 0);
+                break;
+            case Season.UNDEFINED:
+                break;
+        }
+
+        if (monthLength < 1)
         {
             monthLength = 30;
         }
@@ -115,46 +193,7 @@ public class DayNightCycleBehaviour : MonoBehaviour
         }
 
 
-        timelight = GetComponent<Light2D>();
-
-        // Populate the color keys at the relative time 0 and 1 (0 and 100%)
-        gradient = new Gradient();
-        colorKey = new GradientColorKey[3];
-        colorKey[0].color = nightColor;
-        colorKey[0].time = 0.0f;
-        colorKey[1].color = dayColor;
-        colorKey[1].time = 0.5f;
-        colorKey[2].color = nightColor;
-        colorKey[2].time = 1.0f;
-
-        // Populate the alpha  keys at relative time 0 and 1  (0 and 100%)
-        alphaKey = new GradientAlphaKey[2];
-        alphaKey[0].alpha = 1.0f;
-        alphaKey[0].time = 0.0f;
-        alphaKey[1].alpha = 0.0f;
-        alphaKey[1].time = 1.0f;
-
-        gradient.SetKeys(colorKey, alphaKey);
-
-        seasonGradient = new Gradient();
-        seasonKey = new GradientColorKey[5];
-
-        seasonKey[0].color = neutralColor;
-        seasonKey[0].time = 0.0f;
-        seasonKey[1].color = warmColor;
-        seasonKey[1].time = 0.25f;
-        seasonKey[2].color = neutralColor;
-        seasonKey[2].time = 0.5f;
-        seasonKey[3].color = coolColor;
-        seasonKey[3].time = 0.75f;
-        seasonKey[4].color = neutralColor;
-        seasonKey[4].time = 1.0f;
-
-        seasonalAlpha = new GradientAlphaKey[1];
-        seasonalAlpha[0].alpha = 1.0f;
-        seasonalAlpha[0].time = 1.0f;
-
-        seasonGradient.SetKeys(seasonKey, seasonalAlpha);
+     
 
     }
 
@@ -184,18 +223,21 @@ public class DayNightCycleBehaviour : MonoBehaviour
 
         if (localTimeElapsed >= gameDayLength)
         {
-            dayCount++;
-            totalDayCount++;
-
-            float g = (float)totalDayCount / (float)yearLength;
-
-            foreach (Tilemap t in tilemaps)
-            {
-                t.color = seasonGradient.Evaluate(g);
-            }
-
-            localTimeElapsed = 0;
+            dayIncrease();
         }
+        
+    }
+
+    void dayIncrease()
+    {
+        dayCount++;
+        totalDayCount++;
+        seasonalDayCount++;
+
+        g = (float)seasonalDayCount / (3*monthLength);
+
+        localTimeElapsed = 0;
+
         if (dayCount == monthLength)
         {
             int m = (int)month;
@@ -206,25 +248,64 @@ public class DayNightCycleBehaviour : MonoBehaviour
             month = (MonthName)m;
 
             dayCount = 0;
-        }
-        if ((int)month == 1 || (int)month == 2 || (int)month == 3)
-        {
-            season = Season.SPRIMMER;
-        } else if ((int)month == 4 || (int)month == 5 || (int)month == 6)
-        {
-            season = Season.SUMTUMN;
-        } else if ((int)month == 7 || (int)month == 8 || (int)month == 9 )
-        {
-            season = Season.AUNTER;
-        } else if ((int)month == 10 || (int)month == 11 || (int)month == 12)
-        {
-            season = Season.WINTING;
-        } else
-        {
-            season = Season.SPRIMMER;
+
+            if ((int)month >= 1 && (int)month <= 3)
+            {
+                if ((int)month == 1)
+                {
+                    seasonalDayCount = 0;
+                }
+                setSeason(Season.SPRIMMER);
+            }
+            else if ((int)month >= 4 && (int)month <= 6)
+            {
+                if ((int)month == 4)
+                {
+                    seasonalDayCount = 0;
+                }
+                setSeason(Season.SUMTUMN);
+            }
+            else if ((int)month >= 7 && (int)month <= 9)
+            {
+                if ((int)month == 7)
+                {
+                    seasonalDayCount = 0;
+                }
+                setSeason(Season.AUNTER);
+            }
+            else if ((int)month >= 10 && (int)month <= 12)
+            {
+                if ((int)month == 10)
+                {
+                    seasonalDayCount = 0;
+                }
+                setSeason(Season.WINTING);
+            }
+            else
+            {
+                setSeason(Season.SPRIMMER);
+            }
         }
 
-        if(totalDayCount >= yearLength)
+        switch (season)
+        {
+            case Season.SPRIMMER:
+                setSeasonGradient(spring_tiles, g);
+                break;
+            case Season.SUMTUMN:
+                setSeasonGradient(summer_tiles, g);
+                setSeasonGradient(spring_tiles, 1 - g);
+                break;
+            case Season.AUNTER:
+                setSeasonGradient(summer_tiles, 1 - g);
+                break;
+            case Season.WINTING:
+                break;
+            case Season.UNDEFINED:
+                break;
+        }
+
+        if (totalDayCount >= yearLength)
         {
             yearLength++;
             totalDayCount = 0;
@@ -233,6 +314,7 @@ public class DayNightCycleBehaviour : MonoBehaviour
 
     int MonthIncrease(int m)
     {
+
         if ((int)month == 12)
         {
             return 1;
@@ -242,4 +324,23 @@ public class DayNightCycleBehaviour : MonoBehaviour
             return m;
         }
     }
+
+    void setSeasonGradient(Tilemap[] t, float g)
+    {
+        foreach (Tilemap tm in t)
+        {
+            tm.color = seasonGradient.Evaluate(g);
+        }
+    }
+
+    void setSeason(Season s)
+    {
+        if (g >= 1)
+        {
+            g = 0;
+        }
+
+        season = s;
+    }
+
 }
