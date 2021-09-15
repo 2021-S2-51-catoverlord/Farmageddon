@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31536b40f7f573f4c96ef9e73e507340, type: 3}
   m_Name: TestArmour
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   itemName: New Item
   ID: 0
   description: Add Description
@@ -19,3 +20,12 @@ MonoBehaviour:
   icon: {fileID: 0}
   equipSlot: 0
   armourDefence: 0
+=======
+  itemName: TestArmor
+  ID: 51
+  description: Test
+  price: 10
+  icon: {fileID: -721364286714236821, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
+  equipSlot: 0
+  armourDefence: 3
+>>>>>>> Player

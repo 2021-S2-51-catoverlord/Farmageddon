@@ -8,11 +8,17 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<< HEAD
   - component: {fileID: 883673828626204384}
   - component: {fileID: 6924128014069377251}
   - component: {fileID: 6214481864595271285}
   - component: {fileID: 981767397140651663}
   - component: {fileID: 4860468139201628511}
+=======
+  - component: {fileID: 981767397140651660}
+  - component: {fileID: 981767397140651661}
+  - component: {fileID: 981767397140651663}
+>>>>>>> Player
   - component: {fileID: 981767397140651650}
   m_Layer: 0
   m_Name: Potato
@@ -21,20 +27,30 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD
 --- !u!224 &883673828626204384
 RectTransform:
+=======
+--- !u!4 &981767397140651660
+Transform:
+>>>>>>> Player
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 981767397140651651}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+<<<<<<< HEAD
   m_LocalPosition: {x: 0, y: 0, z: 0}
+=======
+  m_LocalPosition: {x: 3.74, y: 1.532, z: 0}
+>>>>>>> Player
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 3.74, y: 1.532}
@@ -50,12 +66,17 @@ CanvasRenderer:
   m_CullTransparentMesh: 1
 --- !u!114 &6214481864595271285
 MonoBehaviour:
+=======
+--- !u!212 &981767397140651661
+SpriteRenderer:
+>>>>>>> Player
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 981767397140651651}
   m_Enabled: 1
+<<<<<<< HEAD
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -79,6 +100,52 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+=======
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: -5654957157512210657, guid: 5ea50073a3d7a064f95a173d8e4e0477,
+    type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+>>>>>>> Player
 --- !u!61 &981767397140651663
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -103,6 +170,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
+<<<<<<< HEAD
   m_Size: {x: 30, y: 30}
   m_EdgeRadius: 0
 --- !u!114 &4860468139201628511
@@ -118,6 +186,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTransform: {fileID: 981767397140651651}
+=======
+  m_Size: {x: 0.6568241, y: 0.642484}
+  m_EdgeRadius: 0
+>>>>>>> Player
 --- !u!114 &981767397140651650
 MonoBehaviour:
   m_ObjectHideFlags: 0

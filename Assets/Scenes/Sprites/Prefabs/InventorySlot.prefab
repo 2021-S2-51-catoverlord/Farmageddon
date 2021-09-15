@@ -35,7 +35,11 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
+<<<<<<< HEAD:Assets/Scenes/Sprites/Prefabs/InventorySlot.prefab
   m_SizeDelta: {x: 32, y: 32}
+=======
+  m_SizeDelta: {x: 35, y: 35}
+>>>>>>> Player:Assets/Scenes/Common/Sprites/Prefabs/InventorySlot.prefab
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1846142742747830520
 CanvasRenderer:
@@ -125,8 +129,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b11ef3a66443e7141b26d14264ddb81e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD:Assets/Scenes/Sprites/Prefabs/InventorySlot.prefab
   icon: {fileID: 0}
   removeButton: {fileID: 7147605613939285414}
+=======
+  icon: {fileID: 1846142742747830523}
+>>>>>>> Player:Assets/Scenes/Common/Sprites/Prefabs/InventorySlot.prefab
 --- !u!1 &1846142744417599766
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,6 +255,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1846142744417599765}
   m_OnClick:
     m_PersistentCalls:
+<<<<<<< HEAD:Assets/Scenes/Sprites/Prefabs/InventorySlot.prefab
       m_Calls: []
 --- !u!1 &2053412162407058750
 GameObject:
@@ -371,6 +380,12 @@ MonoBehaviour:
       - m_Target: {fileID: 121069550}
         m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
         m_MethodName: OnRemoveButton
+=======
+      m_Calls:
+      - m_Target: {fileID: 121069550}
+        m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
+        m_MethodName: UseItem
+>>>>>>> Player:Assets/Scenes/Common/Sprites/Prefabs/InventorySlot.prefab
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
