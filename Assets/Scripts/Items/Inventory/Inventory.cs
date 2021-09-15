@@ -34,7 +34,13 @@ public class Inventory : MonoBehaviour
     /// <returns></returns>
     public bool AddI(Item item)
     {
-        if(items.Count >= NUM_SLOTS)
+        if (items.Contains(item))
+        {
+            ++item.itemAmount;
+            return true;
+        }
+
+        if (items.Count >= NUM_SLOTS)
         {
             Debug.Log("Not enough room");
             return false;
@@ -57,7 +63,14 @@ public class Inventory : MonoBehaviour
     /// <param name="item"></param>
     public void RemoveI(Item item)
     {
-        items.Remove(item);
+        if (items.Contains(item) && item.itemAmount >= 1)
+        {
+            --item.itemAmount;
+        }
+        else if(items.Contains(item) && item.itemAmount <= 1)
+        {
+            items.Remove(item);
+        }
 
         if(onItemChangedCallback != null)
         {

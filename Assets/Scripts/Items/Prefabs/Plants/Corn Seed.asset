@@ -17,4 +17,6 @@ MonoBehaviour:
   description: Corn seeds.
   price: 5
   icon: {fileID: 1087356255968352427, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
+  itemAmount: 1
+  maxStack: 0
   growthTime: 2

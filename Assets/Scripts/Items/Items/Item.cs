@@ -10,6 +10,8 @@ public class Item : ScriptableObject
     public string description = "Add Description";
     public int price = 0;
     public Sprite icon = null;
+    public int itemAmount = 1;
+    public int maxStack = 1;
 
     public virtual void Use()
     {
