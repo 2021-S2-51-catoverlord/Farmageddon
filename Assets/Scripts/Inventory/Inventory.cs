@@ -39,7 +39,6 @@ public class Inventory : MonoBehaviour
         {
             // Access the collection and modify item count by incrementing it.
             items[items.IndexOf(item)].itemAmount++;
-            //++item.itemAmount;  
         }
         else if (!items.Contains(item)) // If the collection does not have the item to be added...
         {
@@ -71,14 +70,11 @@ public class Inventory : MonoBehaviour
     /// <param name="item"></param>
     public void RemoveI(Item item)
     {
-        //if (items.Contains(item) && item.itemAmount >= 1)
         if (items.Contains(item) && items[items.IndexOf(item)].itemAmount > 1) // If item to be removed is in the collection and theres more than 1 instance count..
         {
-            //--item.itemAmount;
             // Access the collection via index search and modify item count (decrement).
             items[items.IndexOf(item)].itemAmount--;
         }
-        //else if(items.Contains(item) && item.itemAmount <= 1)
         else // If there is only one instance...
         {
             // Remove it from the list.

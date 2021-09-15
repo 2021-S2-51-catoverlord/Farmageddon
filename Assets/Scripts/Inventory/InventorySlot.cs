@@ -31,16 +31,6 @@ public class InventorySlot : MonoBehaviour
             // Make the text "invisible".
             stack.text = "";
         }
-        /*
-        if (Inventory.instance.items.Contains(newItem))
-        {
-            stack.text = newItem.itemAmount.ToString();
-        }
-        else
-        {
-            stack.text = "";
-        }
-        */
     }
 
     /// <summary>

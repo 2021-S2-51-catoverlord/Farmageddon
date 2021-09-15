@@ -15,6 +15,7 @@ public class Item : ScriptableObject
 
     public virtual void Use()
     {
+        //TODO: Needs some functionally depending on whatevers.
         Debug.Log("Using " + itemName);
     }
 
