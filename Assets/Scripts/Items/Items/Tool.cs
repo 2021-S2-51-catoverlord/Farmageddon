@@ -7,9 +7,9 @@ public class Tool : Equipment
 {
     public ToolCategory toolCat;
     public int toolAtk;
+}
 
-    public enum ToolCategory
-    {
-        Hoe, Waterpot, Sickle, Axe, Hammer
-    }
+public enum ToolCategory
+{
+    Hoe, Waterpot, Sickle, Axe, Hammer
 }

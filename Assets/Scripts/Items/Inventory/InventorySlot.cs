@@ -1,14 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
-public class InventorySlot : MonoBehaviour, IDropHandler
+public class InventorySlot : MonoBehaviour
 {
     public Image icon;
-    public Button removeButton;
-
     Item item;
 
     /// <summary>
@@ -21,7 +16,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
         icon.sprite = item.icon;
         icon.enabled = true;
-        removeButton.interactable = true;
     }
 
     /// <summary>
@@ -33,23 +27,13 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
         icon.sprite = null;
         icon.enabled = false;
-        removeButton.interactable = false;
     }
 
-    public void OnDrop(PointerEventData eventData)
+    public void UseItem()
     {
-        Debug.Log("Dropped");
-    }
-
-    public void OnRemoveButton()
-    {
-        if(GetComponent<InventorySlot>().tag == "Limited Inventory")
+        if (item != null)
         {
-            LimitedInventory.instance.RemoveI(item);
-        }
-        else if(GetComponent<InventorySlot>().tag == "Inventory")
-        { 
-            Inventory.instance.RemoveI(item);
+            item.Use();
         }
     }
 }

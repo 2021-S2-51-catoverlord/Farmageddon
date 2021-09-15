@@ -7,8 +7,15 @@ public class Equipment : Item
 {
     public EquipmentSlot equipSlot;
 
-    public enum EquipmentSlot
+    public override void Use()
     {
-        Head, Chest, Legs, Weapon, Feet
+        base.Use();
+        EquipmentManager.instance.Equip(this);
+        RemoveFromInventory();
     }
+}
+
+public enum EquipmentSlot
+{
+    Head, Chest, Legs, Weapon, Feet
 }

@@ -46,7 +46,6 @@ public class InventoryUI : MonoBehaviour
     /// </summary>
     void UpdateUI()
     {
-        
         // For loop for limited inventory bar.
         for(int i =0; i < ltdSlots.Length; i++)
         {

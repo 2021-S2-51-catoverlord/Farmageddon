@@ -7,8 +7,9 @@ public class Mat : Item
 {
     public MaterialCategory materialCat;
 
-    public enum MaterialCategory
-    {
-        Minerals, Jewels, Sticks, Stones, Grass, Food
-    }
+}
+
+public enum MaterialCategory
+{
+    Minerals, Jewels, Sticks, Stones, Grass, Food
 }
