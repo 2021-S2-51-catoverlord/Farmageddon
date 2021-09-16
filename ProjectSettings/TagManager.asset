@@ -38,7 +38,7 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Grass and Bushes
+  - name: Tilemap
     uniqueID: 4079873013
     locked: 0
   - name: Default
