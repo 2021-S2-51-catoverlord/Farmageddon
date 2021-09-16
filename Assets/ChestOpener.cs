@@ -5,12 +5,14 @@ using UnityEngine;
 public class ChestOpener : MonoBehaviour
 {
     public GameObject ChestClose,ChestOpen;
+    public GameObject ChestInventory;
 
 
     void Start()
     {
         ChestClose.SetActive(true);
         ChestOpen.SetActive(false);
+        //ChestInventory = GetComponentInChildren<Canvas>();
     }
 
     // Update is called once per frame
@@ -25,6 +27,7 @@ public class ChestOpener : MonoBehaviour
     {
         ChestClose.SetActive(false);
         ChestOpen.SetActive(true);
+        ChestInventory.SetActive(true);
 
     }
 
@@ -32,6 +35,7 @@ public class ChestOpener : MonoBehaviour
     {
         ChestClose.SetActive(true);
         ChestOpen.SetActive(false);
+        ChestInventory.SetActive(false);
     }
 
 
