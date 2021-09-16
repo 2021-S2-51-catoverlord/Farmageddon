@@ -16,6 +16,9 @@ public class InventoryUI : MonoBehaviour
     Inventory inventory; //Current inv
     InventorySlot[] slots; //List all slots
 
+    //Toggle input system.
+    [SerializeField] int inventoryToggle;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,10 +36,26 @@ public class InventoryUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Inventory"))
-        {
-            inventoryUI.SetActive(!inventoryUI.activeSelf);
-        }
+        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.B))  {
+            // accessing the player Controller script.
+            PlayerController playerInterface = GameObject.Find("Player").transform.GetComponent<PlayerController>();
+            if (inventoryToggle == 0) // true
+            {
+                inventoryToggle++;
+                playerInterface.isInventoryActive = true;
+                inventoryUI.SetActive(!inventoryUI.activeSelf);
+            }
+            else if(inventoryToggle == 1) // false
+            {
+                inventoryToggle++;
+                playerInterface.isInventoryActive = false;
+                inventoryUI.SetActive(!inventoryUI.activeSelf);
+                if (inventoryToggle == 2)
+                {
+                    inventoryToggle = 0;
+                }
+            }
+       }
     }
 
     /// <summary>

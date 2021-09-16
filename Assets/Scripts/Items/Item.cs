@@ -10,15 +10,28 @@ public class Item : ScriptableObject
     public string description = "Add Description";
     public int price = 0;
     public Sprite icon = null;
-    public int itemAmount = 1;
-    public int maxStack = 1;
+    
+    //Adding GameObject for the Inventory
+    [Header("Additional Attributes")]
+    public GameObject itemObject;
+    public GameObject categoryObject;
+    public GameObject stackViewDisplay;
+    public string categoryName;
+    public string itemType;
+    public string localName;
 
+    /// <summary>
+    /// Allows the item to be used in a certain way.
+    /// </summary>
     public virtual void Use()
     {
-        //TODO: Needs some functionally depending on whatevers.
-        Debug.Log("Using " + itemName);
+        Debug.Log("item Used" + localName);
+        // this script is required for the removing system.
     }
 
+    /// <summary>
+    /// Remove the item from the inventory.
+    /// </summary>
     public void RemoveFromInventory()
     {
         Inventory.instance.RemoveI(this);

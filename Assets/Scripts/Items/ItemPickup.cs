@@ -31,7 +31,33 @@ public class ItemPickup : MonoBehaviour
         if (itemPickedUp)
         {
             // Make the game object disappear from the scene.
+            CreateCategoryObject();
+            CreateUIObject();
             Destroy(gameObject);
         }
+    }
+
+    public void CreateCategoryObject()
+    {
+        Transform ItemCanvas = GameObject.Find("Canvas").transform.Find("Inventory").transform.Find("ItemsSpawn").transform;
+        if(!ItemCanvas.Find(item.categoryName))
+        {
+            GameObject categoryName = Instantiate(item.categoryObject, ItemCanvas) as GameObject;
+            categoryName.name = item.categoryName;
+            GameObject stackTextView = Instantiate(item.stackViewDisplay, categoryName.transform) as GameObject;
+            stackTextView.name = item.categoryName + "_text";
+        }
+        else if(ItemCanvas.Find(item.categoryName))
+        {
+            Debug.Log("Already created");
+        }
+        
+    }
+
+    public void CreateUIObject()
+    {
+        Transform createPosition = GameObject.Find("Canvas").transform.Find("Inventory").transform.Find("ItemsSpawn").transform.Find(item.categoryName).transform;
+        GameObject objectName = Instantiate(item.itemObject, createPosition);
+        objectName.name = item.name;
     }
 }

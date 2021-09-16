@@ -17,7 +17,14 @@ MonoBehaviour:
   description: Testing
   price: 100
   icon: {fileID: 6960096479862379934, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
-  itemAmount: 0
-  maxStack: 1
+  itemObject: {fileID: 1749748948753475908, guid: 45d1c351bccacc74fba2d9a03050cb67,
+    type: 3}
+  categoryObject: {fileID: 910637827450220713, guid: a58dbaa55182ed14f9a8c025320b5205,
+    type: 3}
+  stackViewDisplay: {fileID: 3117868640187031989, guid: cec5a5bcf809fd54a920167b1726f9bd,
+    type: 3}
+  categoryName: Armours
+  itemType: Equipment
+  localName: Armour
   equipSlot: 0
   armourDefence: 5

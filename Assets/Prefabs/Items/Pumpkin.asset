@@ -17,4 +17,11 @@ MonoBehaviour:
   description: Fully grown pumpkin.
   price: 3
   icon: {fileID: -3824459963188315723, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
+  itemAmount: 1
+  maxStack: 1
+  itemObject: {fileID: 1749748948753475908, guid: d81fc1b9f1c28a645a51f089d03cb8a5, type: 3}
+  categoryObject: {fileID: 910637827450220713, guid: a58dbaa55182ed14f9a8c025320b5205, type: 3}
+  stackViewDisplay: {fileID: 3117868640187031989, guid: cec5a5bcf809fd54a920167b1726f9bd, type: 3}
+  categoryName: Pumpkins
+  localName: Pumpkin
   materialCat: 5

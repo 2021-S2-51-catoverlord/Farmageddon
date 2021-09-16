@@ -5,7 +5,6 @@ public class InventorySlot : MonoBehaviour
 {
     public Image icon;
     public Button removeButton;
-    public Text stack;
 
     Item item;
 
@@ -20,21 +19,10 @@ public class InventorySlot : MonoBehaviour
         icon.sprite = item.icon;
         icon.enabled = true;
         removeButton.interactable = true;
-
-        if(newItem.itemAmount > 1) // If the item's stack count is more than 1...
-        {
-            // Display a text.
-            stack.text = newItem.itemAmount.ToString();
-        }
-        else // If it is 1...
-        {
-            // Make the text "invisible".
-            stack.text = "";
-        }
     }
 
     /// <summary>
-    /// Clear the inv slot
+    /// Clear the inventory slot
     /// </summary>
     public void ClearSlot()
     {
@@ -54,14 +42,6 @@ public class InventorySlot : MonoBehaviour
         else if (GetComponent<InventorySlot>().tag == "Inventory")
         {
             Inventory.instance.RemoveI(item);
-        }
-    }
-
-    public void UseItem()
-    {
-        if (item != null)
-        {
-            item.Use();
         }
     }
 }

@@ -22,6 +22,10 @@ public class PlayerController : EntityController
     public int ExperiencePoints { get; set; }
 
     // Start is called before the first frame update
+
+    //Implementation for locking clicking status
+    public bool isInventoryActive;
+
     protected override void Start()
     {
         base.Start();
@@ -97,7 +101,7 @@ public class PlayerController : EntityController
         }
 
         // Input for attack (left mouse-click)
-        if(Input.GetMouseButton(0))
+        if(!isInventoryActive && Input.GetMouseButton(0))
         {
             Attack();
         }

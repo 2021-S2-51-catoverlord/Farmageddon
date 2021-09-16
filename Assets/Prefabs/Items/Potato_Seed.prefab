@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 183798373018486449}
   - component: {fileID: 183798373018486460}
   m_Layer: 0
-  m_Name: Potato Seed
+  m_Name: Potato_Seed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

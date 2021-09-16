@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3221510893558179828}
   - component: {fileID: 3221510893558179833}
   m_Layer: 0
-  m_Name: Radish Seed
+  m_Name: Radish_Seed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
