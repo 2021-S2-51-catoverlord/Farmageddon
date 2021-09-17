@@ -92,7 +92,7 @@ public class MonsterController : EntityController
         Ray2D ray = new Ray2D(transform.position, directionToTarget);
 
         //store info on the hit
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget,MaxSearch,-1);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget,MaxSearch);
 
         //fire raycast, does it hit anything?
         if (debugToggle)
