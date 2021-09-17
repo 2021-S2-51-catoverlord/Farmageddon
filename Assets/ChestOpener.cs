@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class ChestOpener : MonoBehaviour
 {
-    public GameObject ChestClose,ChestOpen;
-    public GameObject ChestInventory;
+    public GameObject ChestClose, ChestOpen;
+
+    [SerializeField]
+    public GameObject chestInventoryUI;
 
 
     void Start()
     {
         ChestClose.SetActive(true);
         ChestOpen.SetActive(false);
-        //ChestInventory = GetComponentInChildren<Canvas>();
+
+        if (chestInventoryUI != null)
+        {
+            chestInventoryUI.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -27,23 +33,21 @@ public class ChestOpener : MonoBehaviour
     {
         ChestClose.SetActive(false);
         ChestOpen.SetActive(true);
-        ChestInventory.SetActive(true);
 
+        if(chestInventoryUI != null)
+        {
+            chestInventoryUI.SetActive(true);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         ChestClose.SetActive(true);
         ChestOpen.SetActive(false);
-        ChestInventory.SetActive(false);
+
+        if (chestInventoryUI != null)
+        {
+            chestInventoryUI.SetActive(false);
+        }
     }
-
-
-
-
-
-
-
-
-
 }

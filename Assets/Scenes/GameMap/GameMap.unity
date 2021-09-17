@@ -55702,13 +55702,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1597404042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9f1630ad180576488a7ab96521e6079, type: 3}
+  m_Script: {fileID: 11500000, guid: 2400c33946db746f7b2c879e9e246b84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ltdInventoryUI: {fileID: 222377911}
-  ltdItemsParent: {fileID: 122212716}
-  inventoryUI: {fileID: 222377911}
-  itemsParent: {fileID: 0}
+  chestInventoryUI: {fileID: 222377911}
+  chestParent: {fileID: 122212716}
 --- !u!1001 &1604081705
 PrefabInstance:
   m_ObjectHideFlags: 0
