@@ -1,68 +1,111 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Inventory : MonoBehaviour
 {
-    #region Singleton
+    [SerializeField] List<Item> startingItems;
+    [SerializeField] Transform itemsParent;
+    [SerializeField] ItemSlot[] itemSlots;
 
-    public static Inventory instance;
+    public event Action<ItemSlot> OnRightClickEvent;
+    public event Action<ItemSlot> OnBeginDragEvent;
+    public event Action<ItemSlot> OnEndDragEvent;
+    public event Action<ItemSlot> OnDragEvent;
+    public event Action<ItemSlot> OnDropEvent;
 
     private void Awake()
     {
-        if(instance != null && instance != this)
+        for (int i = 0; i < itemSlots.Length; i++)
         {
-            Destroy(this.gameObject);
-            return;
+            itemSlots[i].OnRightClickEvent += OnRightClickEvent;
+            itemSlots[i].OnBeginDragEvent += OnBeginDragEvent;
+            itemSlots[i].OnEndDragEvent += OnEndDragEvent;
+            itemSlots[i].OnDragEvent += OnDragEvent;
+            itemSlots[i].OnDropEvent += OnDropEvent;
         }
 
-        instance = this;
+        SetStartingItems();
     }
 
-    #endregion
+    private void OnValidate()
+    {
+        if (itemsParent != null)
+        {
+            itemSlots = itemsParent.GetComponentsInChildren<ItemSlot>();
+        }
 
-    public delegate void OnItemChanged();
-    public OnItemChanged onItemChangedCallback;
+        SetStartingItems();
+    }
 
-    public static int NUM_SLOTS = 36; //Slots in inv
-    public List<Item> items = new List<Item>(); //Current list of items in inv
+    public void SetStartingItems()
+    {
+        int i = 0;
+
+        for (; i < startingItems.Count && i < itemSlots.Length; i++)
+        {
+            itemSlots[i].Item = startingItems[i]; //Assign item to item slot
+        }
+
+        for(; i < itemSlots.Length; i++)
+        {
+            itemSlots[i].Item = null; //Remaining slots set to null
+        }
+    }
 
     /// <summary>
-    /// Add new item to inventory, if enough room return true, else return false.
+    /// Add item to the inventory
     /// </summary>
     /// <param name="item"></param>
     /// <returns></returns>
-    public bool AddI(Item item)
+    public bool AddItem(Item item)
     {
-        if (items.Count >= NUM_SLOTS)
+        for (int i = 0; i < itemSlots.Length; i++)
         {
-            Debug.Log("Not enough room");
-            return false;
+            if (itemSlots[i].Item == null)
+            {
+                itemSlots[i].Item = item;
+                return true;
+            }
         }
 
-        items.Add(item);
-
-        if (onItemChangedCallback != null)
-        {
-            // Notify listeners that an item change has happened.
-            onItemChangedCallback.Invoke();
-        }
-
-        return true;
+        return false;
     }
 
     /// <summary>
-    /// Removes item from the inventory.
+    /// Remove item from the inventory
     /// </summary>
     /// <param name="item"></param>
-    public void RemoveI(Item item)
+    /// <returns></returns>
+    public bool RemoveItem(Item item)
     {
-        items.Remove(item);
-
-        if (onItemChangedCallback != null)
+        for (int i = 0; i < itemSlots.Length; i++)
         {
-            // Notify listeners that an item change has happened.
-            onItemChangedCallback.Invoke();
+            if (itemSlots[i].Item == item)
+            {
+                itemSlots[i].Item = null;
+                return true;
+            }
         }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Check the inventory slots are full
+    /// </summary>
+    /// <returns></returns>
+    public bool IsFull()
+    {
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i].Item == null)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

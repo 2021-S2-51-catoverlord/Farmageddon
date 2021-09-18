@@ -9,8 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7bf9e2561d3d1646aee5306458473be, type: 3}
-  m_Name: Carrot
+  m_Script: {fileID: 11500000, guid: 416f714611bdfae4d8c5a47fe839ae08, type: 3}
+  m_Name: Weapon1
   m_EditorClassIdentifier: 
-  itemName: Carrot
-  icon: {fileID: -2273560400057252286, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
+  itemName: Weapon1
+  icon: {fileID: 5339965462978905202, guid: 87420c2603905a4418686d4d8929da05, type: 3}
+  equipType: 2
+  defence: 0
+  attack: 0
