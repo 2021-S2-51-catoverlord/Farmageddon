@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, IItemContainer
 {
-    [SerializeField] List<Item> startingItems;
+    [SerializeField] Item[] startingItems;
     [SerializeField] Transform itemsParent;
     [SerializeField] ItemSlot[] itemSlots;
 
@@ -41,16 +41,11 @@ public class Inventory : MonoBehaviour
 
     public void SetStartingItems()
     {
-        int i = 0;
+        Clear();
 
-        for (; i < startingItems.Count && i < itemSlots.Length; i++)
+        for (int i = 0; i < startingItems.Length; i++) //stack if existing
         {
-            itemSlots[i].Item = startingItems[i]; //Assign item to item slot
-        }
-
-        for(; i < itemSlots.Length; i++)
-        {
-            itemSlots[i].Item = null; //Remaining slots set to null
+            AddItem(startingItems[i].GetItemCopy());
         }
     }
 
@@ -63,9 +58,20 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < itemSlots.Length; i++)
         {
+            if (itemSlots[i].CanAddStack(item))
+            {
+                itemSlots[i].Item = item;
+                itemSlots[i].Amount++;
+                return true;
+            }
+        }
+
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
             if (itemSlots[i].Item == null)
             {
                 itemSlots[i].Item = item;
+                itemSlots[i].Amount++;
                 return true;
             }
         }
@@ -84,12 +90,35 @@ public class Inventory : MonoBehaviour
         {
             if (itemSlots[i].Item == item)
             {
-                itemSlots[i].Item = null;
+                itemSlots[i].Amount--;
+                if (itemSlots[i].Amount == 0)
+                {
+                    itemSlots[i].Item = null;
+                }
                 return true;
             }
         }
 
         return false;
+    }
+
+    public Item RemoveItem(string itemID)
+    {
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            Item item = itemSlots[i].Item;
+            if (item != null && item.Id == itemID)
+            {
+                itemSlots[i].Amount--;
+                if (itemSlots[i].Amount == 0)
+                {
+                    itemSlots[i].Item = null;
+                }
+                return item;
+            }
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -107,5 +136,29 @@ public class Inventory : MonoBehaviour
         }
 
         return true;
+    }
+
+    public int ItemCount(string itemID)
+    {
+        int number = 0;
+
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            Item item = itemSlots[i].Item;
+            if (item != null && item.Id == itemID)
+            {
+                number += itemSlots[i].Amount;
+            }
+        }
+
+        return number;
+    }
+
+    public void Clear()
+    {
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            itemSlots[i].Item = null;
+        }
     }
 }

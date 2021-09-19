@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InvManager : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     [SerializeField] Inventory inventory;
     [SerializeField] EquipUI equipUI;
@@ -74,28 +74,40 @@ public class InvManager : MonoBehaviour
 
     private void Drop(ItemSlot dropItemSlot)
     {
-        if(dropItemSlot.CanReceiveItem(draggedSlot.Item) && draggedSlot.CanReceiveItem(dropItemSlot.Item))
+        if (draggedSlot == null)
         {
-            Equipment dragItem = draggedSlot.Item as Equipment;
-            Equipment dropItem = dropItemSlot.Item as Equipment;
-
-            if(draggedSlot is EquipSlot)
-            {
-                if (dragItem != null)
-                {
-                    
-                }
-            }
-
-            if (dropItem is EquipSlot)
-            {
-
-            }
-
-            Item draggedItem = draggedSlot.Item;
-            draggedSlot.Item = dropItemSlot.Item;
-            dropItemSlot.Item = draggedItem;
+            return;
         }
+
+        if (dropItemSlot.CanAddStack(draggedSlot.Item))
+        {
+            AddStacks(dropItemSlot);
+        }
+        else if (dropItemSlot.CanReceiveItem(draggedSlot.Item) && draggedSlot.CanReceiveItem(dropItemSlot.Item))
+        {
+            SwapItems(dropItemSlot);
+        }
+    }
+
+    private void SwapItems(ItemSlot dropItemSlot)
+    {
+        Item draggedItem = draggedSlot.Item;
+        int draggedAmount = draggedSlot.Amount;
+
+        draggedSlot.Item = dropItemSlot.Item;
+        draggedSlot.Amount = dropItemSlot.Amount;
+
+        dropItemSlot.Item = draggedItem;
+        dropItemSlot.Amount = draggedAmount;
+    }
+
+    private void AddStacks(ItemSlot dropItemSlot)
+    {
+        int addableStack = dropItemSlot.Item.MaxStacks - dropItemSlot.Amount;
+        int stackAdd = Mathf.Min(addableStack, draggedSlot.Amount);
+
+        dropItemSlot.Amount += stackAdd;
+        draggedSlot.Amount -= stackAdd;
     }
 
     /// <summary>

@@ -9,11 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 416f714611bdfae4d8c5a47fe839ae08, type: 3}
-  m_Name: Weapon1
+  m_Script: {fileID: 11500000, guid: 36ad2209d3154df4f8aee797e884d64d, type: 3}
+  m_Name: Tool1
   m_EditorClassIdentifier: 
-  itemName: Weapon1
-  icon: {fileID: 5339965462978905202, guid: 87420c2603905a4418686d4d8929da05, type: 3}
-  equipType: 2
+  id: 3eeda6281533e5b4da2ffc79c82a65f4
+  itemName: Tool
+  icon: {fileID: 1635889855507257428, guid: 87420c2603905a4418686d4d8929da05, type: 3}
+  price: 0
+  MaxStacks: 1
+  equipType: 5
   defence: 0
   attack: 0
+  toolCat: 0

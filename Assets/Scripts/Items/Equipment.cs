@@ -7,6 +7,16 @@ public class Equipment : Item
 
     public int defence;
     public int attack;
+
+    public override Item GetItemCopy()
+    {
+        return Instantiate(this);
+    }
+
+    public override void Destroy()
+    {
+        Destroy(this);
+    }
 }
 
 public enum EquipmentType

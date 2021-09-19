@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7bf9e2561d3d1646aee5306458473be, type: 3}
   m_Name: Carrot
   m_EditorClassIdentifier: 
+  id: 31a01b10909039c47826e735919a4ea2
   itemName: Carrot
   icon: {fileID: -2273560400057252286, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
+  price: 0
+  MaxStacks: 5
