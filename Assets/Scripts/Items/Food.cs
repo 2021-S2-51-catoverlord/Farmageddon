@@ -5,13 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Edible", menuName = "Inventory/Edible")]
 public class Food : Item
 {
-    private int healthGain;
-    private int StaminaGain;
-
-    public void EatFood()
-    {
-
-    }
+    public bool IsConsumable;
 
     public override Item GetItemCopy()
     {
