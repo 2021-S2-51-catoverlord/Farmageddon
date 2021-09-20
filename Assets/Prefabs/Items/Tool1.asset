@@ -9,11 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7bf9e2561d3d1646aee5306458473be, type: 3}
-  m_Name: Carrot
+  m_Script: {fileID: 11500000, guid: 36ad2209d3154df4f8aee797e884d64d, type: 3}
+  m_Name: Tool1
   m_EditorClassIdentifier: 
-  id: 31a01b10909039c47826e735919a4ea2
-  itemName: Carrot
-  icon: {fileID: -2273560400057252286, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
+  id: 3eeda6281533e5b4da2ffc79c82a65f4
+  itemName: Tool
+  icon: {fileID: 1635889855507257428, guid: 87420c2603905a4418686d4d8929da05, type: 3}
   price: 0
-  MaxStacks: 5
+  MaxStacks: 1
+  equipType: 5
+  defence: 0
+  attack: 0
+  toolCat: 0
