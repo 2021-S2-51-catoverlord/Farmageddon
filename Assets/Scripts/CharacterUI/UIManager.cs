@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] EquipUI equipUI;
     [SerializeField] Image draggableItem;
     [SerializeField] DropArea dropArea;
+    PlayerController player;
     private ItemSlot draggedSlot;
 
     private void Awake()
@@ -37,17 +38,17 @@ public class UIManager : MonoBehaviour
         {
             Equip((Equipment)itemSlot.Item);
         }
-        //else if(itemSlot.Item is Food)
-        //{
-        //    Food food = (Food)itemSlot.Item;
-        //    food.Use(this);
-            
-        //    if (food.IsConsumable)
-        //    {
-        //        inventory.RemoveItem(food);
-        //        food.Destroy();
-        //    }
-        //}
+        else if (itemSlot.Item is Food)
+        {
+            Food food = (Food)itemSlot.Item;
+            player.Heal(food.healHeath);
+
+            if (food.IsConsumable)
+            {
+                inventory.RemoveItem(food);
+                food.Destroy();
+            }
+        }
     }
 
     private void EquipmentRightClick(ItemSlot itemSlot)
