@@ -9,7 +9,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] EquipUI equipUI;
     [SerializeField] Image draggableItem;
     [SerializeField] DropArea dropArea;
-    PlayerController player;
+    //PlayerController player;
+    GameObject player;
     private ItemSlot draggedSlot;
 
     private void Awake()
@@ -41,7 +42,8 @@ public class UIManager : MonoBehaviour
         else if (itemSlot.Item is Food)
         {
             Food food = (Food)itemSlot.Item;
-            player.Heal(food.healHeath);
+            player = GameObject.Find("Player");
+            player.GetComponent<PlayerController>().Heal(food.healHeath);
 
             if (food.IsConsumable)
             {
