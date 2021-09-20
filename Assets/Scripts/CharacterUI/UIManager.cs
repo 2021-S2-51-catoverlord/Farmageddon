@@ -42,8 +42,11 @@ public class UIManager : MonoBehaviour
         else if (itemSlot.Item is Food)
         {
             Food food = (Food)itemSlot.Item;
-            player = GameObject.Find("Player");
-            player.GetComponent<PlayerController>().Heal(food.healHeath);
+            player = GameObject.Find("Player"); // Find the player gameobject to heal.
+            player.GetComponent<PlayerController>().Heal(food.healHeath); // Perform healing.
+
+            // Tells the health bar to update according to the player's current hp.
+            GameObject.Find("Health Bar").GetComponent<StatBarController>().SetCurrentValue(player.GetComponent<PlayerController>().HealthPoints);
 
             if (food.IsConsumable)
             {
