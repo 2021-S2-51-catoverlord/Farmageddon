@@ -17,13 +17,21 @@ namespace Gameplay
         public int GrowthTime;
         public GrowthStage[] GrowthStageTiles;
         public bool isGrown;
-        public Light2D timeCycle;
+        public GameObject timeCycle;
+        public DayNightCycleBehaviour time;
 
         private int currStageIndex = 0;
 
+        public void Start()
+        {
+            timeCycle = GameObject.Find("Time Light");
+            time = timeCycle.GetComponent<DayNightCycleBehaviour>();
+        }
+
         public void StartGrowing()
         {
-            TileController.instance.Grow(GrowthTime * (int)timeCycle.GetComponent<DayNightCycleBehaviour>().gameDayLength, GrowthStageTiles.Length, ID);
+            Debug.Log("Growth Started");
+            TileController.instance.Grow(GrowthTime, GrowthStageTiles.Length, ID);
             TileController.instance.OnStageGrow += OnGrowEvent;
         }
 

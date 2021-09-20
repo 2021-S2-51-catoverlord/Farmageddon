@@ -24,18 +24,13 @@ namespace Gameplay
         [Header("Tilemap Layers")]
         public TilemapLayer GroundLayer;
         public TilemapLayer ObjectsLayer;
-        public TilemapLayer SelectionLayer;
 
         [Header("Tilemap Layers")]
         [SerializeField]
         private Tilemap groundTilemap;
         [SerializeField]
-        private Tilemap objectsTilemap;
-        [SerializeField]
-        private Tilemap selectionTilemap;
+        public Tilemap objectsTilemap;
 
-        [Header("UI Elements")]
-        public Text selectionLayerText;
 
 
         private int currentSelectionLayer = (int)Layers.OBJECTS;
@@ -45,10 +40,6 @@ namespace Gameplay
             InitLayers();
         }
 
-        private void Start()
-        {
-            selectionLayerText.text = currentSelectionLayer.ToString();
-        }
 
         private void Update()
         {
@@ -74,11 +65,6 @@ namespace Gameplay
                 layer = (int)Layers.OBJECTS,
                 tilemap = objectsTilemap,
             };
-            SelectionLayer = new TilemapLayer
-            {
-                layer = (int)Layers.SELECTION,
-                tilemap = selectionTilemap,
-            };
         }
 
 
@@ -88,7 +74,6 @@ namespace Gameplay
             {
                 case (int)Layers.GROUND: return GroundLayer;
                 case (int)Layers.OBJECTS: return ObjectsLayer;
-                case (int)Layers.SELECTION: return SelectionLayer;
                 default: return ObjectsLayer;
             }
 
@@ -99,12 +84,10 @@ namespace Gameplay
         public void IncreaseSelectionLayer()
         {
             currentSelectionLayer = currentSelectionLayer + 1;
-            selectionLayerText.text = currentSelectionLayer.ToString();
         }
         public void DecreaseSelectionLayer()
         {
             currentSelectionLayer = currentSelectionLayer - 1;
-            selectionLayerText.text = currentSelectionLayer.ToString();
         }
 
 
