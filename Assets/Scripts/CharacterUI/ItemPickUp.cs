@@ -1,11 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemPickUp : MonoBehaviour
 {
     [SerializeField] Item item;
     [SerializeField] Inventory inventory;
+
+    private void Start()
+    {
+        if (inventory == null) // If inventory has not been assigned yet...
+        {
+            // Find the Inventory and get the reference of its script.
+            //inventory = GameObject.Find("CharacterUI").GetComponentInChildren<Inventory>();
+            inventory = Resources.FindObjectsOfTypeAll<Inventory>()[0];
+        }
+    }
 
     /// <summary>
     /// Method to handle collision event.
