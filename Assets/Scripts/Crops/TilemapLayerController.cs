@@ -27,7 +27,7 @@ namespace Gameplay
 
         [Header("Tilemap Layers")]
         [SerializeField]
-        private Tilemap groundTilemap;
+        public Tilemap groundTilemap;
         [SerializeField]
         public Tilemap objectsTilemap;
 

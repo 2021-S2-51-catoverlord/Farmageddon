@@ -23,7 +23,10 @@ namespace Gameplay
 
 		private Tilemap tilemap;
 
-		public DayNightCycleBehaviour timecycle;
+		private Tilemap crop_tilemap;
+
+		public Tile farmland_tile;
+
 
 		public event PlantPlantedHandler OnStageGrow;
 
@@ -139,7 +142,8 @@ namespace Gameplay
 
         private void Start()
         {
-			tilemap = GetComponent<TilemapLayerController>().objectsTilemap;
+			tilemap = GetComponent<TilemapLayerController>().groundTilemap;
+			crop_tilemap = GetComponent<TilemapLayerController>().objectsTilemap;
         }
 
         private void GetInput()
@@ -152,9 +156,14 @@ namespace Gameplay
 				// get tile pos
 				var tilePos = tilemap.WorldToCell(wpos);
 
-
-				// Set new tile to location
-				tilemap.SetTile(tilePos, GetTileByAssetName("tomato").TileBase);
+				if (tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == false)
+				{
+					// Set new tile to location
+					PlaceTile(tilePos, "carrot", GetComponent<TilemapLayerController>().ObjectsLayer);
+				} else
+                {
+					Debug.Log("Not Farmland");
+                }
 			}
 		}
 	}
