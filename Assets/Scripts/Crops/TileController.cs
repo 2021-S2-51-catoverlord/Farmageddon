@@ -6,9 +6,8 @@ using Utils;
 
 
 /*
-   Tile Controller Singleton
-   =========================
-   Provides tile and tilemaps manipulation.
+   Tile Controller by Macauley
+	Allows us to dynamically set tiles and run coroutines on individual positions
 */
 namespace Gameplay
 {
@@ -17,13 +16,12 @@ namespace Gameplay
 	public class TileController : MonoBehaviour
 	{
 		public Dictionary<Vector3, IGameTile> tiles = new Dictionary<Vector3, IGameTile>();
-		private TilemapLayerController tilemapLayers;
 
 		public GameObject player;
 
-		private Tilemap tilemap;
+		public Tilemap tilemap;
 
-		private Tilemap crop_tilemap;
+		public Tilemap crop_tilemap;
 
 		public Tile farmland_tile;
 
@@ -41,7 +39,6 @@ namespace Gameplay
 			{
 				Destroy(gameObject);
 			}
-			tilemapLayers = FindObjectOfType<TilemapLayerController>();
 		}
 
 		private void ReadTilemapToTileData(Tilemap tilemap, int layer)
@@ -74,20 +71,17 @@ namespace Gameplay
 		}
 
 
-		public void PlaceTile(Vector3 pos, string assetName, TilemapLayer tilemapLayer)
+		public void PlaceTile(Vector3 pos, string assetName)
 		{
-			Tilemap tilemap = tilemapLayer.tilemap;
-			int layer = tilemapLayer.layer;
+			Vector3Int tilemapPos = crop_tilemap.WorldToCell(pos);
+			Vector3 layeredWorldPosition = new Vector3(tilemapPos.x, tilemapPos.y);
 
-			Vector3Int tilemapPos = tilemap.WorldToCell(pos);
-			Vector3 layeredWorldPosition = new Vector3(tilemapPos.x, tilemapPos.y, layer);
-
-			Vector3Int localPlace = new Vector3Int(tilemapPos.x, tilemapPos.y, layer);
+			Vector3Int localPlace = new Vector3Int(tilemapPos.x, tilemapPos.y, 0);
 
 			IGameTile newTile = TileLibrary.instance.GetClonedTile(assetName);
 			newTile.LocalPlace = localPlace;
 			newTile.WorldLocation = layeredWorldPosition;
-			newTile.TilemapMember = tilemap;
+			newTile.TilemapMember = crop_tilemap;
 
 			// if a tile already exists there, just replace it.
 			bool tileExistsInPos = tiles.ContainsKey(layeredWorldPosition);
@@ -106,7 +100,7 @@ namespace Gameplay
 				(newTile as CropTile).StartGrowing();
 			}
 
-			SetGameTile(tilemapLayer, newTile);
+			SetGameTile(newTile);
 		}
 
 
@@ -125,9 +119,9 @@ namespace Gameplay
 			}
 		}
 
-		private void SetGameTile(TilemapLayer tilemapLayer, IGameTile gameTile)
+		private void SetGameTile(IGameTile gameTile)
 		{
-			tilemapLayer.tilemap.SetTile(gameTile.LocalPlace, gameTile.TileBase);
+			crop_tilemap.SetTile(gameTile.LocalPlace, gameTile.TileBase);
 		}
 
 		public static IGameTile GetTileByAssetName(string assetName)
@@ -140,11 +134,6 @@ namespace Gameplay
 			GetInput();
 		}
 
-        private void Start()
-        {
-			tilemap = GetComponent<TilemapLayerController>().groundTilemap;
-			crop_tilemap = GetComponent<TilemapLayerController>().objectsTilemap;
-        }
 
         private void GetInput()
 		{
@@ -159,7 +148,7 @@ namespace Gameplay
 				if (tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == false)
 				{
 					// Set new tile to location
-					PlaceTile(tilePos, "carrot", GetComponent<TilemapLayerController>().ObjectsLayer);
+					PlaceTile(tilePos, "pumpkin");
 				} else
                 {
 					Debug.Log("Not Farmland");
