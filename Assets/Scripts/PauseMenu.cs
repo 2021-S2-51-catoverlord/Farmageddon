@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,17 +43,24 @@ public class PauseMenu : MonoBehaviour
 
     public void SaveGame()
     {
-        Debug.Log("Game Save");
+        //string fileName = "saved_" + DateTime.Now.ToString("s") + ".json"; 
+        // Tell  save manager to save the game's current state.
+        SaveManager.SaveGame("savedGame.json");
+        Debug.Log("Game Saved");
     }
 
     public void LoadGame()
     {
+        // Tell save manager to load the game.
+        SaveManager.LoadGame("savedGame.json");
         Debug.Log("Game Loaded");
+
+        Resume();
     }
 
     public void QuitGame()
     {
-        Application.Quit();
         Debug.Log("Game Quit");
+        Application.Quit();
     }
 }
