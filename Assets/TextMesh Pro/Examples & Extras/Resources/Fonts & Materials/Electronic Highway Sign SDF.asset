@@ -272,6 +272,90 @@ MonoBehaviour:
       m_Height: 109
     m_Scale: 1
     m_AtlasIndex: 0
+  - m_Index: 51
+    m_Metrics:
+      m_Width: 76.53125
+      m_Height: 107.6875
+      m_HorizontalBearingX: 7.40625
+      m_HorizontalBearingY: 115.203125
+      m_HorizontalAdvance: 88.15625
+    m_GlyphRect:
+      m_X: 109
+      m_Y: 177
+      m_Width: 77
+      m_Height: 109
+    m_Scale: 1
+    m_AtlasIndex: 0
+  - m_Index: 79
+    m_Metrics:
+      m_Width: 76.53125
+      m_Height: 107.6875
+      m_HorizontalBearingX: 7.40625
+      m_HorizontalBearingY: 115.203125
+      m_HorizontalAdvance: 88.15625
+    m_GlyphRect:
+      m_X: 176
+      m_Y: 11
+      m_Width: 77
+      m_Height: 109
+    m_Scale: 1
+    m_AtlasIndex: 0
+  - m_Index: 68
+    m_Metrics:
+      m_Width: 76.53125
+      m_Height: 107.6875
+      m_HorizontalBearingX: 7.40625
+      m_HorizontalBearingY: 115.203125
+      m_HorizontalAdvance: 88.15625
+    m_GlyphRect:
+      m_X: 109
+      m_Y: 307
+      m_Width: 77
+      m_Height: 109
+    m_Scale: 1
+    m_AtlasIndex: 0
+  - m_Index: 52
+    m_Metrics:
+      m_Width: 76.53125
+      m_Height: 107.6875
+      m_HorizontalBearingX: 7.40625
+      m_HorizontalBearingY: 115.203125
+      m_HorizontalAdvance: 88.15625
+    m_GlyphRect:
+      m_X: 109
+      m_Y: 437
+      m_Width: 77
+      m_Height: 109
+    m_Scale: 1
+    m_AtlasIndex: 0
+  - m_Index: 88
+    m_Metrics:
+      m_Width: 76.53125
+      m_Height: 107.6875
+      m_HorizontalBearingX: 7.40625
+      m_HorizontalBearingY: 115.203125
+      m_HorizontalAdvance: 88.15625
+    m_GlyphRect:
+      m_X: 109
+      m_Y: 567
+      m_Width: 77
+      m_Height: 109
+    m_Scale: 1
+    m_AtlasIndex: 0
+  - m_Index: 76
+    m_Metrics:
+      m_Width: 45.25
+      m_Height: 107.6875
+      m_HorizontalBearingX: 23.046875
+      m_HorizontalBearingY: 115.203125
+      m_HorizontalAdvance: 88.15625
+    m_GlyphRect:
+      m_X: 109
+      m_Y: 697
+      m_Width: 46
+      m_Height: 109
+    m_Scale: 1
+    m_AtlasIndex: 0
   m_CharacterTable:
   - m_ElementType: 1
     m_Unicode: 73
@@ -308,6 +392,30 @@ MonoBehaviour:
   - m_ElementType: 1
     m_Unicode: 121
     m_GlyphIndex: 92
+    m_Scale: 1
+  - m_ElementType: 1
+    m_Unicode: 80
+    m_GlyphIndex: 51
+    m_Scale: 1
+  - m_ElementType: 1
+    m_Unicode: 108
+    m_GlyphIndex: 79
+    m_Scale: 1
+  - m_ElementType: 1
+    m_Unicode: 97
+    m_GlyphIndex: 68
+    m_Scale: 1
+  - m_ElementType: 1
+    m_Unicode: 81
+    m_GlyphIndex: 52
+    m_Scale: 1
+  - m_ElementType: 1
+    m_Unicode: 117
+    m_GlyphIndex: 88
+    m_Scale: 1
+  - m_ElementType: 1
+    m_Unicode: 105
+    m_GlyphIndex: 76
     m_Scale: 1
   m_AtlasTextures:
   - {fileID: 28981121099961358}
@@ -351,23 +459,59 @@ MonoBehaviour:
     m_Y: 816
     m_Width: 98
     m_Height: 130
-  m_FreeGlyphRects:
-  - m_X: 98
-    m_Y: 0
-    m_Width: 925
-    m_Height: 36
   - m_X: 98
     m_Y: 166
-    m_Width: 925
-    m_Height: 857
+    m_Width: 98
+    m_Height: 130
   - m_X: 165
     m_Y: 0
-    m_Width: 858
-    m_Height: 1023
+    m_Width: 98
+    m_Height: 130
+  - m_X: 98
+    m_Y: 296
+    m_Width: 98
+    m_Height: 130
+  - m_X: 98
+    m_Y: 426
+    m_Width: 98
+    m_Height: 130
+  - m_X: 98
+    m_Y: 556
+    m_Width: 98
+    m_Height: 130
+  - m_X: 98
+    m_Y: 686
+    m_Width: 67
+    m_Height: 130
+  m_FreeGlyphRects:
   - m_X: 0
     m_Y: 946
     m_Width: 1023
     m_Height: 77
+  - m_X: 98
+    m_Y: 0
+    m_Width: 67
+    m_Height: 36
+  - m_X: 165
+    m_Y: 130
+    m_Width: 858
+    m_Height: 36
+  - m_X: 196
+    m_Y: 130
+    m_Width: 827
+    m_Height: 893
+  - m_X: 263
+    m_Y: 0
+    m_Width: 760
+    m_Height: 1023
+  - m_X: 98
+    m_Y: 816
+    m_Width: 925
+    m_Height: 207
+  - m_X: 165
+    m_Y: 686
+    m_Width: 858
+    m_Height: 337
   m_fontInfo:
     Name: Electronic Highway Sign
     PointSize: 144

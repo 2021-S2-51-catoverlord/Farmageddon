@@ -781,6 +781,7 @@ MonoBehaviour:
   inventory: {fileID: 8881984595228192843}
   equipUI: {fileID: 8881984594668807118}
   draggableItem: {fileID: 8881984596171968169}
+  dropArea: {fileID: 0}
 --- !u!1 &8881984595840449017
 GameObject:
   m_ObjectHideFlags: 0
