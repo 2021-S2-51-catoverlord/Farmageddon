@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Prefabs/Canvas_Old_Inv.prefab.meta
 guid: 2e76c6dad9ce4cb42859a8c267b2fc45
+=======
+guid: ebd2dcbeb092fbd4382a48df9bf82a25
+>>>>>>> Sprint-1:Assets/Prefabs/Items/Tool1.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

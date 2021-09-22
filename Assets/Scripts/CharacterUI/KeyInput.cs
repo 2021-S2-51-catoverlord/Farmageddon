@@ -21,7 +21,7 @@ public class KeyInput : MonoBehaviour
             inventoryUI.SetActive(!inventoryUI.activeSelf);
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             equipUI.SetActive(!equipUI.activeSelf);
         }

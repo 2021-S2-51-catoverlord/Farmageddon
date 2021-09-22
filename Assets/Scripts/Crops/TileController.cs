@@ -19,6 +19,12 @@ namespace Gameplay
 		public Dictionary<Vector3, IGameTile> tiles = new Dictionary<Vector3, IGameTile>();
 		private TilemapLayerController tilemapLayers;
 
+		public GameObject player;
+
+		private Tilemap tilemap;
+
+		public DayNightCycleBehaviour timecycle;
+
 		public event PlantPlantedHandler OnStageGrow;
 
 		public static TileController instance;
@@ -32,7 +38,6 @@ namespace Gameplay
 			{
 				Destroy(gameObject);
 			}
-
 			tilemapLayers = FindObjectOfType<TilemapLayerController>();
 		}
 
@@ -65,58 +70,6 @@ namespace Gameplay
 			}
 		}
 
-		public Dictionary<Vector3, IGameTile> CreatePopulatedTilemap(TilemapLayer tilemapLayer)
-		{
-			int layer = tilemapLayer.layer;
-			Tilemap tilemap = tilemapLayer.tilemap;
-			Dictionary<Vector3, IGameTile> localTilemap = new Dictionary<Vector3, IGameTile>();
-
-			foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
-			{
-				Vector3Int localPlace = new Vector3Int(pos.x, pos.y, layer);
-
-				bool isTileEmpty = !tilemap.HasTile(localPlace);
-
-				if (!isTileEmpty)
-				{
-					print("Tile at: " + localPlace + " already exists!");
-					continue;
-				}
-
-				var worldLocation = tilemap.CellToWorld(localPlace);
-				var layeredWorldPosition = new Vector3(worldLocation.x, worldLocation.y, layer);
-
-				IGameTile tileFromLibrary = GetTileByAssetName("grass_001");
-
-				IGameTile tile = new GameTile
-				{
-					LocalPlace = localPlace,
-					WorldLocation = layeredWorldPosition,
-					TileBase = tileFromLibrary.TileBase,
-					TilemapMember = tilemap,
-					Description = tileFromLibrary.Description,
-					Cost = 0,
-					TileData = tileFromLibrary.TileData,
-				};
-
-				localTilemap.Add(layeredWorldPosition, tile);
-			}
-
-			return localTilemap;
-		}
-
-		public void GenerateMap()
-		{
-			var groundTiles = CreatePopulatedTilemap(tilemapLayers.GroundLayer);
-			// Adds ground tiles to the global tiles
-			tiles = DataUtils.MergeDictionaries(tiles, groundTiles);
-
-			foreach (var tile in groundTiles)
-			{
-				IGameTile tileData = tile.Value;
-				SetGameTile(tilemapLayers.GroundLayer, tileData);
-			}
-		}
 
 		public void PlaceTile(Vector3 pos, string assetName, TilemapLayer tilemapLayer)
 		{
@@ -177,6 +130,32 @@ namespace Gameplay
 		public static IGameTile GetTileByAssetName(string assetName)
 		{
 			return TileLibrary.instance.GetClonedTile(assetName);
+		}
+
+		private void Update()
+		{
+			GetInput();
+		}
+
+        private void Start()
+        {
+			tilemap = GetComponent<TilemapLayerController>().objectsTilemap;
+        }
+
+        private void GetInput()
+		{
+			if (Input.GetMouseButtonDown(0))
+			{
+				// works with ortho camera
+				var wpos = player.transform.position;
+
+				// get tile pos
+				var tilePos = tilemap.WorldToCell(wpos);
+
+
+				// Set new tile to location
+				tilemap.SetTile(tilePos, GetTileByAssetName("tomato").TileBase);
+			}
 		}
 	}
 }

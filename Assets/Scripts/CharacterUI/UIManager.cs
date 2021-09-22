@@ -8,13 +8,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] Inventory inventory;
     [SerializeField] EquipUI equipUI;
     [SerializeField] Image draggableItem;
+    [SerializeField] DropArea dropArea;
+    //PlayerController player;
+    GameObject player;
     private ItemSlot draggedSlot;
 
     private void Awake()
     {
         //Right Click Events
-        inventory.OnRightClickEvent += Equip;
-        equipUI.OnRightClickEvent += Unequip;
+        inventory.OnRightClickEvent += InventoryRightClick;
+        equipUI.OnRightClickEvent += EquipmentRightClick;
         //Begin Drag Events
         inventory.OnBeginDragEvent += BeginDrag;
         equipUI.OnBeginDragEvent += BeginDrag;
@@ -27,23 +30,37 @@ public class UIManager : MonoBehaviour
         //Drop Event
         inventory.OnDropEvent += Drop;
         equipUI.OnDropEvent += Drop;
+        dropArea.OnDropEvent += DropOutside;
     }
 
-    private void Equip(ItemSlot itemSlot)
+    private void InventoryRightClick(ItemSlot itemSlot)
     {
-        Equipment equipment = itemSlot.Item as Equipment;
-        if (equipment != null)
+        if(itemSlot.Item is Equipment)
         {
-            Equip(equipment);
+            Equip((Equipment)itemSlot.Item);
+        }
+        else if (itemSlot.Item is Food)
+        {
+            Food food = (Food)itemSlot.Item;
+            player = GameObject.Find("Player"); // Find the player gameobject to heal.
+            player.GetComponent<PlayerController>().Heal(food.healHeath); // Perform healing.
+
+            // Tells the health bar to update according to the player's current hp.
+            GameObject.Find("Health Bar").GetComponent<StatBarController>().SetCurrentValue(player.GetComponent<PlayerController>().HealthPoints);
+
+            if (food.IsConsumable)
+            {
+                inventory.RemoveItem(food);
+                food.Destroy();
+            }
         }
     }
 
-    private void Unequip(ItemSlot itemSlot)
+    private void EquipmentRightClick(ItemSlot itemSlot)
     {
-        Equipment equipment = itemSlot.Item as Equipment;
-        if (equipment != null)
+        if (itemSlot.Item is Equipment)
         {
-            Unequip(equipment);
+            Unequip((Equipment)itemSlot.Item);
         }
     }
 
@@ -87,6 +104,18 @@ public class UIManager : MonoBehaviour
         {
             SwapItems(dropItemSlot);
         }
+    }
+
+    private void DropOutside()
+    {
+        if (draggedSlot == null)
+        {
+            return;
+        }
+
+        draggedSlot.Item.Destroy();
+        draggedSlot.Item = null;
+        draggedSlot.Amount = 0;
     }
 
     private void SwapItems(ItemSlot dropItemSlot)

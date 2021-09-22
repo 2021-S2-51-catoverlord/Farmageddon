@@ -13,16 +13,20 @@ public class MonsterController : EntityController
     [SerializeField]
     private bool debugToggle;
     [SerializeField]
-    private float MaxSearch = 10f; // base range of the monster
+    private float baseSearch = 10f; // base range of the monster
     [SerializeField]
     [Range(0f, 360f)]
     private float visionArc = 45f; //angle of vison on a enemy in degrees, max 360f
     [SerializeField]
     [Range(1, 1000)]
-    private int searchRange = 5; //how far the range of the monster becomes once they have seen the target
+    private int searchBoost = 5; //how far the range of the monster becomes once they have seen the target
+    [SerializeField]
+    [Range(5, 100)]
+    private int maxMovement;
 
     private MonsterBehaviour monsterState = MonsterBehaviour.Wandering;
-
+    private int wanderMovement = 0;
+    private int wanderdirection;
     private bool playerSeen = false;
 
     private bool playerInSight = false;
@@ -45,27 +49,40 @@ public class MonsterController : EntityController
         {
             playerSeen = true;
             monsterState = MonsterBehaviour.Attacking;
-            MaxSearch = MaxSearch * searchRange;
+            baseSearch = baseSearch * searchBoost;
         }
         else if (playerSeen && !playerInSight) //player has been seen but is no longer in vision range
         {
             monsterState = MonsterBehaviour.Searching;
 
-        }
-        if (debugToggle)
+        }else if(playerSeen && playerInSight) //player is seen and has been seen before
         {
-            Debug.Log(monsterState);
+            monsterState = MonsterBehaviour.Attacking;
         }
+      
         switch (monsterState)
         {
             case MonsterBehaviour.Attacking:
                 combatTarget();
+                if (debugToggle)
+                {
+                    Debug.Log(monsterState);
+                }
                 break;
             case MonsterBehaviour.Searching:
                 //wander();
+                this.direction = Vector2.zero;
+                if (debugToggle)
+                {
+                    Debug.Log(monsterState);
+                }
                 break;
             case MonsterBehaviour.Wandering:
-               // wander();
+                if (debugToggle)
+                {
+                    Debug.Log(monsterState);
+                }
+                //wander();
                 break;
         }
 
@@ -86,13 +103,13 @@ public class MonsterController : EntityController
 
         bool withinArc = degreesToTarget < (visionArc);
 
-        float rayDistance = Mathf.Min(MaxSearch, distanceToTarget);
+        float rayDistance = Mathf.Min(baseSearch, distanceToTarget);
 
         //create a ray that goes from current location to direction
         Ray2D ray = new Ray2D(transform.position, directionToTarget);
 
         //store info on the hit
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget,MaxSearch);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget,baseSearch);
 
         //fire raycast, does it hit anything?
         if (debugToggle)
@@ -105,7 +122,8 @@ public class MonsterController : EntityController
             if (debugToggle)
             {
                 Debug.Log("raycast hit");
-                Debug.Log(hit.transform.position.ToString());
+                //Debug.Log(hit.transform.position.ToString());
+                Debug.Log(hit.transform.gameObject.ToString());
             }
             if (hit.collider.transform == target)
             {
@@ -115,6 +133,10 @@ public class MonsterController : EntityController
                 {
                     Debug.Log("player in sight");
                 }
+            }
+            else
+            {
+                playerInSight = false;
             }
         }
 
@@ -163,15 +185,20 @@ public class MonsterController : EntityController
             }
         }
     }
-
+  
     //generates random movement for the AI
     private void wander()
     {
-        this.direction = Vector2.zero;
-        switch (Random.Range(1,4))
+        if (wanderMovement == maxMovement || wanderMovement == 0 )
+        {
+            wanderdirection = Random.Range(1, 4);
+            wanderMovement = 0;
+        }
+        switch (wanderdirection)
         {
             case 1:
                 this.direction = Vector2.up;
+                wanderMovement++;
                 break;
             case 2:
                 this.direction = Vector2.down;
