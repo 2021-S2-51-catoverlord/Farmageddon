@@ -23,6 +23,8 @@ public class MonsterController : EntityController
     [SerializeField]
     [Range(5, 100)]
     private int maxMovement;
+    [SerializeField]
+    private int damageDelt;
 
     private MonsterBehaviour monsterState = MonsterBehaviour.Wandering;
     private int wanderMovement = 0;
@@ -184,6 +186,14 @@ public class MonsterController : EntityController
                 this.direction += Vector2.down;
             }
         }
+        else
+        {
+            attack();
+        }
+    }
+    private void attack()
+    {
+        Player.TakeDamage(damageDelt);
     }
   
     //generates random movement for the AI
@@ -213,13 +223,6 @@ public class MonsterController : EntityController
 
     }
 
-    private void OnCollisionStay(Collision collisionInfo)
-    {
-        Debug.Log("Collision");
-        if (collisionInfo.gameObject == targetObj)
-        {
-            Player.TakeDamage(damage);
-        }
-    }
+
 
 }
