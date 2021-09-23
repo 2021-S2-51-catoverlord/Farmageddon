@@ -5,10 +5,11 @@ using UnityEngine.EventSystems;
 
 public class CraftSlot : MonoBehaviour , IPointerClickHandler
 {
-
-    protected Item item;
+    [SerializeField]
+    public Recipe item;
     [SerializeField] Image image;
     [SerializeField] Text amtTxt;
+    public bool isValid;
 
     private Color normalColor = Color.white;
     private Color disableColor = Color.clear;

@@ -982,6 +982,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c02bbbd9f0d1841a5731b1068297d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
   image: {fileID: 124404805}
   amtTxt: {fileID: 124404803}
 --- !u!1001 &203043087
@@ -1183,6 +1184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c02bbbd9f0d1841a5731b1068297d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
   image: {fileID: 203043091}
   amtTxt: {fileID: 203043089}
 --- !u!1 &228658079
@@ -2687,6 +2689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c02bbbd9f0d1841a5731b1068297d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
   image: {fileID: 489200809}
   amtTxt: {fileID: 489200807}
 --- !u!1001 &548998897
@@ -3155,6 +3158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c02bbbd9f0d1841a5731b1068297d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
   image: {fileID: 594695879}
   amtTxt: {fileID: 594695877}
 --- !u!1001 &711928163
@@ -3356,6 +3360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c02bbbd9f0d1841a5731b1068297d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
   image: {fileID: 711928167}
   amtTxt: {fileID: 711928165}
 --- !u!1001 &712956552
@@ -4179,6 +4184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c02bbbd9f0d1841a5731b1068297d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
   image: {fileID: 831082967}
   amtTxt: {fileID: 831082965}
 --- !u!224 &891641365 stripped
@@ -4916,6 +4922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c02bbbd9f0d1841a5731b1068297d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
   image: {fileID: 1044755965}
   amtTxt: {fileID: 1044755963}
 --- !u!1001 &1052833899
@@ -5110,6 +5117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c02bbbd9f0d1841a5731b1068297d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: 1dbb27314f2003443b831639ad0a7609, type: 2}
   image: {fileID: 1076383672}
   amtTxt: {fileID: 1101393304}
 --- !u!114 &1101393304 stripped
@@ -5323,6 +5331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c02bbbd9f0d1841a5731b1068297d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
   image: {fileID: 1122352138}
   amtTxt: {fileID: 1122352136}
 --- !u!1001 &1149012084
@@ -5524,6 +5533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c02bbbd9f0d1841a5731b1068297d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
   image: {fileID: 1149012088}
   amtTxt: {fileID: 1149012086}
 --- !u!1001 &1178540460
@@ -5725,6 +5735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c02bbbd9f0d1841a5731b1068297d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
   image: {fileID: 1178540464}
   amtTxt: {fileID: 1178540462}
 --- !u!1001 &1180726621
@@ -6261,20 +6272,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   craftSlots:
   - {fileID: 1076383673}
-  - {fileID: 1890112016}
-  - {fileID: 711928168}
-  - {fileID: 831082968}
-  - {fileID: 203043092}
-  - {fileID: 1178540465}
-  - {fileID: 2102038212}
-  - {fileID: 124404806}
-  - {fileID: 1601541684}
-  - {fileID: 1122352139}
-  - {fileID: 489200810}
-  - {fileID: 1149012089}
-  - {fileID: 594695880}
-  - {fileID: 1044755966}
-  - {fileID: 1331250937}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1243458790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6679,6 +6690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c02bbbd9f0d1841a5731b1068297d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
   image: {fileID: 1331250936}
   amtTxt: {fileID: 1331250934}
 --- !u!1001 &1334065339
@@ -7220,6 +7232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c02bbbd9f0d1841a5731b1068297d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
   image: {fileID: 1601541683}
   amtTxt: {fileID: 1601541681}
 --- !u!1001 &1625920194
@@ -9385,6 +9398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c02bbbd9f0d1841a5731b1068297d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
   image: {fileID: 1890112015}
   amtTxt: {fileID: 1890112013}
 --- !u!1001 &1935608102
@@ -10096,6 +10110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c02bbbd9f0d1841a5731b1068297d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
   image: {fileID: 2102038211}
   amtTxt: {fileID: 2102038209}
 --- !u!1 &2126838834
