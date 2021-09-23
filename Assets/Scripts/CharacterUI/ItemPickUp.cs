@@ -9,7 +9,8 @@ public class ItemPickUp : MonoBehaviour
 
     private void Start()
     {
-        inventory = GameObject.FindWithTag("Inventory").GetComponent(typeof(Inventory)) as Inventory;
+        GameObject invObj = GameObject.FindWithTag("Inventory");
+        inventory = invObj.GetComponent(typeof(Inventory)) as Inventory;
     }
 
     /// <summary>

@@ -25,5 +25,9 @@ public class KeyInput : MonoBehaviour
         {
             equipUI.SetActive(!equipUI.activeSelf);
         }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+
+        }
     }
 }
