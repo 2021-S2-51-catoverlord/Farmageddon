@@ -25,6 +25,8 @@ namespace Gameplay
 
 		public Tile farmland_tile;
 
+		public Inventory inventory;
+
 
 		public event PlantPlantedHandler OnStageGrow;
 
@@ -129,6 +131,7 @@ namespace Gameplay
 			return TileLibrary.instance.GetClonedTile(assetName);
 		}
 
+
 		private void Update()
 		{
 			GetInput();
@@ -138,7 +141,11 @@ namespace Gameplay
         private void GetInput()
 		{
 			if (Input.GetMouseButtonDown(0))
-			{
+			{	// For the time being, we use the first inventory slot as the player's equipped item
+				if(inventory.itemSlots[0].Item != null)
+                {
+					Debug.Log(inventory.itemSlots[0].Item.itemName);
+				}
 				// works with ortho camera
 				var wpos = player.transform.position;
 
