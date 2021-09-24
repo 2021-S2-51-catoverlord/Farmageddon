@@ -7,6 +7,12 @@ public class ItemPickUp : MonoBehaviour
     [SerializeField] Item item;
     [SerializeField] Inventory inventory;
 
+
+    private void Start()
+    {
+        inventory = GameObject.Find("Player").GetComponentInChildren<Inventory>();
+    }
+
     /// <summary>
     /// Method to handle collision event.
     /// </summary>

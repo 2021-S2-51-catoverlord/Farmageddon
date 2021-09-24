@@ -7,7 +7,7 @@ public class Inventory : MonoBehaviour, IItemContainer
 {
     [SerializeField] Item[] startingItems;
     [SerializeField] Transform itemsParent;
-    [SerializeField] ItemSlot[] itemSlots;
+    [SerializeField] public ItemSlot[] itemSlots;
 
     public event Action<ItemSlot> OnRightClickEvent;
     public event Action<ItemSlot> OnBeginDragEvent;
