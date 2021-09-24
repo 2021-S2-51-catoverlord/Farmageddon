@@ -13,6 +13,4 @@ public class Recipe : ScriptableObject
     public Item[] RequiredItem { get; }
     public int[] QuantityRequired{ get; }
 
-
-
 }

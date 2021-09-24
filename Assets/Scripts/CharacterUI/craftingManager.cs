@@ -10,7 +10,7 @@ public class craftingManager : MonoBehaviour
     private CraftSlot[] craftSlots;
     [SerializeField]
     private static int MAXLOG = 25;
-    private invLog[] invLog;
+    public invLog[] invLog;
     private void Start()
     {
         invLog = new invLog[MAXLOG];
@@ -25,7 +25,7 @@ public class craftingManager : MonoBehaviour
             int itemSlot = 0;
             if (playerInv.ItemSlots[i].Item != null)
             {
-                invLog[itemSlot].item = playerInv.ItemSlots[i].Item;
+                invLog[itemSlot].item = playerInv.ItemSlots[i].Item.GetItemCopy();
                 invLog[itemSlot].quantity = playerInv.ItemSlots[i].Amount;
                 itemSlot++;
             }
@@ -46,7 +46,7 @@ public class craftingManager : MonoBehaviour
             Debug.Log("recipe check:");
             Debug.Log("recipe slot: " + i + 1);
             //for each of the items the recipe requires - this loop has escapes
-            for (int j = 0; j < craftSlots[j].item.RequiredItem.Length; j++)
+            for (int j = 0; j < craftSlots[i].item.RequiredItem.Length; j++)
             {
                 Debug.Log("required item:");
                 Debug.Log(craftSlots[i].item.GetInstanceID());
@@ -77,6 +77,11 @@ public class craftingManager : MonoBehaviour
                         j = craftSlots[i].item.RequiredItem.Length;
                     }
 
+                }
+
+                if (craftSlots[j+1] == null)
+                {
+                    j = craftSlots[j].item.RequiredItem.Length;
                 }
             }
         }
