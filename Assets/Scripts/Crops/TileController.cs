@@ -7,8 +7,8 @@ using Utils;
 
 
 /*
-   Tile Controller by Macauley
-	Allows us to dynamically set tiles and run coroutines on individual positions
+   Tile Controller made by Macauley
+	This controller allows us to dynamically set tiles and run coroutines on individual positions
 */
 namespace Gameplay
 {
@@ -16,32 +16,44 @@ namespace Gameplay
 
 	public class TileController : MonoBehaviour
 	{
+		//Dictionary of crop tiles for growth and harvesting purposes
 		public Dictionary<Vector3, IGameTile> tiles = new Dictionary<Vector3, IGameTile>();
 
+		//Player Entity that can interact with the crops
 		public PlayerController player;
 
-		public Tilemap tilemap;
-
+		//Object Tilemap which shows planted crops
 		public Tilemap crop_tilemap;
 
+		//Ground Tilemap which delimits farmable area
+		public Tilemap tilemap;
+
+		//Tile which represents farmable area for the Ground Tilemap
 		public Tile farmland_tile;
 
+		//Player Entity's Inventory for Planting Seeds / Harvesting Crops
 		public Inventory inventory;
 
-		private IGameTile lastTile;
-
+		//Array of available Seeds to plant / receive
 		public Item[] seeds;
 
+		//Array of available Crops to receive
 		public Item[] crops;
 
+		//Global controller of the Time Cycle
 		public DayNightCycleBehaviour timeCycle;
 
+		//Receives output from Tile Library checks
+		private IGameTile lastTile;
 
+		//Execute code upon Crop Tile growth
 		public event PlantPlantedHandler OnStageGrow;
 
+		//The current instance of TileController
 		public static TileController instance;
 		private void Awake()
 		{
+			//This ensures that there is only one instance of TileController at any given time
 			if (!instance)
 			{
 				instance = this;
@@ -52,36 +64,17 @@ namespace Gameplay
 			}
 		}
 
-		private void ReadTilemapToTileData(Tilemap tilemap, int layer)
-		{
-			foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
-			{
-				Vector3Int localPlace = new Vector3Int(pos.x, pos.y, pos.z);
-
-				if (!tilemap.HasTile(localPlace)) continue;
-
-				var worldLocation = tilemap.CellToWorld(localPlace);
-				var layeredWorldPosition = new Vector3(worldLocation.x, worldLocation.y, layer);
-
-				TileBase tileBase = tilemap.GetTile(localPlace);
-				IGameTile tileFromLibrary = GetTileByAssetName(tileBase.name);
-
-				IGameTile tile = new GameTile
-				{
-					LocalPlace = localPlace,
-					WorldLocation = layeredWorldPosition,
-					TileBase = tileBase,
-					TilemapMember = tilemap,
-					Description = tileFromLibrary.Description,
-					TileData = tileFromLibrary.TileData,
-					Cost = 1
-				};
-
-				tiles.Add(layeredWorldPosition, tile);
-			}
-		}
-
-
+		/// <summary>
+		/// Set tile in position to tile listed in the Tile Library
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <param name="assetName"></param>
+		/// <returns></returns>
+		/* This function accepts a Vector3 Position and a string as its parameters.
+		 * 
+		 * 
+		 * 
+		 */
 		public void PlaceTile(Vector3 pos, string assetName)
 		{
 			Vector3Int tilemapPos = crop_tilemap.WorldToCell(pos);
@@ -221,15 +214,14 @@ namespace Gameplay
 								Debug.Log(tile.TileBase.name);
                                 switch (tile.TileBase.name)
 								{
-									case "beet_6": ; break;
-									case "carrot_5": inventory.AddItem(seeds[1].GetItemCopy()); break;
-									case "corn_6": inventory.AddItem(seeds[2].GetItemCopy()); break;
-									case "potato_6": inventory.AddItem(seeds[3].GetItemCopy()); break;
-									case "pumpkin_6": inventory.AddItem(seeds[4].GetItemCopy()); break;
-									case "strawberry_6": inventory.AddItem(seeds[5].GetItemCopy()); break;
-									case "tomato_6": inventory.AddItem(seeds[6].GetItemCopy()); break;
-									case "melon_6": inventory.AddItem(seeds[7].GetItemCopy()); break;
-									case "": inventory.AddItem(seeds[3].GetItemCopy()); break;
+									case "beet_6": GiveSeeds(0); GiveCrops(0); break;
+									case "carrot_5": GiveSeeds(1); GiveCrops(1); break;
+									case "corn_6": GiveSeeds(2); GiveCrops(2); break;
+									case "potato_6": GiveSeeds(3); GiveCrops(3); break;
+									case "pumpkin_6": GiveSeeds(4); GiveCrops(4); break;
+									case "strawberry_6": GiveSeeds(5); GiveCrops(5); break;
+									case "tomato_6": GiveSeeds(6); GiveCrops(6); break;
+									case "melon_6": GiveSeeds(7); GiveCrops(7); break;
 								}
                             }
 						}
@@ -251,15 +243,14 @@ namespace Gameplay
 							Debug.Log(tile.TileBase.name);
 							switch (tile.TileBase.name)
 							{
-								case "beet_6": inventory.AddItem(seeds[0].GetItemCopy()); break;
-								case "carrot_5": inventory.AddItem(seeds[1].GetItemCopy()); break;
-								case "corn_6": inventory.AddItem(seeds[2].GetItemCopy()); break;
-								case "potato_6": inventory.AddItem(seeds[3].GetItemCopy()); break;
-								case "pumpkin_6": inventory.AddItem(seeds[4].GetItemCopy()); break;
-								case "strawberry_6": inventory.AddItem(seeds[5].GetItemCopy()); break;
-								case "tomato_6": inventory.AddItem(seeds[6].GetItemCopy()); break;
-								case "melon_6": inventory.AddItem(seeds[7].GetItemCopy()); break;
-								case "": inventory.AddItem(seeds[3].GetItemCopy()); break;
+								case "beet_6": GiveSeeds(0); GiveCrops(0); break;
+								case "carrot_5": GiveSeeds(1); GiveCrops(1); break;
+								case "corn_6": GiveSeeds(2); GiveCrops(2); break;
+								case "potato_6": GiveSeeds(3); GiveCrops(3); break;
+								case "pumpkin_6": GiveSeeds(4); GiveCrops(4); break;
+								case "strawberry_6": GiveSeeds(5); GiveCrops(5); break;
+								case "tomato_6": GiveSeeds(6); GiveCrops(6); break;
+								case "melon_6": GiveSeeds(7); GiveCrops(7); break;
 							}
 						}
 					}
@@ -269,11 +260,15 @@ namespace Gameplay
 
 		private void GiveSeeds(int i)
         {
-			inventory.AddItem(seeds[i].GetItemCopy());
+			int seedNo = UnityEngine.Random.Range(0, 4);
+			Debug.Log("Should be this many seeds: " + seedNo);
+
+			inventory.AddItem(seeds[i].GetItemCopy(), seedNo);
+			
 		}
 		private void GiveCrops(int i)
         {
-
-        }
+			inventory.AddItem(crops[i].GetItemCopy());
+		}
 	}
 }
