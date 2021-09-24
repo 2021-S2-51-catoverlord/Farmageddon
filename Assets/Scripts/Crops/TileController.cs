@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Gameplay
 	{
 		public Dictionary<Vector3, IGameTile> tiles = new Dictionary<Vector3, IGameTile>();
 
-		public GameObject player;
+		public PlayerController player;
 
 		public Tilemap tilemap;
 
@@ -26,6 +27,14 @@ namespace Gameplay
 		public Tile farmland_tile;
 
 		public Inventory inventory;
+
+		private IGameTile lastTile;
+
+		public Item[] seeds;
+
+		public Item[] crops;
+
+		public DayNightCycleBehaviour timeCycle;
 
 
 		public event PlantPlantedHandler OnStageGrow;
@@ -105,10 +114,39 @@ namespace Gameplay
 			SetGameTile(newTile);
 		}
 
+		public void PlaceTile(Vector3 pos)
+		{
+			Vector3Int tilemapPos = crop_tilemap.WorldToCell(pos);
+			Vector3 layeredWorldPosition = new Vector3(tilemapPos.x, tilemapPos.y);
+
+			Vector3Int localPlace = new Vector3Int(tilemapPos.x, tilemapPos.y, 0);
+
+
+			// if a tile already exists there, just replace it.
+			bool tileExistsInPos = tiles.ContainsKey(layeredWorldPosition);
+			if (tileExistsInPos)
+			{
+				tiles[layeredWorldPosition] = null;
+			}
+			else
+			{
+				tiles.Add(layeredWorldPosition, null);
+			}
+
+
+			crop_tilemap.SetTile(tilemapPos, null);
+		}
+
 
 		// Starts a coroutine and returns to the caller after it's time is passed
 		public void Grow(int timeToGrow, int stages, string ID)
 		{
+			if(timeCycle.season == Season.WINTING)
+            {
+				timeToGrow *= 2;
+            } else if (timeCycle.season == Season.SPRIMMER){
+				timeToGrow = (int)Math.Ceiling(timeToGrow * 0.5f);
+            }
 			StartCoroutine(StartGrowing(timeToGrow, stages, ID));
 		}
 
@@ -140,27 +178,102 @@ namespace Gameplay
 
         private void GetInput()
 		{
-			if (Input.GetMouseButtonDown(0))
+			if (Input.GetMouseButtonDown(0) && !player.isInventoryActive)
 			{	// For the time being, we use the first inventory slot as the player's equipped item
 				if(inventory.itemSlots[0].Item != null)
                 {
-					Debug.Log(inventory.itemSlots[0].Item.itemName);
-				}
-				// works with ortho camera
-				var wpos = player.transform.position;
+					if (inventory.itemSlots[0].Item is Seed){
+						Seed seed = (Seed)inventory.itemSlots[0].Item;
+						string seedname = "";
 
-				// get tile pos
-				var tilePos = tilemap.WorldToCell(wpos);
+                        switch (seed.itemName)
+                        {
+							case "Beetroot Seeds": seedname = "beetroot"; break;
+							case "Carrot Seeds": seedname = "carrot"; break;
+							case "Corn Seeds": seedname = "corn"; break;
+							case "Potato Seeds": seedname = "potato"; break;
+							case "Pumpkin Seeds": seedname = "pumpkin"; break;
+							case "Strawberry Seeds": seedname = "strawberry"; break;
+							case "Tomato Seeds": seedname = "tomato"; break;
+							case "Watermelon Seeds": seedname = "melon"; break;
+							case "": seedname = "potato"; break;
+                        }
 
-				if (tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == false)
-				{
-					// Set new tile to location
-					PlaceTile(tilePos, "pumpkin");
+						var wpos = player.GetComponent<CapsuleCollider2D>().transform.position;
+						wpos.y += 1.0f;
+
+						// get tile pos
+						var tilePos = tilemap.WorldToCell(wpos);
+
+						if (tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == false)
+						{
+							// Set new tile to location
+							PlaceTile(tilePos, seedname);
+							inventory.RemoveItem(seed);
+						}
+						else if (tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == true && instance.tiles.TryGetValue(tilePos, out lastTile))
+						{
+							IGameTile tile;
+							instance.tiles.TryGetValue(tilePos, out tile);
+							if (tile.Description.Contains("Grown"))
+                            {
+								PlaceTile(wpos);
+								Debug.Log(tile.TileBase.name);
+                                switch (tile.TileBase.name)
+								{
+									case "beet_6": ; break;
+									case "carrot_5": inventory.AddItem(seeds[1].GetItemCopy()); break;
+									case "corn_6": inventory.AddItem(seeds[2].GetItemCopy()); break;
+									case "potato_6": inventory.AddItem(seeds[3].GetItemCopy()); break;
+									case "pumpkin_6": inventory.AddItem(seeds[4].GetItemCopy()); break;
+									case "strawberry_6": inventory.AddItem(seeds[5].GetItemCopy()); break;
+									case "tomato_6": inventory.AddItem(seeds[6].GetItemCopy()); break;
+									case "melon_6": inventory.AddItem(seeds[7].GetItemCopy()); break;
+									case "": inventory.AddItem(seeds[3].GetItemCopy()); break;
+								}
+                            }
+						}
+					}
 				} else
-                {
-					Debug.Log("Not Farmland");
-                }
+				{
+					var wpos = player.GetComponent<CapsuleCollider2D>().transform.position;
+					wpos.y += 1.0f;
+
+					// get tile pos
+					var tilePos = tilemap.WorldToCell(wpos);
+					if (tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == true && instance.tiles.TryGetValue(tilePos, out lastTile))
+					{
+						IGameTile tile;
+						instance.tiles.TryGetValue(tilePos, out tile);
+						if (tile.Description.Contains("Grown"))
+						{
+							PlaceTile(wpos);
+							Debug.Log(tile.TileBase.name);
+							switch (tile.TileBase.name)
+							{
+								case "beet_6": inventory.AddItem(seeds[0].GetItemCopy()); break;
+								case "carrot_5": inventory.AddItem(seeds[1].GetItemCopy()); break;
+								case "corn_6": inventory.AddItem(seeds[2].GetItemCopy()); break;
+								case "potato_6": inventory.AddItem(seeds[3].GetItemCopy()); break;
+								case "pumpkin_6": inventory.AddItem(seeds[4].GetItemCopy()); break;
+								case "strawberry_6": inventory.AddItem(seeds[5].GetItemCopy()); break;
+								case "tomato_6": inventory.AddItem(seeds[6].GetItemCopy()); break;
+								case "melon_6": inventory.AddItem(seeds[7].GetItemCopy()); break;
+								case "": inventory.AddItem(seeds[3].GetItemCopy()); break;
+							}
+						}
+					}
+				}
 			}
 		}
+
+		private void GiveSeeds(int i)
+        {
+			inventory.AddItem(seeds[i].GetItemCopy());
+		}
+		private void GiveCrops(int i)
+        {
+
+        }
 	}
 }
