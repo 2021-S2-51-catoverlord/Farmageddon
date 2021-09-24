@@ -142,10 +142,6 @@ public class MonsterController : EntityController
             }
         }
 
-
-
-
-
         return playerInSight;
     }
 
@@ -188,12 +184,25 @@ public class MonsterController : EntityController
         }
         else
         {
-            attack();
+            if (IsAttacking)
+            {
+                AttackCounter -= Time.deltaTime;
+                if (AttackCounter <= 0)
+                {
+                    base.StopAttack();
+                }
+            }
+            else
+            {
+                attack();
+            }
+            
         }
     }
     private void attack()
     {
-        Player.TakeDamage(damageDelt);
+        base.Attack();
+        //Player.TakeDamage(damageDelt);
     }
   
     //generates random movement for the AI
