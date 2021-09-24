@@ -18,6 +18,9 @@ public abstract class EntityController : MonoBehaviour
     private bool isAttacking;
     private bool isAlive;
 
+    private float attackTime = 0.25f;
+    private float attackCounter = 0.25f;
+
     // Get and set methods for entity's attributes.
     public string EntityName { get; set; }
     public int HealthPoints { get; set; }
@@ -27,6 +30,8 @@ public abstract class EntityController : MonoBehaviour
     public bool IsJumping { get; set; }
     public bool IsAttacking { get; set; }
     public bool IsAlive { get; set; }
+    public float AttackTime { get; set; }
+    public float AttackCounter { get; set; }
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -170,6 +175,17 @@ public abstract class EntityController : MonoBehaviour
     {
         IsJumping = false;
         EntityAnimator.SetBool("Jump", IsJumping);
+    }
+
+    public void Attack()
+    {
+        AttackCounter = AttackTime;
+
+        // Set the entity's state to attacking.
+        IsAttacking = true;
+
+        // Set Attack in animator parameter to true.
+        EntityAnimator.SetBool("Attack", IsAttacking);
     }
 
     public void StopAttack()
