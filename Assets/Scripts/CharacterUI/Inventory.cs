@@ -80,6 +80,36 @@ public class Inventory : MonoBehaviour, IItemContainer
     }
 
     /// <summary>
+    /// Add multiple items to the inventory
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public bool AddItem(Item item, int quantity)
+    {
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i].CanAddStack(item))
+            {
+                itemSlots[i].Item = item;
+                itemSlots[i].Amount += quantity;
+                return true;
+            }
+        }
+
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i].Item == null)
+            {
+                itemSlots[i].Item = item;
+                itemSlots[i].Amount += quantity;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// Remove item from the inventory
     /// </summary>
     /// <param name="item"></param>

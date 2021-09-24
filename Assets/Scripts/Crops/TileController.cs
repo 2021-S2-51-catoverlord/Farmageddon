@@ -221,15 +221,14 @@ namespace Gameplay
 								Debug.Log(tile.TileBase.name);
                                 switch (tile.TileBase.name)
 								{
-									case "beet_6": ; break;
-									case "carrot_5": inventory.AddItem(seeds[1].GetItemCopy()); break;
-									case "corn_6": inventory.AddItem(seeds[2].GetItemCopy()); break;
-									case "potato_6": inventory.AddItem(seeds[3].GetItemCopy()); break;
-									case "pumpkin_6": inventory.AddItem(seeds[4].GetItemCopy()); break;
-									case "strawberry_6": inventory.AddItem(seeds[5].GetItemCopy()); break;
-									case "tomato_6": inventory.AddItem(seeds[6].GetItemCopy()); break;
-									case "melon_6": inventory.AddItem(seeds[7].GetItemCopy()); break;
-									case "": inventory.AddItem(seeds[3].GetItemCopy()); break;
+									case "beet_6": GiveSeeds(0); GiveCrops(0); break;
+									case "carrot_5": GiveSeeds(1); GiveCrops(1); break;
+									case "corn_6": GiveSeeds(2); GiveCrops(2); break;
+									case "potato_6": GiveSeeds(3); GiveCrops(3); break;
+									case "pumpkin_6": GiveSeeds(4); GiveCrops(4); break;
+									case "strawberry_6": GiveSeeds(5); GiveCrops(5); break;
+									case "tomato_6": GiveSeeds(6); GiveCrops(6); break;
+									case "melon_6": GiveSeeds(7); GiveCrops(7); break;
 								}
                             }
 						}
@@ -251,15 +250,14 @@ namespace Gameplay
 							Debug.Log(tile.TileBase.name);
 							switch (tile.TileBase.name)
 							{
-								case "beet_6": inventory.AddItem(seeds[0].GetItemCopy()); break;
-								case "carrot_5": inventory.AddItem(seeds[1].GetItemCopy()); break;
-								case "corn_6": inventory.AddItem(seeds[2].GetItemCopy()); break;
-								case "potato_6": inventory.AddItem(seeds[3].GetItemCopy()); break;
-								case "pumpkin_6": inventory.AddItem(seeds[4].GetItemCopy()); break;
-								case "strawberry_6": inventory.AddItem(seeds[5].GetItemCopy()); break;
-								case "tomato_6": inventory.AddItem(seeds[6].GetItemCopy()); break;
-								case "melon_6": inventory.AddItem(seeds[7].GetItemCopy()); break;
-								case "": inventory.AddItem(seeds[3].GetItemCopy()); break;
+								case "beet_6": GiveSeeds(0); GiveCrops(0); break;
+								case "carrot_5": GiveSeeds(1); GiveCrops(1); break;
+								case "corn_6": GiveSeeds(2); GiveCrops(2); break;
+								case "potato_6": GiveSeeds(3); GiveCrops(3); break;
+								case "pumpkin_6": GiveSeeds(4); GiveCrops(4); break;
+								case "strawberry_6": GiveSeeds(5); GiveCrops(5); break;
+								case "tomato_6": GiveSeeds(6); GiveCrops(6); break;
+								case "melon_6": GiveSeeds(7); GiveCrops(7); break;
 							}
 						}
 					}
@@ -269,11 +267,15 @@ namespace Gameplay
 
 		private void GiveSeeds(int i)
         {
-			inventory.AddItem(seeds[i].GetItemCopy());
+			int seedNo = UnityEngine.Random.Range(0, 4);
+			Debug.Log("Should be this many seeds: " + seedNo);
+
+			inventory.AddItem(seeds[i].GetItemCopy(), seedNo);
+			
 		}
 		private void GiveCrops(int i)
         {
-
-        }
+			inventory.AddItem(crops[i].GetItemCopy());
+		}
 	}
 }
