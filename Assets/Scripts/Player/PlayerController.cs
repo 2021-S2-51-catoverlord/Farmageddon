@@ -41,6 +41,7 @@ public class PlayerController : EntityController
     {
         GetInput();
 
+
         // Call the parent's Update method which will call the parent's Move method. 
         base.Update();
     }
