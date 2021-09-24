@@ -8,6 +8,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
     protected Item item;
     [SerializeField] Image image;
     [SerializeField] Text amtTxt;
+    [SerializeField]
     private int amount;
 
     public event Action<ItemSlot> OnRightClickEvent;

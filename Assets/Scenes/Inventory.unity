@@ -983,8 +983,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  cManager: {fileID: 1243458789}
   image: {fileID: 124404805}
   amtTxt: {fileID: 124404803}
+  isValid: 0
 --- !u!1001 &203043087
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1185,8 +1187,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  cManager: {fileID: 1243458789}
   image: {fileID: 203043091}
   amtTxt: {fileID: 203043089}
+  isValid: 0
 --- !u!1 &228658079
 GameObject:
   m_ObjectHideFlags: 0
@@ -1237,6 +1241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryUI: {fileID: 1680822875}
   equipUI: {fileID: 1183302099}
+  craftinUI: {fileID: 0}
 --- !u!1001 &237609940
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2690,8 +2695,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  cManager: {fileID: 1243458789}
   image: {fileID: 489200809}
   amtTxt: {fileID: 489200807}
+  isValid: 0
 --- !u!1001 &548998897
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3159,8 +3166,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  cManager: {fileID: 1243458789}
   image: {fileID: 594695879}
   amtTxt: {fileID: 594695877}
+  isValid: 0
 --- !u!1001 &711928163
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3361,8 +3370,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  cManager: {fileID: 1243458789}
   image: {fileID: 711928167}
   amtTxt: {fileID: 711928165}
+  isValid: 0
 --- !u!1001 &712956552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4185,8 +4196,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  cManager: {fileID: 1243458789}
   image: {fileID: 831082967}
   amtTxt: {fileID: 831082965}
+  isValid: 0
 --- !u!224 &891641365 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7222775726119574955, guid: 908c934a675004e47b663052e8af6d79,
@@ -4923,8 +4936,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  cManager: {fileID: 1243458789}
   image: {fileID: 1044755965}
   amtTxt: {fileID: 1044755963}
+  isValid: 0
 --- !u!1001 &1052833899
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5118,8 +5133,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 1dbb27314f2003443b831639ad0a7609, type: 2}
+  cManager: {fileID: 1243458789}
   image: {fileID: 1076383672}
   amtTxt: {fileID: 1101393304}
+  isValid: 0
 --- !u!114 &1101393304 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 250622045024185023, guid: f831b43d6fc122947b7a6083dec8de4f,
@@ -5332,8 +5349,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  cManager: {fileID: 1243458789}
   image: {fileID: 1122352138}
   amtTxt: {fileID: 1122352136}
+  isValid: 0
 --- !u!1001 &1149012084
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5534,8 +5553,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  cManager: {fileID: 1243458789}
   image: {fileID: 1149012088}
   amtTxt: {fileID: 1149012086}
+  isValid: 0
 --- !u!1001 &1178540460
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5736,8 +5757,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  cManager: {fileID: 1243458789}
   image: {fileID: 1178540464}
   amtTxt: {fileID: 1178540462}
+  isValid: 0
 --- !u!1001 &1180726621
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6233,7 +6256,7 @@ GameObject:
   - component: {fileID: 1243458789}
   m_Layer: 5
   m_Name: Crafting
-  m_TagString: Untagged
+  m_TagString: CraftingMenu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6270,6 +6293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f82daa053ac623a4b81e8ef9b6cfe861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInv: {fileID: 1680822877}
   craftSlots:
   - {fileID: 1076383673}
   - {fileID: 0}
@@ -6691,8 +6715,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  cManager: {fileID: 1243458789}
   image: {fileID: 1331250936}
   amtTxt: {fileID: 1331250934}
+  isValid: 0
 --- !u!1001 &1334065339
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7233,8 +7259,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  cManager: {fileID: 1243458789}
   image: {fileID: 1601541683}
   amtTxt: {fileID: 1601541681}
+  isValid: 0
 --- !u!1001 &1625920194
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7573,7 +7601,7 @@ GameObject:
   - component: {fileID: 1680822877}
   m_Layer: 5
   m_Name: Inventory
-  m_TagString: Untagged
+  m_TagString: Inventory
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7610,7 +7638,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a572078885b76e4e90daf43eaa20561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingItems: []
+  startingItems:
+  - {fileID: 11400000, guid: af2dde1b8a176f547be866b9de28d0e4, type: 2}
+  - {fileID: 11400000, guid: ec81a35fd0aef2e4285f017ca5b3af0f, type: 2}
   itemsParent: {fileID: 1680822876}
   itemSlots:
   - {fileID: 1882916142}
@@ -7637,6 +7667,7 @@ MonoBehaviour:
   - {fileID: 1461152887}
   - {fileID: 1822561591}
   - {fileID: 246089997}
+  craftingManager: {fileID: 0}
 --- !u!114 &1680822878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8876,6 +8907,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 309637479}
     m_Modifications:
+    - target: {fileID: -157488606752814137, guid: f831b43d6fc122947b7a6083dec8de4f,
+        type: 3}
+      propertyPath: amount
+      value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 250622045024185023, guid: f831b43d6fc122947b7a6083dec8de4f,
+        type: 3}
+      propertyPath: m_Text
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 250622045024185023, guid: f831b43d6fc122947b7a6083dec8de4f,
         type: 3}
       propertyPath: m_Enabled
@@ -9399,8 +9440,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  cManager: {fileID: 1243458789}
   image: {fileID: 1890112015}
   amtTxt: {fileID: 1890112013}
+  isValid: 0
 --- !u!1001 &1935608102
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9570,6 +9613,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 309637479}
     m_Modifications:
+    - target: {fileID: -157488606752814137, guid: f831b43d6fc122947b7a6083dec8de4f,
+        type: 3}
+      propertyPath: amount
+      value: 99
+      objectReference: {fileID: 0}
     - target: {fileID: 250622045024185023, guid: f831b43d6fc122947b7a6083dec8de4f,
         type: 3}
       propertyPath: m_Enabled
@@ -10111,8 +10159,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  cManager: {fileID: 1243458789}
   image: {fileID: 2102038211}
   amtTxt: {fileID: 2102038209}
+  isValid: 0
 --- !u!1 &2126838834
 GameObject:
   m_ObjectHideFlags: 0

@@ -90,4 +90,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 6496019687594169030}
   amtTxt: {fileID: 0}
+  amount: 0
   equipType: 0

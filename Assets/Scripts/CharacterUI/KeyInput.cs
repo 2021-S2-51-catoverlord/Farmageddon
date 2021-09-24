@@ -6,11 +6,14 @@ public class KeyInput : MonoBehaviour
 {
     [SerializeField] GameObject inventoryUI;
     [SerializeField] GameObject equipUI;
+    [SerializeField] GameObject craftinUI;
 
     private void Start()
     {
         inventoryUI.SetActive(false);
         equipUI.SetActive(false);
+        craftinUI = GameObject.FindWithTag("CraftingMenu");
+        craftinUI.SetActive(false);
     }
 
     // Update is called once per frame
@@ -27,7 +30,7 @@ public class KeyInput : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
-
+            craftinUI.SetActive(!craftinUI.activeSelf);
         }
     }
 }

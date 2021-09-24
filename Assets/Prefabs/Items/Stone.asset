@@ -16,6 +16,5 @@ MonoBehaviour:
   itemName: Stone
   icon: {fileID: -4230037270513750279, guid: 87420c2603905a4418686d4d8929da05, type: 3}
   price: 0
-  ID: 1
   MaxStacks: 99
   materialCat: 0

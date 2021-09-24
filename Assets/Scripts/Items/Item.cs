@@ -8,8 +8,6 @@ public class Item : ScriptableObject
     public string itemName;
     public Sprite icon;
     public int price = 0;
-    [SerializeField]
-    public int ID;
     [Range(1, 99)] 
     public int MaxStacks = 1;
 
