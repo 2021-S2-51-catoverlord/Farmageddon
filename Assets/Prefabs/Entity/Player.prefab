@@ -2675,7 +2675,6 @@ MonoBehaviour:
   speed: 6
   healthBar: {fileID: 8118775068004000804}
   staminaBar: {fileID: 7798899150261628675}
-  Damage: 0
   isInventoryActive: 0
 --- !u!50 &8021334143088886673
 Rigidbody2D:
