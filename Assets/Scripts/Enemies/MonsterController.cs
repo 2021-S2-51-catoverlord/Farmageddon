@@ -188,22 +188,14 @@ public class MonsterController : EntityController
         {
             timeStamp = Time.time;
         }
-        
-        Debug.Log("timeStamp: " + timeStamp);
-        Debug.Log("Time: " + Time.time);
+
 
         if (Time.time >= timeStamp)
         {
-            Debug.Log("attack");
 
             timeStamp = Time.time + attackCooldownInSeconds;
             Player.TakeDamage(damageDelt);
-        }
-        else
-        {
-            Debug.Log("cant attack");
-        }
-        
+        }       
 
     }
   

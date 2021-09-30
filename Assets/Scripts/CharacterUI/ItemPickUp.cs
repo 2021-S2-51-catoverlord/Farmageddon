@@ -9,7 +9,10 @@ public class ItemPickUp : MonoBehaviour
 
     private void Start()
     {
-        inventory = GameObject.Find("Player").GetComponentInChildren<Inventory>();
+        if (inventory == null) // If inventory has not been assigned yet...
+        {
+            inventory = Resources.FindObjectsOfTypeAll<Inventory>()[0];
+        }
     }
 
     /// <summary>
