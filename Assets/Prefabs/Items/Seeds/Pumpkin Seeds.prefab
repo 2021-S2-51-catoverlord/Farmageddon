@@ -98,8 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: dca5a7852393a2d47a21b73cb70ba2f5, type: 2}
-  inventory: {fileID: 1234894526372456548, guid: d4405641c3d78ee45b4079e1cbb01127,
-    type: 3}
+  inventory: {fileID: 0}
 --- !u!61 &7407691736927571722
 BoxCollider2D:
   m_ObjectHideFlags: 0
