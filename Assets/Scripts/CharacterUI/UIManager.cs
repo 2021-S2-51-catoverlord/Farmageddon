@@ -1,5 +1,25 @@
-using System;
-using System.Collections.Generic;
+/*
+ * This class contains the UI Manager for the inventory and equipment UI,
+ * which encapsulates the following methods:
+ * 
+ * Methods:
+ * - Awake Method
+ * - InventoryRightClick: Upon right click, equip the item if the item is an Equipment, 
+ *      or consume the item and heal if the item is Food.
+ * - EquipmentRightClick: Unequip the equipment.
+ * - BeginDrag: Set item so that it doesn't get dragged underneath the other slots.
+ * - EndDrag: End the drag
+ * - Drag: Set item position to mouse position
+ * - Drop: Drop item into the slot where the drag ends.
+ * - DropOutside: Destroy the item if the item is dropped outside of the inventory
+ *      or equipment UI.
+ * - SwapItems: Swap items between where drag begun and where drag ends.
+ * - AddStacks: Add stacks until item is full.
+ * - Equip: Remove item from inventory and add to the equipment UI. If something is already 
+ *      in the slot, return the previous item to the innventory.
+ * - Unequip: Remove item from the equipment UI and return it to the inventory.
+ */
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +29,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] EquipUI equipUI;
     [SerializeField] Image draggableItem;
     [SerializeField] DropArea dropArea;
-    //PlayerController player;
     GameObject player;
     private ItemSlot draggedSlot;
 
@@ -48,7 +67,7 @@ public class UIManager : MonoBehaviour
             // Tells the health bar to update according to the player's current hp.
             GameObject.Find("Health Bar").GetComponent<StatBarController>().SetCurrentValue(player.GetComponent<PlayerController>().HealthPoints);
 
-            if (food.IsConsumable)
+            if (food.isConsumable)
             {
                 inventory.RemoveItem(food);
                 food.Destroy();
@@ -132,7 +151,7 @@ public class UIManager : MonoBehaviour
 
     private void AddStacks(ItemSlot dropItemSlot)
     {
-        int addableStack = dropItemSlot.Item.MaxStacks - dropItemSlot.Amount;
+        int addableStack = dropItemSlot.Item.maxStacks - dropItemSlot.Amount;
         int stackAdd = Mathf.Min(addableStack, draggedSlot.Amount);
 
         dropItemSlot.Amount += stackAdd;

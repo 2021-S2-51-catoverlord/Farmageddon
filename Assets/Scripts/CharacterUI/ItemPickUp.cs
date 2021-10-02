@@ -1,5 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
+/*
+ * This class contains the item tooltip for the inventory,
+ * which encapsulates the following methods:
+ * 
+ * Methods:
+ * - Start method.
+ * - Collision event (OnTriggerEnter2D)
+ * - Pick up object and place in inventory (PickUp)
+ */
+
 using UnityEngine;
 
 public class ItemPickUp : MonoBehaviour

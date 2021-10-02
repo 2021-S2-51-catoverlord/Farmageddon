@@ -38,7 +38,7 @@ public class ItemToolTip : MonoBehaviour
         {
             itemInfoText.text = GetFoodInfo((Food)item);
         }
-        if (item is Equipment)
+        if (item is Tool || item is Weapon || item is Equipment)
         {
             itemInfoText.text = GetEquipmentInfo((Equipment)item);
         }

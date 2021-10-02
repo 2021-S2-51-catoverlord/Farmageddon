@@ -1,5 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+/*
+ * This class contains the key inputs for the inventory,
+ * which encapsulates the following methods:
+ * 
+ * Methods:
+ * - Start method
+ * - Update method for key inputs
+ */
+
 using UnityEngine;
 
 public class KeyInput : MonoBehaviour

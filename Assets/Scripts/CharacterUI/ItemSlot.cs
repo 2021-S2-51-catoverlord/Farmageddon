@@ -1,3 +1,16 @@
+/*
+ * This class contains the item slots for the inventory,
+ * which encapsulates the following methods:
+ * 
+ * Methods:
+ * - OnValidate Method
+ * - CanReceiveItem: inheritable method to check if item can be received
+ * - CanAddStack: Add stacks until ItemSlot is full
+ * - Event methods: OnPointerClick, OnBeginDrag, OnDrag
+ *      OnEndDrag, OnDrop, OnPointerEnter, OnPointerExit
+ * - Getter and Setter for Item and Amount.
+ */
+
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +21,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
     protected Item item;
     [SerializeField] Image image;
     [SerializeField] Text amtTxt;
-    [SerializeField] ItemToolTip Tooltip;
+    [SerializeField] ItemToolTip tooltip;
     private int amount;
 
     public event Action<ItemSlot> OnRightClickEvent;
@@ -22,17 +35,17 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 
     protected virtual void OnValidate()
     {
-        if (image == null) // if the image is empty then get image
+        if (image == null)
         {
             image = GetComponent<Image>();
         }
 
-        if(Tooltip == null)
+        if (tooltip == null)
         {
-            Tooltip = FindObjectOfType<ItemToolTip>();
+            tooltip = FindObjectOfType<ItemToolTip>();
         }
 
-        if (amtTxt == null) // 
+        if (amtTxt == null)
         {
             amtTxt = GetComponentInChildren<Text>();
         }
@@ -45,7 +58,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 
     public virtual bool CanAddStack(Item item, int amt = 1)
     {
-        return Item != null && Item.Id == item.Id && amount + amt <= item.MaxStacks;
+        return Item != null && Item.ID == item.ID && amount + amt <= item.maxStacks;
     }
 
     /// Event methods----------------------------------------------------------------------
@@ -95,27 +108,27 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (Item is Equipment)
+        if (item is Tool || item is Weapon || item is Equipment)
         {
-            Tooltip.ShowTooltip((Equipment)Item);
+            tooltip.ShowTooltip((Equipment)Item);
         }
         if (Item is Food)
         {
-            Tooltip.ShowTooltip((Food)Item);
+            tooltip.ShowTooltip((Food)Item);
         }
         if (Item is Seed)
         {
-            Tooltip.ShowTooltip((Seed)Item);
+            tooltip.ShowTooltip((Seed)Item);
         }
         if (Item is Mat)
         {
-            Tooltip.ShowTooltip((Mat)Item);
+            tooltip.ShowTooltip((Mat)Item);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Tooltip.HideTooltip();
+        tooltip.HideTooltip();
     }
 
     /// Getter and Setters-----------------------------------------------------------------
@@ -153,7 +166,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
         set
         {
             amount = value;
-            
+
             if (amount == 0 && item != null)
             {
                 item = null;
@@ -171,5 +184,5 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
                 }
             }
         }
-    } 
+    }
 }
