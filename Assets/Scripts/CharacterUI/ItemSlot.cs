@@ -3,11 +3,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     protected Item item;
     [SerializeField] Image image;
     [SerializeField] Text amtTxt;
+    [SerializeField] ItemToolTip Tooltip;
     private int amount;
 
     public event Action<ItemSlot> OnRightClickEvent;
@@ -24,6 +25,11 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
         if (image == null) // if the image is empty then get image
         {
             image = GetComponent<Image>();
+        }
+
+        if(Tooltip == null)
+        {
+            Tooltip = FindObjectOfType<ItemToolTip>();
         }
 
         if (amtTxt == null) // 
@@ -85,6 +91,31 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
         {
             OnDropEvent(this);
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (Item is Equipment)
+        {
+            Tooltip.ShowTooltip((Equipment)Item);
+        }
+        if (Item is Food)
+        {
+            Tooltip.ShowTooltip((Food)Item);
+        }
+        if (Item is Seed)
+        {
+            Tooltip.ShowTooltip((Seed)Item);
+        }
+        if (Item is Mat)
+        {
+            Tooltip.ShowTooltip((Mat)Item);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Tooltip.HideTooltip();
     }
 
     /// Getter and Setters-----------------------------------------------------------------

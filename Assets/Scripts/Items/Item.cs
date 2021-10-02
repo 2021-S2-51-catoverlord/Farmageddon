@@ -7,6 +7,7 @@ public class Item : ScriptableObject
     [SerializeField] private string id;
     public string itemName;
     public Sprite icon;
+    public string itemDescription;
     public int price = 0;
     [Range(1, 99)] 
     public int MaxStacks = 1;
