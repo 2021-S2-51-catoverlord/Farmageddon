@@ -12,6 +12,9 @@ public class PlayerController : EntityController
     [SerializeField]
     protected StatBarController staminaBar;
 
+    [SerializeField]
+    public int Damage;
+
     private int staminaPoints;
     private int experiencePoints;
     private Coroutine regen;
@@ -28,6 +31,12 @@ public class PlayerController : EntityController
 
     protected override void Start()
     {
+        if(healthBar == null || staminaBar == null)
+        {
+            healthBar = GameObject.Find("Health Bar").GetComponent<StatBarController>();
+            staminaBar = GameObject.Find("Stamina Bar").GetComponent<StatBarController>();
+        }
+
         base.Start();
 
         InitStats();
@@ -40,6 +49,8 @@ public class PlayerController : EntityController
     protected override void Update()
     {
         GetInput();
+
+        healthBar.SetCurrentValue(HealthPoints);
 
         // Call the parent's Update method which will call the parent's Move method. 
         base.Update();
@@ -55,6 +66,7 @@ public class PlayerController : EntityController
         EntityName = "Player";
         StaminaPoints = PlayerController.MAX_STAMINA;
         ExperiencePoints = 0;
+        Damage = 5;
 
         // Initilise the sliders' max values.
         healthBar.SetMaxValue(EntityController.MAX_HP);
@@ -100,6 +112,15 @@ public class PlayerController : EntityController
             Jump();
         }
 
+        if(IsAttacking)
+        {
+            AttackCounter -= Time.deltaTime;
+            if(AttackCounter <= 0)
+            {
+                StopAttack();
+            }
+        }
+
         // Input for attack (left mouse-click)
         if(!isInventoryActive && Input.GetMouseButton(0))
         {
@@ -110,23 +131,16 @@ public class PlayerController : EntityController
         if (Input.GetKeyDown(KeyCode.Z))
         {
             TakeDamage(3);
-            // Update the health bar slider.
-            healthBar.SetCurrentValue(HealthPoints);
-            //Debug.Log("HP: " + HealthPoints);
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
             Heal(3);
-            // Update the health bar slider.
-            healthBar.SetCurrentValue(HealthPoints);
-            //Debug.Log("HP: " + HealthPoints);
         }
 
         // Test stamina bar.
         if (Input.GetKeyDown(KeyCode.C))
         {
             UseStamina(2);
-            //Debug.Log("Stamina: " + StaminaPoints);
         }
     }
 
@@ -194,14 +208,5 @@ public class PlayerController : EntityController
 
         // Set Attack in animator parameter to true.
         EntityAnimator.SetBool("Jump", IsJumping);
-    }
-
-    private void Attack()
-    {
-        // Set the entity's state to attacking.
-        IsAttacking = true;
-
-        // Set Attack in animator parameter to true.
-        EntityAnimator.SetBool("Attack", IsAttacking);
-    }
+    }    
 }

@@ -1,5 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+/*
+ * This class contains the stats display for equipment UI,
+ * which encapsulates the following methods:
+ * Data:
+ * 
+ * Methods:
+ * - 
+ */
 using UnityEngine;
 using UnityEngine.UI;
 

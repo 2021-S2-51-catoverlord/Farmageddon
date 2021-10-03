@@ -11,8 +11,6 @@ public class MonsterController : EntityController
     [SerializeField]
     private int damage;
     [SerializeField]
-    private bool debugToggle;
-    [SerializeField]
     private float baseSearch = 10f; // base range of the monster
     [SerializeField]
     [Range(0f, 360f)]
@@ -23,6 +21,12 @@ public class MonsterController : EntityController
     [SerializeField]
     [Range(5, 100)]
     private int maxMovement;
+    [SerializeField]
+    private int damageDelt;
+    [SerializeField]
+    private float attackCooldownInSeconds = 1;
+    private float timeStamp = -1; //timeStamp starts negative so we can initially set the timeStamp
+     
 
     private MonsterBehaviour monsterState = MonsterBehaviour.Wandering;
     private int wanderMovement = 0;
@@ -37,7 +41,7 @@ public class MonsterController : EntityController
         targetObj = GameObject.FindWithTag("Player");
         target = targetObj.transform;
         Player = targetObj.GetComponent(typeof(PlayerController)) as PlayerController;
-
+        
         base.Start();
     }
 
@@ -64,24 +68,15 @@ public class MonsterController : EntityController
         {
             case MonsterBehaviour.Attacking:
                 combatTarget();
-                if (debugToggle)
-                {
-                    Debug.Log(monsterState);
-                }
+                
                 break;
             case MonsterBehaviour.Searching:
                 //wander();
                 this.direction = Vector2.zero;
-                if (debugToggle)
-                {
-                    Debug.Log(monsterState);
-                }
+                
                 break;
             case MonsterBehaviour.Wandering:
-                if (debugToggle)
-                {
-                    Debug.Log(monsterState);
-                }
+               
                 //wander();
                 break;
         }
@@ -112,37 +107,22 @@ public class MonsterController : EntityController
         RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget,baseSearch);
 
         //fire raycast, does it hit anything?
-        if (debugToggle)
-        {
-            Debug.DrawRay(transform.position, directionToTarget);
-        }
+        
         
         if (hit)
         {
-            if (debugToggle)
-            {
-                Debug.Log("raycast hit");
-                //Debug.Log(hit.transform.position.ToString());
-                Debug.Log(hit.transform.gameObject.ToString());
-            }
+            
             if (hit.collider.transform == target)
             {
                 //then we can see the target
                 playerInSight = true;
-                if (debugToggle)
-                {
-                    Debug.Log("player in sight");
-                }
+               
             }
             else
             {
                 playerInSight = false;
             }
         }
-
-
-
-
 
         return playerInSight;
     }
@@ -184,6 +164,39 @@ public class MonsterController : EntityController
                 this.direction += Vector2.down;
             }
         }
+        else
+        {
+            if (IsAttacking)
+            {
+                AttackCounter -= Time.deltaTime;
+                if (AttackCounter <= 0)
+                {
+                    base.StopAttack();
+                }
+            }
+            else
+            {
+                attack();
+            }
+            
+        }
+    }
+    private void attack()
+    {
+        base.Attack();
+        if (timeStamp == -1)
+        {
+            timeStamp = Time.time;
+        }
+
+
+        if (Time.time >= timeStamp)
+        {
+
+            timeStamp = Time.time + attackCooldownInSeconds;
+            Player.TakeDamage(damageDelt);
+        }       
+
     }
   
     //generates random movement for the AI
@@ -213,13 +226,6 @@ public class MonsterController : EntityController
 
     }
 
-    private void OnCollisionStay(Collision collisionInfo)
-    {
-        Debug.Log("Collision");
-        if (collisionInfo.gameObject == targetObj)
-        {
-            Player.TakeDamage(damage);
-        }
-    }
+
 
 }

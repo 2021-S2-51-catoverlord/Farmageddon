@@ -49,7 +49,7 @@ public class DayNightCycleBehaviour : MonoBehaviour
     public Tilemap[] summer_tiles;
     public Tilemap[] spring_tiles;
 
-    private Season season;
+    public Season season;
     public MonthName month;
     public int monthLength;
     private int yearLength;

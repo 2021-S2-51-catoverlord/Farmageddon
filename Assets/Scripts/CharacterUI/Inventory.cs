@@ -1,14 +1,25 @@
+/*
+ * This class contains the equipment slots for the Inventory,
+ * which encapsulates the following methods:
+ * 
+ * Methods:
+ * - Awake method
+ * - OnValidate Method
+ * - Add item to the inventory (AddItem)
+ * - Remove item from the inventory (RemoveItem)
+ * - Check if the inventory is full (IsFull)
+ * - Stack items if they are stackable (ItemCount)
+ * - Clear the inventory (Clear)
+ */
+
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Inventory : MonoBehaviour, IItemContainer
 {
     [SerializeField] Item[] startingItems;
     [SerializeField] Transform itemsParent;
-    [SerializeField] ItemSlot[] itemSlots;
-    public ItemSlot[] ItemSlots { get => itemSlots;}
+    [SerializeField] public ItemSlot[] itemSlots;
 
     public event Action<ItemSlot> OnRightClickEvent;
     public event Action<ItemSlot> OnBeginDragEvent;
@@ -81,6 +92,36 @@ public class Inventory : MonoBehaviour, IItemContainer
     }
 
     /// <summary>
+    /// Add multiple items to the inventory
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public bool AddItem(Item item, int quantity)
+    {
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i].CanAddStack(item))
+            {
+                itemSlots[i].Item = item;
+                itemSlots[i].Amount += quantity;
+                return true;
+            }
+        }
+
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i].Item == null)
+            {
+                itemSlots[i].Item = item;
+                itemSlots[i].Amount += quantity;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// Remove item from the inventory
     /// </summary>
     /// <param name="item"></param>
@@ -108,7 +149,7 @@ public class Inventory : MonoBehaviour, IItemContainer
         for (int i = 0; i < itemSlots.Length; i++)
         {
             Item item = itemSlots[i].Item;
-            if (item != null && item.Id == itemID)
+            if (item != null && item.ID == itemID)
             {
                 itemSlots[i].Amount--;
                 if (itemSlots[i].Amount == 0)
@@ -146,7 +187,7 @@ public class Inventory : MonoBehaviour, IItemContainer
         for (int i = 0; i < itemSlots.Length; i++)
         {
             Item item = itemSlots[i].Item;
-            if (item != null && item.Id == itemID)
+            if (item != null && item.ID == itemID)
             {
                 number += itemSlots[i].Amount;
             }
