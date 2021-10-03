@@ -11,19 +11,17 @@
 /  This code will need to be refactored to implement changing seasons, as length of day and night would differ. 
 */
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Experimental.Rendering.Universal;
-using UnityEngine.Rendering;
 using UnityEngine.Tilemaps;
 
 // Seasons, in chunks of 3 months
 public enum Season { UNDEFINED, SPRIMMER, SUMTUMN, AUNTER, WINTING };
 
 // Months, each chunk of three corresponds to the above seasons
-public enum MonthName { UNDEFINED, Janril, Febrarch, Maruary, Aprember, Mane, Junember, Julober, Augember, Septuary, Octobust, Novay, Decly };
+public enum MonthName { UNDEFINED, Janril, Febrarch, Maruary, Aprember, Mayne, Junember, Julober, Augember, Septuary, Octobust, Novay, Decly };
 
 public class DayNightCycleBehaviour : MonoBehaviour
 {
@@ -70,9 +68,27 @@ public class DayNightCycleBehaviour : MonoBehaviour
     public float localTimeElapsed { get; private set; }
 
     public float time;
+    public float relativeTime;
 
     public bool isDay;
     public bool isNight;
+
+
+    public UnityEvent t_timeChange = new UnityEvent();
+
+
+    public UnityEvent t_lightChange = new UnityEvent();
+
+
+    public UnityEvent t_dayChange = new UnityEvent();
+
+
+    public UnityEvent t_monthChange = new UnityEvent();
+
+
+    public UnityEvent t_seasonChange = new UnityEvent();
+
+
 
  // Start is called before the first frame update
 void Start()
@@ -173,11 +189,9 @@ void Start()
         {
             isDay = true;
         }
-
-
-     
-
     }
+
+    List<float> uniqueTime = new List<float>();
 
     // Update is called once per frame
     void Update()
@@ -189,15 +203,26 @@ void Start()
 
         time = (float)Math.Round((double)timeRatio, 2);
 
+        relativeTime = (float)Math.Round((double)timeRatio*1440, 0);
+
+        if (!uniqueTime.Contains(relativeTime))
+        {
+            uniqueTime.Add(relativeTime);
+            t_timeChange.Invoke();
+        }
+
+
         //0 || 1 = midnight, 0.25 = sunrise, 0.5 = midday, 0.75 = sunset
-        if ( time == 0.25 )
+        if ( time >= 0.25 && time <= 0.75 && !isDay)
         {
             isNight = false;
             isDay = true;
-        } else if (time == 0.75)
+            t_lightChange.Invoke();
+        } else if ((time < 0.25 || time > 0.75) && !isNight)
         {
             isNight = true;
             isDay = false;
+            t_lightChange.Invoke();
         }
 
         timelight.color = gradient.Evaluate(timeRatio);
@@ -206,6 +231,7 @@ void Start()
         if (localTimeElapsed >= gameDayLength)
         {
             dayIncrease();
+            t_dayChange.Invoke();
         }
         
     }
@@ -216,6 +242,8 @@ void Start()
         totalDayCount++;
         seasonalDayCount++;
 
+        uniqueTime.Clear();
+
         g = (float)seasonalDayCount / (3*monthLength);
 
         localTimeElapsed = 0;
@@ -225,9 +253,12 @@ void Start()
             int m = (int)month;
             m++;
 
+
             m = MonthIncrease(m);
 
             month = (MonthName)m;
+
+            t_monthChange.Invoke();
 
             dayCount = 0;
 
@@ -238,6 +269,7 @@ void Start()
                     seasonalDayCount = 0;
                 }
                 setSeason(Season.SPRIMMER);
+                t_seasonChange.Invoke();
             }
             else if ((int)month >= 4 && (int)month <= 6)
             {
@@ -246,6 +278,7 @@ void Start()
                     seasonalDayCount = 0;
                 }
                 setSeason(Season.SUMTUMN);
+                t_seasonChange.Invoke();
             }
             else if ((int)month >= 7 && (int)month <= 9)
             {
@@ -254,6 +287,7 @@ void Start()
                     seasonalDayCount = 0;
                 }
                 setSeason(Season.AUNTER);
+                t_seasonChange.Invoke();
             }
             else if ((int)month >= 10 && (int)month <= 12)
             {
@@ -262,10 +296,12 @@ void Start()
                     seasonalDayCount = 0;
                 }
                 setSeason(Season.WINTING);
+                t_seasonChange.Invoke();
             }
             else
             {
                 setSeason(Season.SPRIMMER);
+                t_seasonChange.Invoke();
             }
         }
 
@@ -323,6 +359,12 @@ void Start()
         }
 
         season = s;
+    }
+
+    public String getMonth()
+    {
+        String shortMon = month.ToString().Substring(0, 3);
+        return shortMon;
     }
 
 }

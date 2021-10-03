@@ -44,7 +44,7 @@ namespace Gameplay
         private void Start()
         {
 			player = GameObject.Find("Player").GetComponent<PlayerController>(); // Finds the player controller and saves its reference.
-			tilemap = GameObject.Find("Floor Objects").GetComponent<Tilemap>(); // Temporary fix: Need to find out which actual tilemap to find.
+			tilemap = GameObject.Find("Farmland").GetComponent<Tilemap>(); // Temporary fix: Need to find out which actual tilemap to find.
 			crop_tilemap = GameObject.Find("Crops").GetComponent<Tilemap>(); // Temporary fix: Need to find out which actual tilemap to find.
 			inventory = Resources.FindObjectsOfTypeAll<Inventory>()[0]; // Finds the first occurence of Inventory GameObj and saves its script.
 			timeCycle = GameObject.Find("Time Light").GetComponent<DayNightCycleBehaviour>(); // Temporary fix: Just a guess.
