@@ -25,70 +25,71 @@ public enum MonthName { UNDEFINED, Janril, Febrarch, Maruary, Aprember, Mayne, J
 
 public class DayNightCycleBehaviour : MonoBehaviour
 {
+    [Header("Game Settings")]
     // Length of each game day (day and night)
     public float gameDayLength = 720.0f;
-
-    public float initTime;
-    public int initDay;
-    public int initMonth;
-    public int initYear;
-
-    Gradient gradient;
-    GradientColorKey[] colorKey;
-    GradientAlphaKey[] alphaKey;
-
     // Midday Light colour - Pure white
     public Color dayColor = new Color(1.0f, 1.0f, 1.0f);
     // Midnight Light colour - Dark / muted colours, emphasis on blue tones
     public Color nightColor = new Color(0.25f, 0.25f, 0.6f);
-    // Global light source
-    private Light2D timelight;
+    public int monthLength;
 
+
+    [Header("Initial Variables")]
+    public float initTime;
+    public int initDay;
+    public int initYear;
+    public Season season;
+    public MonthName month;
+
+    [Header("Game Objects")]
     public Tilemap[] summer_tiles;
     public Tilemap[] spring_tiles;
 
-    public Season season;
-    public MonthName month;
-    public int monthLength;
-    private int yearLength;
-
-    private Gradient seasonGradient;
-    private GradientColorKey[] seasonKey;
-    private GradientAlphaKey[] seasonalAlpha;
-
-    public Color neutralColor = new Color(1.0f, 1.0f, 1.0f);
-
-    public float timeElapsed { get; private set; }
-
-    public int dayCount { get; private set; }
-    private int totalDayCount;
-    private int seasonalDayCount;
-    public int yearCount { get; private set; }
-    public float g;//debugging
-    public float localTimeElapsed { get; private set; }
-
+    [Header("Monitored Variables")]
+    [SerializeField]
     public float time;
     public float relativeTime;
+
+    public int dayCount;
+    public int yearCount;
 
     public bool isDay;
     public bool isNight;
 
+    // Global light source
+    private Light2D timelight;
 
+    // Lightsource Gradients
+    private Gradient gradient;
+    private GradientColorKey[] colorKey;
+    private GradientAlphaKey[] alphaKey;
+
+    // Seasonal Tilemap Opacity Gradients
+    private Color neutralColor = new Color(1.0f, 1.0f, 1.0f);
+    private Gradient seasonGradient;
+    private GradientColorKey[] seasonKey;
+    private GradientAlphaKey[] seasonalAlpha;
+
+    private int totalDayCount;
+    private int seasonalDayCount;
+    private float localTimeElapsed;
+    private int yearLength;
+
+    [HideInInspector]
     public UnityEvent t_timeChange = new UnityEvent();
 
-
+    [HideInInspector]
     public UnityEvent t_lightChange = new UnityEvent();
 
-
+    [HideInInspector]
     public UnityEvent t_dayChange = new UnityEvent();
 
-
+    [HideInInspector]
     public UnityEvent t_monthChange = new UnityEvent();
 
-
+    [HideInInspector]
     public UnityEvent t_seasonChange = new UnityEvent();
-
-
 
  // Start is called before the first frame update
 void Start()
@@ -137,45 +138,19 @@ void Start()
             localTimeElapsed = 0;
         }
 
-        if (initDay != 0)
+        if (initDay != 0 && initDay <= monthLength)
         { 
-            dayCount += initDay;
+            dayCount += initDay - 1;
+            totalDayCount += initDay;
         } else
         {
-            dayCount = 0;
+            dayCount = initDay % monthLength;
         }
+        t_dayChange.Invoke();
 
-        if (initMonth != 0)
-        {
-            month = (MonthName)initMonth;
-        } else
-        {
-            month = MonthName.Janril;
-            season = Season.SPRIMMER;
-        }
+        evalSeason();
 
-        float g = (float)totalDayCount / ((float)yearLength / 4);
-        switch (season)
-        {
-            case Season.SPRIMMER:
-                setSeasonGradient(spring_tiles, g);
-                setSeasonGradient(summer_tiles, 0);
-                break;
-            case Season.SUMTUMN:
-                setSeasonGradient(summer_tiles, g);
-                setSeasonGradient(spring_tiles, 1 - g);
-                break;
-            case Season.AUNTER:
-                setSeasonGradient(summer_tiles, 1 - g);
-                setSeasonGradient(spring_tiles, 0);
-                break;
-            case Season.WINTING:
-                setSeasonGradient(spring_tiles, 0);
-                setSeasonGradient(summer_tiles, 0);
-                break;
-            case Season.UNDEFINED:
-                break;
-        }
+        evalSeasonGradient();
 
         if (monthLength < 1)
         {
@@ -189,6 +164,7 @@ void Start()
         {
             isDay = true;
         }
+        t_lightChange.Invoke();
     }
 
     List<float> uniqueTime = new List<float>();
@@ -196,7 +172,6 @@ void Start()
     // Update is called once per frame
     void Update()
     {
-        timeElapsed += Time.deltaTime;
         localTimeElapsed += Time.deltaTime;
 
         float timeRatio = localTimeElapsed / gameDayLength;
@@ -244,7 +219,6 @@ void Start()
 
         uniqueTime.Clear();
 
-        g = (float)seasonalDayCount / (3*monthLength);
 
         localTimeElapsed = 0;
 
@@ -262,66 +236,10 @@ void Start()
 
             dayCount = 0;
 
-            if ((int)month >= 1 && (int)month <= 3)
-            {
-                if ((int)month == 1)
-                {
-                    seasonalDayCount = 0;
-                }
-                setSeason(Season.SPRIMMER);
-                t_seasonChange.Invoke();
-            }
-            else if ((int)month >= 4 && (int)month <= 6)
-            {
-                if ((int)month == 4)
-                {
-                    seasonalDayCount = 0;
-                }
-                setSeason(Season.SUMTUMN);
-                t_seasonChange.Invoke();
-            }
-            else if ((int)month >= 7 && (int)month <= 9)
-            {
-                if ((int)month == 7)
-                {
-                    seasonalDayCount = 0;
-                }
-                setSeason(Season.AUNTER);
-                t_seasonChange.Invoke();
-            }
-            else if ((int)month >= 10 && (int)month <= 12)
-            {
-                if ((int)month == 10)
-                {
-                    seasonalDayCount = 0;
-                }
-                setSeason(Season.WINTING);
-                t_seasonChange.Invoke();
-            }
-            else
-            {
-                setSeason(Season.SPRIMMER);
-                t_seasonChange.Invoke();
-            }
+            evalSeason();
         }
 
-        switch (season)
-        {
-            case Season.SPRIMMER:
-                setSeasonGradient(spring_tiles, g);
-                break;
-            case Season.SUMTUMN:
-                setSeasonGradient(summer_tiles, g);
-                setSeasonGradient(spring_tiles, 1 - g);
-                break;
-            case Season.AUNTER:
-                setSeasonGradient(summer_tiles, 1 - g);
-                break;
-            case Season.WINTING:
-                break;
-            case Season.UNDEFINED:
-                break;
-        }
+        evalSeasonGradient();
 
         if (totalDayCount >= yearLength)
         {
@@ -351,13 +269,80 @@ void Start()
         }
     }
 
+    void evalSeason()
+    {
+        if ((int)month >= 1 && (int)month <= 3)
+        {
+            if ((int)month == 1)
+            {
+                seasonalDayCount = 0;
+            }
+            setSeason(Season.SPRIMMER);
+            t_seasonChange.Invoke();
+        }
+        else if ((int)month >= 4 && (int)month <= 6)
+        {
+            if ((int)month == 4)
+            {
+                seasonalDayCount = 0;
+            }
+            setSeason(Season.SUMTUMN);
+            t_seasonChange.Invoke();
+        }
+        else if ((int)month >= 7 && (int)month <= 9)
+        {
+            if ((int)month == 7)
+            {
+                seasonalDayCount = 0;
+            }
+            setSeason(Season.AUNTER);
+            t_seasonChange.Invoke();
+        }
+        else if ((int)month >= 10 && (int)month <= 12)
+        {
+            if ((int)month == 10)
+            {
+                seasonalDayCount = 0;
+            }
+            setSeason(Season.WINTING);
+            t_seasonChange.Invoke();
+        }
+        else
+        {
+            setSeason(Season.SPRIMMER);
+            t_seasonChange.Invoke();
+        }
+    }
+
+    void evalSeasonGradient()
+    {
+        float g = (float)seasonalDayCount / (3 * monthLength);
+        switch (season)
+        {
+            case Season.SPRIMMER:
+                setSeasonGradient(spring_tiles, g);
+                setSeasonGradient(summer_tiles, 0);
+                break;
+            case Season.SUMTUMN:
+                setSeasonGradient(summer_tiles, g);
+                setSeasonGradient(spring_tiles, 1 - g);
+                break;
+            case Season.AUNTER:
+                setSeasonGradient(summer_tiles, 1 - g);
+                setSeasonGradient(spring_tiles, 0);
+                break;
+            case Season.WINTING:
+                setSeasonGradient(spring_tiles, 0);
+                setSeasonGradient(summer_tiles, 0);
+                break;
+            case Season.UNDEFINED:
+                break;
+        }
+    }
+
+
     void setSeason(Season s)
     {
-        if (g >= 1)
-        {
-            g = 0;
-        }
-
         season = s;
     }
 

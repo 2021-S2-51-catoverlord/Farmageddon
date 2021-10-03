@@ -40,62 +40,11 @@ public class ClockController : MonoBehaviour
         time.t_dayChange.AddListener(dayChange);
         time.t_seasonChange.AddListener(seasonChange);
 
-        switch (time.season)
-        {
-            case Season.SPRIMMER:
-                if (time.isDay)
-                {
-                    currWindowSprite = springWindows[0];
-                }
-                else
-                {
-                    currWindowSprite = springWindows[1];
-                }
-                break;
-            case Season.SUMTUMN:
-                if (time.isDay)
-                {
-                    currWindowSprite = summerWindows[0];
-                }
-                else
-                {
-                    currWindowSprite = summerWindows[1];
-                }
-                break;
-            case Season.AUNTER:
-                if (time.isDay)
-                {
-                    currWindowSprite = autumnWindows[0];
-                }
-                else
-                {
-                    currWindowSprite = autumnWindows[1];
-                }
-                break;
-            case Season.WINTING:
-                if (time.isDay)
-                {
-                    currWindowSprite = winterWindows[0];
-                }
-                else
-                {
-                    currWindowSprite = winterWindows[1];
-                }
-                break;
-            default:
-                if (time.isDay)
-                {
-                    currWindowSprite = springWindows[0];
-                }
-                else
-                {
-                    currWindowSprite = springWindows[1];
-                }
-                break;
-        }
-
-        Window.sprite = currWindowSprite;
-
+        lightChange();
+        timeChange();
+        monthChange();
+        dayChange();
+        seasonChange();
     }
 
 
