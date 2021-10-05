@@ -59,7 +59,8 @@ public class MonsterController : EntityController
         {
             monsterState = MonsterBehaviour.Searching;
 
-        }else if(playerSeen && playerInSight) //player is seen and has been seen before
+        }
+        else if(playerSeen && playerInSight) //player is seen and has been seen before
         {
             monsterState = MonsterBehaviour.Attacking;
         }
@@ -107,8 +108,6 @@ public class MonsterController : EntityController
         RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget,baseSearch);
 
         //fire raycast, does it hit anything?
-        
-        
         if (hit)
         {
             
