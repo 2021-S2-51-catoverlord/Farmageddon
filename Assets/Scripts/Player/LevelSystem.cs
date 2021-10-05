@@ -1,3 +1,15 @@
+/*
+ * This class contains the level up system for the player,
+ * which encapsulates the following methods:
+ * 
+ * Methods:
+ * - Start method.
+ * - Update Method.
+ * - IncreaseLevel: Increases the player's level, calculate the next experience amount,
+ *      increase health and stamina.
+ * - GainEXP: increase experience points 
+ */
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +22,7 @@ public class LevelSystem : MonoBehaviour
     public Slider levelUpSlider;
     public Text currentLevel;
     public Text experienceTxt;
+    GameObject player;
 
     private void Start()
     {
@@ -49,8 +62,9 @@ public class LevelSystem : MonoBehaviour
 
         experienceToNextLevel = (int)(experienceToNextLevel * 1.8);
         levelUpSlider.maxValue = experienceToNextLevel;
-        //GetComponent<PlayerController>().IncreaseHealth(level);
-        //GetComponent<PlayerController>().IncreaseStamina(level);
+        player = GameObject.Find("Player");
+        player.GetComponent<PlayerController>().IncreaseHealth(level);
+        player.GetComponent<PlayerController>().IncreaseStamina(level);
     }
 
     public void GainEXP(int exp)

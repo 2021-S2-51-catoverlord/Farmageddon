@@ -201,6 +201,18 @@ public class PlayerController : EntityController
         }
     }
 
+    public void IncreaseHealth(int level)
+    {
+        MAX_HP += (int)(HealthPoints * 1.3) * (int)((100 - level) * 1.3);
+        HealthPoints = MAX_HP;
+    }
+
+    public void IncreaseStamina(int level)
+    {
+        MAX_STAMINA += (int)(HealthPoints * 1.1) * (int)((100 - level) * 1.1);
+        StaminaPoints = MAX_STAMINA;
+    }
+
     private void Jump()
     {
         // Set the entity's state to jumping.
