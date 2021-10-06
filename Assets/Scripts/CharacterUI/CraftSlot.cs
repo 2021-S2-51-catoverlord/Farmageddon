@@ -79,12 +79,17 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler, IPointerEnterHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("hovering a recipe");
-        toolTip.showRecipeTip(recipe);
+        if (recipe != null)
+        {
+            toolTip.showRecipeTip(recipe);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        toolTip.HideTooltip();
+        if (recipe !=  null)
+        {
+            toolTip.HideTooltip();
+        }
     }
 }
