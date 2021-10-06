@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class CraftSlot : MonoBehaviour , IPointerClickHandler
+public class CraftSlot : MonoBehaviour , IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private Recipe recipe;
@@ -13,11 +13,28 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler
     [SerializeField] Text amtTxt;
     public bool isValid;
     private Inventory playerInv;
+    private ItemToolTip toolTip;
+
 
     private Color normalColor = Color.white;
     private Color disableColor = Color.clear;
 
     public Recipe Recipe { get => recipe; set => recipe = value; }
+
+
+    private void Start()
+    {
+        if (recipe != null)
+        {
+            image.sprite = recipe.item.icon;
+            image.color = normalColor;
+        }
+        else
+        {
+            image.color = disableColor;
+        }
+
+    }
 
     protected virtual void OnValidate()
     {
@@ -34,12 +51,16 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler
         {
             amtTxt = GetComponentInChildren<Text>();
         }
+        if (toolTip == null)
+        {
+            toolTip = Resources.FindObjectsOfTypeAll<ItemToolTip>()[0];
+        }
     }
 
 
 
         // event methods
-        public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
         cManager.UpdateInv();
         if (eventData != null && eventData.button == PointerEventData.InputButton.Left && isValid)
@@ -54,5 +75,16 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler
         {
             Debug.Log(eventData.ToString());
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("hovering a recipe");
+        toolTip.showRecipeTip(recipe);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        toolTip.HideTooltip();
     }
 }
