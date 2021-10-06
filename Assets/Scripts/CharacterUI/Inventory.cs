@@ -162,6 +162,23 @@ public class Inventory : MonoBehaviour, IItemContainer
 
         return null;
     }
+    public bool RemoveMultipleItems(Item item, int removeAmount)
+    {
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i].Item == item)
+            {
+                itemSlots[i].Amount = itemSlots[i].Amount - removeAmount;
+                if (itemSlots[i].Amount == 0)
+                {
+                    itemSlots[i].Item = null;
+                }
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /// <summary>
     /// Check the inventory slots are full

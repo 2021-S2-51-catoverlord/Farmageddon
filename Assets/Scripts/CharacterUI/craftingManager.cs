@@ -53,41 +53,47 @@ public class craftingManager : MonoBehaviour
         //i = craft slot
         for (int i = 0; i < craftSlots.Length; i++)
         {
-            Debug.Log(craftSlots[i].Recipe.name);
-            //for each of the items the recipe requires - this loop has escapes
-            //J = required item
-            for (int j = 0; j < craftSlots[i].Recipe.RequiredItem.Length; j++)
+            if (craftSlots[i].Recipe == null)
             {
-                Debug.Log(craftSlots[i].name + ": required item: " + craftSlots[i].Recipe.RequiredItem[j].itemName);
-                //for each item the player has - this loop has escapes
-                //x = invLog
-                for (int x = 0; x < logSize; x++)
+               
+            }
+            else
+            {
+                //for each of the items the recipe requires - this loop has escapes
+                //J = required item
+                for (int j = 0; j < craftSlots[i].Recipe.RequiredItem.Length; j++)
                 {
-                    Debug.Log(craftSlots[i].name + ": checking item:" + invLog[x].Item.itemName);
-                    Debug.Log(craftSlots[i].name + " item is required: " + invLog[x].Item.itemName + " " +(craftSlots[i].Recipe.RequiredItem[j] == invLog[x].Item));
-                    Debug.Log("Log id: " + invLog[x].Item.ID);
-                    Debug.Log("required item id: " + craftSlots[i].Recipe.RequiredItem[j]);
-                    Debug.Log(craftSlots[i].name + " quantity is enough " + invLog[x].Item.itemName + " " + (craftSlots[i].Recipe.QuantityRequired[j] < invLog[x].Quantity) + " possesed: " + invLog[x].Quantity);                
-                    // if item is the correct ID and we have enough of the item set isValid to true and end the search
-                    if (craftSlots[i].Recipe.RequiredItem[j] == invLog[x].Item && craftSlots[i].Recipe.QuantityRequired[j] <= invLog[x].Quantity)
+                    Debug.Log(craftSlots[i].name + ": required item: " + craftSlots[i].Recipe.RequiredItem[j].itemName);
+                    //for each item the player has - this loop has escapes
+                    //x = invLog
+                    for (int x = 0; x < logSize; x++)
                     {
-                        passRate++;
+                        Debug.Log(craftSlots[i].name + ": checking item:" + invLog[x].Item.itemName);
+                        Debug.Log(craftSlots[i].name + " item is required: " + invLog[x].Item.itemName + " " + (craftSlots[i].Recipe.RequiredItem[j] == invLog[x].Item));
+                        Debug.Log("Log id: " + invLog[x].Item.ID);
+                        Debug.Log("required item id: " + craftSlots[i].Recipe.RequiredItem[j]);
+                        Debug.Log(craftSlots[i].name + " quantity is enough " + invLog[x].Item.itemName + " " + (craftSlots[i].Recipe.QuantityRequired[j] < invLog[x].Quantity) + " possesed: " + invLog[x].Quantity);
+                        // if item is the correct ID and we have enough of the item set isValid to true and end the search
+                        if (craftSlots[i].Recipe.RequiredItem[j] == invLog[x].Item && craftSlots[i].Recipe.QuantityRequired[j] <= invLog[x].Quantity)
+                        {
+                            passRate++;
+                        }
+                        //if the item is the correct ID but we dont have enough of the item isValid becomes false and we stop checking the CraftSlot
+                        else if (craftSlots[i].Recipe.RequiredItem[j] == invLog[x].Item && craftSlots[i].Recipe.QuantityRequired[j] > invLog[x].Quantity)
+                        {
+                            x = logSize;
+                            j = craftSlots[i].Recipe.RequiredItem.Length;
+                        }
                     }
-                    //if the item is the correct ID but we dont have enough of the item isValid becomes false and we stop checking the CraftSlot
-                    else if (craftSlots[i].Recipe.RequiredItem[j] == invLog[x].Item && craftSlots[i].Recipe.QuantityRequired[j] > invLog[x].Quantity)
+                    if (passRate == craftSlots[i].Recipe.RequiredItem.Length)
                     {
-                        x = logSize;
-                        j = craftSlots[i].Recipe.RequiredItem.Length;
+                        craftSlots[i].isValid = true;
                     }
-                }
-                if(passRate == craftSlots[i].Recipe.RequiredItem.Length)
-                {
-                    craftSlots[i].isValid = true;
-                }
-                else
-                {
-                    craftSlots[i].isValid = false;
+                    else
+                    {
+                        craftSlots[i].isValid = false;
 
+                    }
                 }
             }
         }

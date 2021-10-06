@@ -42,15 +42,17 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler
         public void OnPointerClick(PointerEventData eventData)
     {
         cManager.UpdateInv();
-        Debug.Log("craft");
         if (eventData != null && eventData.button == PointerEventData.InputButton.Left && isValid)
         {
+            for (int i = 0; i < recipe.RequiredItem.Length; i++)
+            {
+                playerInv.RemoveMultipleItems(recipe.RequiredItem[i], recipe.QuantityRequired[i]);
+            }
             playerInv.AddItem(recipe.item);
         }
         else
         {
             Debug.Log(eventData.ToString());
-            Debug.Log("is valid: " + isValid);
         }
     }
 }
