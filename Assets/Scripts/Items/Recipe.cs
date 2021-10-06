@@ -10,7 +10,7 @@ public class Recipe : ScriptableObject
     private Item[] requiredItem;
     [SerializeField]
     private int[] quantityRequired;
-    public Item[] RequiredItem { get; }
-    public int[] QuantityRequired{ get; }
 
+    public Item[] RequiredItem { get => requiredItem; set => requiredItem = value; }
+    public int[] QuantityRequired { get => quantityRequired; set => quantityRequired = value; }
 }

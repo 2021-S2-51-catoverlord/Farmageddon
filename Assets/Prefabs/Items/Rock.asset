@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: -9048614555976885207, guid: 0eab9d4e84ca89d4786acacf5df8c596, type: 3}
   itemDescription: Common rock found anywhere
   price: 1
-  MaxStacks: 10
+  maxStacks: 99
   materialCat: 3

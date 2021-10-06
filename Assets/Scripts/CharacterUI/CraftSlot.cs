@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class CraftSlot : MonoBehaviour , IPointerClickHandler
 {
     [SerializeField]
-    public Recipe item;
+    private Recipe recipe;
     [SerializeField]
     private craftingManager cManager;
     [SerializeField] Image image;
@@ -17,6 +17,7 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler
     private Color normalColor = Color.white;
     private Color disableColor = Color.clear;
 
+    public Recipe Recipe { get => recipe; set => recipe = value; }
 
     protected virtual void OnValidate()
     {
@@ -26,7 +27,7 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler
         }
         if (playerInv == null) // if player inv is empty find the player inv
         {
-            playerInv = GameObject.FindWithTag("Inventory").GetComponent<Inventory>();
+            playerInv = Resources.FindObjectsOfTypeAll<Inventory>()[0];
 
         }
         if (amtTxt == null) // 
@@ -40,11 +41,11 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler
         // event methods
         public void OnPointerClick(PointerEventData eventData)
     {
-        cManager.updateInv();
+        cManager.UpdateInv();
         Debug.Log("craft");
         if (eventData != null && eventData.button == PointerEventData.InputButton.Left && isValid)
         {
-            playerInv.AddItem(item.item);
+            playerInv.AddItem(recipe.item);
         }
         else
         {

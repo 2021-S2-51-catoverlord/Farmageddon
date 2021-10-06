@@ -10,78 +10,84 @@ public class craftingManager : MonoBehaviour
     private CraftSlot[] craftSlots;
     [SerializeField]
     private static int MAXLOG = 25;
-    public invLog[] invLog;
+    private int logSize= 0;
+    private invLog[] invLog;
     private void Start()
     {
         invLog = new invLog[MAXLOG];
+        playerInv = Resources.FindObjectsOfTypeAll<Inventory>()[0];
     }
 
-    private void updateInvList()
+    private void UpdateInvList()
     {
-        Debug.Log("updating invlog");
-        Debug.Log(invLog.Length);
-        for (int i = 0; i < playerInv.ItemSlots.Length; i++)
+        logSize = 0;
+        int itemSlot = 0;
+        for (int i = 0; i < playerInv.itemSlots.Length; i++)
         {
-            int itemSlot = 0;
-            if (playerInv.ItemSlots[i].Item != null)
+            if (playerInv.itemSlots[i].Item != null)
             {
-                invLog[itemSlot].item = playerInv.ItemSlots[i].Item.GetItemCopy();
-                invLog[itemSlot].quantity = playerInv.ItemSlots[i].Amount;
-                itemSlot++;
+                invLog[itemSlot] = new invLog();
+                Debug.Log(playerInv.itemSlots[i].Item.itemName + playerInv.itemSlots[i].Amount);
+                Debug.Log("filling slot: " + itemSlot);
+                invLog[itemSlot].Quantity = playerInv.itemSlots[i].Amount;           
+                invLog[itemSlot].Item = playerInv.itemSlots[i].Item;
+                Debug.Log(invLog[itemSlot].Item.itemName + invLog[itemSlot].Quantity);                
+                logSize++;
+                itemSlot++;            
             }
         }
     }
-    public void updateInv()
+    public void UpdateInv()
     {
-        updateInvList();
-        checkRecipes();
+        UpdateInvList();
+        CheckRecipes();
     }
     
-    public void checkRecipes()
+    private void CheckRecipes()
     {
+        int passRate = 0;
         Debug.Log("checking recipes");
+        Debug.Log("logSize: " + logSize);
+        
         //for each of the craft slots
+        //i = craft slot
         for (int i = 0; i < craftSlots.Length; i++)
         {
-            Debug.Log("recipe check:");
-            Debug.Log("recipe slot: " + i + 1);
+            Debug.Log(craftSlots[i].Recipe.name);
             //for each of the items the recipe requires - this loop has escapes
-            for (int j = 0; j < craftSlots[i].item.RequiredItem.Length; j++)
+            //J = required item
+            for (int j = 0; j < craftSlots[i].Recipe.RequiredItem.Length; j++)
             {
-                Debug.Log("required item:");
-                Debug.Log(craftSlots[i].item.GetInstanceID());
+                Debug.Log(craftSlots[i].name + ": required item: " + craftSlots[i].Recipe.RequiredItem[j].itemName);
                 //for each item the player has - this loop has escapes
-                for (int x = 0; x < MAXLOG; x++)
+                //x = invLog
+                for (int x = 0; x < logSize; x++)
                 {
-                    Debug.Log("checking item:" + invLog[x].item.GetInstanceID());
-                    Debug.Log(craftSlots[i].item.RequiredItem[j] == invLog[j].item);
-                    Debug.Log(craftSlots[i].item.QuantityRequired[j] <= invLog[j].quantity);
-                    //if we are at the end of the inv log end log loop
-                    if (invLog[x] == null)
-                    {
-                        x = MAXLOG;
-                    }
+                    Debug.Log(craftSlots[i].name + ": checking item:" + invLog[x].Item.itemName);
+                    Debug.Log(craftSlots[i].name + " item is required: " + invLog[x].Item.itemName + " " +(craftSlots[i].Recipe.RequiredItem[j] == invLog[x].Item));
+                    Debug.Log("Log id: " + invLog[x].Item.ID);
+                    Debug.Log("required item id: " + craftSlots[i].Recipe.RequiredItem[j]);
+                    Debug.Log(craftSlots[i].name + " quantity is enough " + invLog[x].Item.itemName + " " + (craftSlots[i].Recipe.QuantityRequired[j] < invLog[x].Quantity) + " possesed: " + invLog[x].Quantity);                
                     // if item is the correct ID and we have enough of the item set isValid to true and end the search
-                    else if (craftSlots[i].item.RequiredItem[j] == invLog[j].item &&
-                        craftSlots[i].item.QuantityRequired[j] <= invLog[j].quantity)
+                    if (craftSlots[i].Recipe.RequiredItem[j] == invLog[x].Item && craftSlots[i].Recipe.QuantityRequired[j] <= invLog[x].Quantity)
                     {
-                        craftSlots[i].isValid = true;
-                        x = MAXLOG;
+                        passRate++;
                     }
                     //if the item is the correct ID but we dont have enough of the item isValid becomes false and we stop checking the CraftSlot
-                    else if (craftSlots[i].item.RequiredItem[j] == invLog[j].item &&
-                        craftSlots[i].item.QuantityRequired[j] > invLog[j].quantity)
+                    else if (craftSlots[i].Recipe.RequiredItem[j] == invLog[x].Item && craftSlots[i].Recipe.QuantityRequired[j] > invLog[x].Quantity)
                     {
-                        craftSlots[i].isValid = false;
-                        x = MAXLOG;
-                        j = craftSlots[i].item.RequiredItem.Length;
+                        x = logSize;
+                        j = craftSlots[i].Recipe.RequiredItem.Length;
                     }
-
                 }
-
-                if (craftSlots[j+1] == null)
+                if(passRate == craftSlots[i].Recipe.RequiredItem.Length)
                 {
-                    j = craftSlots[j].item.RequiredItem.Length;
+                    craftSlots[i].isValid = true;
+                }
+                else
+                {
+                    craftSlots[i].isValid = false;
+
                 }
             }
         }
@@ -91,8 +97,17 @@ public class craftingManager : MonoBehaviour
 // small instance class to store a parsable log of the inventory
 public class invLog
 {
-    public Item item;
-    public int quantity;
+    private Item item;
+
+    private int quantity;
+
+    public int Quantity { get => quantity; set => quantity = value; }
+    public Item Item { get => item; set => item = value; }
+
+    public override string ToString()
+    {
+        return Item.name + Quantity;
+    }
 }
 
 
