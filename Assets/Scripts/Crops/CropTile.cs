@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.Tilemaps;
@@ -17,20 +18,18 @@ namespace Gameplay
         public int GrowthTime;
         public GrowthStage[] GrowthStageTiles;
         public bool isGrown;
-        public GameObject timeCycle;
         public DayNightCycleBehaviour time;
 
         private int currStageIndex = 0;
 
+
         public void Start()
         {
-            timeCycle = GameObject.Find("Time Light");
-            time = timeCycle.GetComponent<DayNightCycleBehaviour>();
+            time = GameObject.Find("Time Light").GetComponent<DayNightCycleBehaviour>();
         }
 
         public void StartGrowing()
         {
-            Debug.Log("Growth Started");
             TileController.instance.Grow(GrowthTime, GrowthStageTiles.Length, ID);
             TileController.instance.OnStageGrow += OnGrowEvent;
         }

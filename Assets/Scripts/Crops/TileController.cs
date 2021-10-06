@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 using Utils;
 
@@ -36,18 +38,34 @@ namespace Gameplay
 
 		public DayNightCycleBehaviour timeCycle;
 
+		private List<String> growingCrops;
+
 
 		public event PlantPlantedHandler OnStageGrow;
 
 		public static TileController instance;
 
-        private void Start()
+		public UnityEvent c_cropGrown = new UnityEvent();
+
+
+
+		public List<string> springCrops = new List<string> { "tomato", "beetroot", "corn", "strawberry"};
+		public List<string> summerCrops = new List<string> { "tomato", "melon", "corn", "strawberry"};
+		public List<string> autumnCrops = new List<string> { "corn", "pumpkin", "beetroot"};
+		public List<string> winterCrops = new List<string> { "pumpkin", "potato", "corn"};
+
+
+		private void Start()
         {
+
 			player = GameObject.Find("Player").GetComponent<PlayerController>(); // Finds the player controller and saves its reference.
 			tilemap = GameObject.Find("Farmland").GetComponent<Tilemap>(); // Temporary fix: Need to find out which actual tilemap to find.
 			crop_tilemap = GameObject.Find("Crops").GetComponent<Tilemap>(); // Temporary fix: Need to find out which actual tilemap to find.
 			inventory = Resources.FindObjectsOfTypeAll<Inventory>()[0]; // Finds the first occurence of Inventory GameObj and saves its script.
 			timeCycle = GameObject.Find("Time Light").GetComponent<DayNightCycleBehaviour>(); // Temporary fix: Just a guess.
+
+			timeCycle.t_seasonChange.AddListener(SeasonChange);
+			c_cropGrown.AddListener(FullyGrown);
 		}
 
         private void Awake()
@@ -61,36 +79,6 @@ namespace Gameplay
 				Destroy(gameObject);
 			}
 		}
-
-		private void ReadTilemapToTileData(Tilemap tilemap, int layer)
-		{
-			foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
-			{
-				Vector3Int localPlace = new Vector3Int(pos.x, pos.y, pos.z);
-
-				if (!tilemap.HasTile(localPlace)) continue;
-
-				var worldLocation = tilemap.CellToWorld(localPlace);
-				var layeredWorldPosition = new Vector3(worldLocation.x, worldLocation.y, layer);
-
-				TileBase tileBase = tilemap.GetTile(localPlace);
-				IGameTile tileFromLibrary = GetTileByAssetName(tileBase.name);
-
-				IGameTile tile = new GameTile
-				{
-					LocalPlace = localPlace,
-					WorldLocation = layeredWorldPosition,
-					TileBase = tileBase,
-					TilemapMember = tilemap,
-					Description = tileFromLibrary.Description,
-					TileData = tileFromLibrary.TileData,
-					Cost = 1
-				};
-
-				tiles.Add(layeredWorldPosition, tile);
-			}
-		}
-
 
 		public void PlaceTile(Vector3 pos, string assetName)
 		{
@@ -147,16 +135,9 @@ namespace Gameplay
 			crop_tilemap.SetTile(tilemapPos, null);
 		}
 
-
 		// Starts a coroutine and returns to the caller after it's time is passed
 		public void Grow(int timeToGrow, int stages, string ID)
 		{
-			if(timeCycle.season == Season.WINTING)
-            {
-				timeToGrow *= 2;
-            } else if (timeCycle.season == Season.SPRIMMER){
-				timeToGrow = (int)Math.Ceiling(timeToGrow * 0.5f);
-            }
 			StartCoroutine(StartGrowing(timeToGrow, stages, ID));
 		}
 
@@ -164,6 +145,63 @@ namespace Gameplay
 		{
 			for (int stage = 0; stage < stages; stage++)
 			{
+				switch (timeCycle.season)
+				{
+					case Season.SPRIMMER:
+						foreach (string i in TileController.instance.springCrops)
+						{
+							if (tiles.FirstOrDefault(x => x.Value.ID == ID).Value.Description.Contains(i))
+							{
+								timeToGrow = (int)((double)timeToGrow * 0.8);
+							}
+						}
+						break;
+					case Season.SUMTUMN:
+						foreach (string i in TileController.instance.springCrops)
+						{
+							if (tiles.FirstOrDefault(x => x.Value.ID == ID).Value.Description.Contains(i))
+							{
+								timeToGrow = (int)((double)timeToGrow * 0.8);
+							}
+						}
+							break;
+					case Season.AUNTER:
+						foreach (string i in TileController.instance.springCrops)
+						{
+							if (tiles.FirstOrDefault(x => x.Value.ID == ID).Value.Description.Contains(i))
+							{
+								timeToGrow = (int)((double)timeToGrow * 0.8);
+							}
+						}
+						break;
+					case Season.WINTING:
+						bool isWinterVeg = true;
+						foreach (string i in springCrops)
+						{
+							if (tiles.FirstOrDefault(x => x.Value.ID == ID).Value.Description.Contains(i))
+							{
+								timeToGrow = (int)((double)timeToGrow * 0.8);
+							} else
+                            {
+								isWinterVeg = false;
+                            }
+						}
+
+                        if (!isWinterVeg)
+                        {
+							timeToGrow = (int)((double)timeToGrow * 1.2);
+
+							int i = UnityEngine.Random.Range(0, 10);
+							if (i == 0)
+							{
+								PlaceTile(tiles.FirstOrDefault(x => x.Value.ID == ID).Key);
+							}
+						}
+
+						break;
+				}
+
+
 				yield return new WaitForSeconds(timeToGrow);
 				OnStageGrow?.Invoke(ID);
 			}
@@ -184,7 +222,6 @@ namespace Gameplay
 		{
 			GetInput();
 		}
-
 
         private void GetInput()
 		{
@@ -240,6 +277,8 @@ namespace Gameplay
 									case "tomato_6": GiveSeeds(6); GiveCrops(6); break;
 									case "melon_6": GiveSeeds(7); GiveCrops(7); break;
 								}
+
+								tiles.Remove(tiles.FirstOrDefault(x => x.Value == tile).Key);
                             }
 						}
 					}
@@ -283,9 +322,95 @@ namespace Gameplay
 			inventory.AddItem(seeds[i].GetItemCopy(), seedNo);
 			
 		}
+
 		private void GiveCrops(int i)
         {
 			inventory.AddItem(crops[i].GetItemCopy());
 		}
+
+		private void SeasonChange()
+        {
+			bool isSeasonal = false;
+            switch (timeCycle.season)
+            {
+				case Season.SPRIMMER: 
+					foreach(KeyValuePair<Vector3, IGameTile> t in tiles){
+						foreach (string item in springCrops)
+						{
+							if (t.Value.Description.Contains(item))
+                            {
+								isSeasonal = true;
+                            }
+						}
+
+						if (isSeasonal)
+                        {
+
+                        }
+                    }
+					break; 
+				case Season.SUMTUMN:
+					foreach (KeyValuePair<Vector3, IGameTile> t in tiles)
+					{
+						foreach (string item in summerCrops)
+						{
+							if (t.Value.Description.Contains(item))
+							{
+								isSeasonal = true;
+							}
+						}
+
+						if (isSeasonal)
+						{
+
+						}
+					}
+					break; 
+				case Season.AUNTER:
+					foreach (KeyValuePair<Vector3, IGameTile> t in tiles)
+					{
+						foreach (string item in autumnCrops)
+						{
+							if (t.Value.Description.Contains(item))
+							{
+								isSeasonal = true;
+							}
+						}
+
+						if (isSeasonal)
+						{
+
+						}
+					}
+					break; 
+				case Season.WINTING:
+					foreach (KeyValuePair<Vector3, IGameTile> t in tiles)
+					{
+						foreach (string item in winterCrops)
+						{
+							if (t.Value.Description.Contains(item))
+							{
+								isSeasonal = true;
+							}
+						}
+
+						if (!isSeasonal)
+						{
+							int i = UnityEngine.Random.Range(0, 10);
+							if (i == 0)
+                            {
+								PlaceTile(t.Key);
+                            }
+						}
+					}
+					break; 
+            }
+        }
+
+		private void FullyGrown()
+        {
+
+        }
+
 	}
 }
