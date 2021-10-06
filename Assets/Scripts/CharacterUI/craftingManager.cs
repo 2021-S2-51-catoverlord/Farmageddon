@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class craftingManager : MonoBehaviour
+public class CraftingManager : MonoBehaviour
 {
     [SerializeField]
     private Inventory playerInv;
@@ -10,8 +10,9 @@ public class craftingManager : MonoBehaviour
     private CraftSlot[] craftSlots;
     [SerializeField]
     private static int MAXLOG = 25;
-    private int logSize= 0;
+    private int logSize = 0;
     private invLog[] invLog;
+
     private void Start()
     {
         invLog = new invLog[MAXLOG];
@@ -87,13 +88,12 @@ public class craftingManager : MonoBehaviour
             }
         }
     }
-
 }
+
 // small instance class to store a parsable log of the inventory
 public class invLog
 {
     private Item item;
-
     private int quantity;
 
     public int Quantity { get => quantity; set => quantity = value; }

@@ -8,19 +8,17 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler, IPointerEnterHand
     [SerializeField]
     private Recipe recipe;
     [SerializeField]
-    private craftingManager cManager;
+    private CraftingManager cManager;
     [SerializeField] Image image;
     [SerializeField] Text amtTxt;
     public bool isValid;
     private Inventory playerInv;
     private ItemToolTip toolTip;
 
-
     private Color normalColor = Color.white;
     private Color disableColor = Color.clear;
 
     public Recipe Recipe { get => recipe; set => recipe = value; }
-
 
     private void Start()
     {
@@ -33,7 +31,6 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler, IPointerEnterHand
         {
             image.color = disableColor;
         }
-
     }
 
     protected virtual void OnValidate()
@@ -57,9 +54,7 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler, IPointerEnterHand
         }
     }
 
-
-
-        // event methods
+    // event methods
     public void OnPointerClick(PointerEventData eventData)
     {
         cManager.UpdateInv();
