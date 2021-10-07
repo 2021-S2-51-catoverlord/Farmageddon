@@ -52,7 +52,7 @@ namespace Gameplay
 		public List<string> autumnCrops = new List<string> { "corn", "pumpkin", "beetroot"};
 		public List<string> winterCrops = new List<string> { "pumpkin", "potato", "corn"};
 
-		public Color wiltedCrop;
+		public Color wiltedCrop = Color.blue;
 
 
 		private void Start()
@@ -200,6 +200,9 @@ namespace Gameplay
 					else
 					{
 						timeToGrow = (int)((double)timeToGrow * 2);
+
+						TileController.instance.crop_tilemap.SetTileFlags(Vector3Int.RoundToInt(tile.WorldLocation), TileFlags.None);
+						TileController.instance.crop_tilemap.SetColor(Vector3Int.RoundToInt(tile.WorldLocation), Color.blue);
 					}
 					break;
 			}
@@ -316,6 +319,8 @@ namespace Gameplay
 								case "tomato_6": GiveSeeds(6); GiveCrops(6); break;
 								case "melon_6": GiveSeeds(7); GiveCrops(7); break;
 							}
+
+							tiles.Remove(tiles.FirstOrDefault(x => x.Value == tile).Key);
 						}
 					}
 				}
@@ -347,7 +352,7 @@ namespace Gameplay
 				{
 					foreach (string item in winterCrops)
 					{
-						if (t.Value.Description.Contains(item))
+                        if (t.Value.Description.Contains(item))
 						{
 							isSeasonal = true;
 						}
@@ -355,13 +360,7 @@ namespace Gameplay
 
 					if (!isSeasonal)
 					{
-
 						IGameTile tile;
-						tiles.TryGetValue(t.Key, out tile);
-
-						crop_tilemap.SetTileFlags(tile.LocalPlace, TileFlags.None);
-						crop_tilemap.SetColor(tile.LocalPlace, wiltedCrop);
-
 						int i = UnityEngine.Random.Range(0, 20);
 						if (i == 0)
 						{
@@ -377,7 +376,13 @@ namespace Gameplay
 							PlaceTile(t.Key);
 							tiles.Remove(t.Key);
 
+						} else
+						{
+							tiles.TryGetValue(t.Key, out tile);
+							crop_tilemap.SetTileFlags(Vector3Int.RoundToInt(tile.WorldLocation), TileFlags.None);
+							crop_tilemap.SetColor(Vector3Int.RoundToInt(tile.WorldLocation), Color.blue);
 						}
+
 					}
 				}
 			}

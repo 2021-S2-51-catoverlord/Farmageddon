@@ -35,14 +35,17 @@ namespace Gameplay
             TileController.instance.OnStageGrow += OnGrowEvent;
         }
 
+        public void OnWilt()
+        {
+
+        }
+
         public void OnCropDeath(CropTile tile)
         {
-            Debug.Log("Set Position " + tile.LocalPlace + "to Null");
             TilemapMember.SetTile(tile.LocalPlace, null);
             TileBase = null;
             Description = null;
             currStageIndex = GrowthStageTiles.Length;
-
         }
 
         private void OnGrowEvent(string plantID)
@@ -102,13 +105,23 @@ namespace Gameplay
                     if (inSeason)
                     {
                         GrowthTime = (int)((double)GrowthTime * 0.5);
+
                     } else
                     {
                         GrowthTime = (int)((double)GrowthTime * 2);
+
+                        IGameTile tile;
+
+                        if (!isDead)
+                        {
+                            TileController.instance.tiles.TryGetValue(LocalPlace, out tile);
+                            TileController.instance.crop_tilemap.SetTileFlags(Vector3Int.RoundToInt(tile.WorldLocation), TileFlags.None);
+                            TileController.instance.crop_tilemap.SetColor(Vector3Int.RoundToInt(tile.WorldLocation), Color.blue);
+                        }
+
                     }
                     break;
             }
-
 
             if (plantID != ID || isDead) return;
 
