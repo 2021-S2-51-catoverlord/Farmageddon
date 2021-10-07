@@ -15,7 +15,8 @@ MonoBehaviour:
   id: 6d2d68a6fd3f5234cbc369d475c0420d
   itemName: Tomato
   icon: {fileID: 1487176316796785568, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
+  itemDescription: Tomato tomato, am I right?
   price: 0
-  MaxStacks: 64
-  IsConsumable: 1
+  maxStacks: 64
+  isConsumable: 0
   healHeath: 25

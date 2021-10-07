@@ -135,13 +135,9 @@ namespace Gameplay
 		}
 
 		// Starts a coroutine and returns to the caller after it's time is passed
-		public void Grow(int timeToGrow, int stages, string ID)
+		public void Grow(int timeToGrow, int stages, string ID, IGameTile tile)
 		{
 			bool inSeason = false;
-
-			IGameTile tile;
-
-			tiles.TryGetValue(tiles.FirstOrDefault(x => x.Value.ID == ID).Key, out tile);
 
 			switch (timeCycle.season)
 			{
@@ -258,7 +254,7 @@ namespace Gameplay
                         }
 
 						var wpos = player.GetComponent<CapsuleCollider2D>().transform.position;
-						wpos.y += 1.0f;
+						wpos.y += 0.5f;
 
 						// get tile pos
 						var tilePos = tilemap.WorldToCell(wpos);

@@ -15,7 +15,8 @@ MonoBehaviour:
   id: 23c3e1f9fdc1faf448f1e006e91836aa
   itemName: Strawberry
   icon: {fileID: 529582307989611779, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
+  itemDescription: Mmmm, berries!
   price: 0
-  MaxStacks: 64
-  IsConsumable: 1
+  maxStacks: 64
+  isConsumable: 0
   healHeath: 25

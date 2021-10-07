@@ -31,7 +31,7 @@ namespace Gameplay
 
         public void StartGrowing()
         {
-            TileController.instance.Grow(GrowthTime, GrowthStageTiles.Length, ID);
+            TileController.instance.Grow(GrowthTime, GrowthStageTiles.Length, ID, this);
             TileController.instance.OnStageGrow += OnGrowEvent;
         }
 
