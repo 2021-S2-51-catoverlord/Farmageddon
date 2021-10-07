@@ -1,6 +1,6 @@
-/*
- * This class contains the interface for inventory.
- */
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public interface IItemContainer
 {

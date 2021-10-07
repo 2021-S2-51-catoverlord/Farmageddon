@@ -1,13 +1,3 @@
-/*
- * This class contains the equipmentUI, which encapsulates the following methods:
- * 
- * Methods:
- * - Awake Method
- * - OnValidate Method
- * - AddItem: Loop through find slot that can hold equipment, then equip.
- * - RemoveItem: Assign null to slot.
- */
-
 using System;
 using UnityEngine;
 
@@ -50,7 +40,7 @@ public class EquipUI : MonoBehaviour
         {
             if (equipSlots[i].equipType == equipment.equipType)
             {
-                oldItem = (Equipment)equipSlots[i].Item;
+                oldItem = (Equipment)equipSlots[i].Item; //assign old item to out variable
                 equipSlots[i].Item = equipment;
                 return true;
             }
