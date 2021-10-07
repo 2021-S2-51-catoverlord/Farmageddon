@@ -1,5 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+/*
+ * This class contains the Pause Menu,
+ * which encapsulates the following methods:
+ * 
+ * Methods:
+ * - Update method.
+ * - Resume: Resumes the game.
+ * - PauseGame: Pauses game when the pause menu is active.
+ * - SaveGame: Saves the game.
+ * - LoadGame: Loads the game.
+ * - QuitGame: Quits game.
+ */
+
 using UnityEngine;
 
 public class PauseMenu : MonoBehaviour

@@ -1,6 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+/*
+ * This class contains the equipment slots for the equipment UI,
+ * which encapsulates the following methods:
+ * 
+ * Methods:
+ * - OnValidate Method
+ * - CanReceiveItem: inheritable from ItemSlots, allows the inventory to receive the
+ *      item and checks the equipment type is the same as equipment slot type.
+ */
 
 public class EquipSlot : ItemSlot
 {

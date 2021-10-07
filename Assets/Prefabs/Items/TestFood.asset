@@ -15,7 +15,8 @@ MonoBehaviour:
   id: a74a1c83193a1ec42afd6a0567086991
   itemName: TestFood
   icon: {fileID: 9194307342366499193, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
-  price: 0
+  itemDescription: Test Food
+  price: 20
   MaxStacks: 1
   IsConsumable: 1
   healHeath: 20
