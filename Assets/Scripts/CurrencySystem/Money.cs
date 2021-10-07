@@ -2,40 +2,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class Money : MonoBehaviour{
 
-    public int money;
-    public Text moneyText;
+public class Money : MonoBehaviour
+{
+    public Text DisplayUIText;
+    protected int CurrentBalance;
+
     // use this for initialization
     void Start()
     {
-        money = 10;
-        moneyText.text = money.ToString ();
+        if(DisplayUIText == null)
+        {
+            // Reference the attached GameObject's Text component to this script.
+            DisplayUIText = GetComponent<Text>(); 
+        }
+
+        CurrentBalance = 10;
+        DisplayUIText.text = CurrentBalance.ToString();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
+
     //adding money into player's wallet
-    public void addMoney(int moneyToadd)
+    public void AddMoney(int moneyToadd)
     {
-        money += moneyToadd;
-        moneyText.text = money.ToString();
+        CurrentBalance += moneyToadd;
+        DisplayUIText.text = CurrentBalance.ToString();
     }
 
     //subtract money from player's wallet
-    public void subtractMoney(int moneyToSubtract)
+    public void SubtractMoney(int moneyToSubtract)
     {
-    if(money - moneyToSubtract < 0)
+        if(CurrentBalance - moneyToSubtract < 0)
         {
-            Debug.Log(" insufficent money");// once the money is insufficent the banner will pop out
+            Debug.Log(" insufficent money"); // once the money is insufficent the banner will pop out
         }
         else
         {
-            money -= moneyToSubtract;
-            moneyText.text = money.ToString();
+            CurrentBalance -= moneyToSubtract;
+            DisplayUIText.text = CurrentBalance.ToString();
+        }
     }
 }
-    }
