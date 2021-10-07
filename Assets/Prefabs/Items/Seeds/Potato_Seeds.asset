@@ -15,6 +15,7 @@ MonoBehaviour:
   id: 905b4388e90ff28418f7cbbb8d22b3dc
   itemName: Potato Seeds
   icon: {fileID: 352647812648205467, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
+  itemDescription: 
   price: 0
-  MaxStacks: 64
+  maxStacks: 64
   growthTime: 0

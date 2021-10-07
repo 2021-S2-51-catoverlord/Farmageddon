@@ -147,6 +147,7 @@ void Start()
             dayCount = initDay % monthLength;
         }
         t_dayChange.Invoke();
+        t_seasonChange.Invoke();
 
         evalSeason();
 
