@@ -1,15 +1,11 @@
-/*
- * This class contains the stat UI for player,
- * which encapsulates the following methods:
- * 
- * Methods:
- * - SetMaxValue: Sets the max value of the health/stamina bars.
- * - SetCurrentValue: Sets the current slider value for the health/stamina bars.
- */
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+* Used for the stat bar (health/stamina).
+*/
 public class StatBarController : MonoBehaviour
 {
     public Slider slider;

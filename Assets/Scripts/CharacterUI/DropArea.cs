@@ -1,11 +1,3 @@
-/*
- * This class contains the droparea for items to be destroyed,
- * which encapsulates the following methods:
- * 
- * Methods:
- * - OnDrop Event.
- */
-
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;

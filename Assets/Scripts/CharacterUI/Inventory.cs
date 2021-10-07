@@ -1,19 +1,7 @@
-/*
- * This class contains the equipment slots for the Inventory,
- * which encapsulates the following methods:
- * 
- * Methods:
- * - Awake method
- * - OnValidate Method
- * - Add item to the inventory (AddItem)
- * - Remove item from the inventory (RemoveItem)
- * - Check if the inventory is full (IsFull)
- * - Stack items if they are stackable (ItemCount)
- * - Clear the inventory (Clear)
- */
-
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Inventory : MonoBehaviour, IItemContainer
 {
@@ -149,7 +137,7 @@ public class Inventory : MonoBehaviour, IItemContainer
         for (int i = 0; i < itemSlots.Length; i++)
         {
             Item item = itemSlots[i].Item;
-            if (item != null && item.ID == itemID)
+            if (item != null && item.Id == itemID)
             {
                 itemSlots[i].Amount--;
                 if (itemSlots[i].Amount == 0)
@@ -187,7 +175,7 @@ public class Inventory : MonoBehaviour, IItemContainer
         for (int i = 0; i < itemSlots.Length; i++)
         {
             Item item = itemSlots[i].Item;
-            if (item != null && item.ID == itemID)
+            if (item != null && item.Id == itemID)
             {
                 number += itemSlots[i].Amount;
             }

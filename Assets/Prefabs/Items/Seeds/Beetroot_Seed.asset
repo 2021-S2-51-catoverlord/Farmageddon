@@ -15,7 +15,6 @@ MonoBehaviour:
   id: fd461fb95c936644b98b5c746eca99c5
   itemName: Beetroot Seeds
   icon: {fileID: -5552177675114556612, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
-  itemDescription: Beetroot Seeds
-  price: 10
-  maxStacks: 10
+  price: 0
+  MaxStacks: 64
   growthTime: 0
