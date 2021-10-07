@@ -13,6 +13,7 @@ public class KeyInput : MonoBehaviour
 {
     [SerializeField] GameObject inventoryUI;
     [SerializeField] GameObject equipUI;
+    [SerializeField] GameObject tooltip;
 
     private void Start()
     {
@@ -26,11 +27,13 @@ public class KeyInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         {
             inventoryUI.SetActive(!inventoryUI.activeSelf);
+            tooltip.SetActive(!tooltip.activeSelf);
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
             equipUI.SetActive(!equipUI.activeSelf);
+            tooltip.SetActive(!tooltip.activeSelf);
         }
     }
 }
