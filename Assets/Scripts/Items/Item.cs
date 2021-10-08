@@ -1,5 +1,7 @@
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 [CreateAssetMenu(fileName = "New Item", menuName = "Inventory/Item")]
 public class Item : ScriptableObject
@@ -19,12 +21,14 @@ public class Item : ScriptableObject
         }
     }
 
-    private void OnValidate()
+#if UNITY_EDITOR
+    protected void OnValidate()
     {
         //Generates ids
         string path = AssetDatabase.GetAssetPath(this);
         id = AssetDatabase.AssetPathToGUID(path);
     }
+#endif
 
     public virtual Item GetItemCopy()
     {

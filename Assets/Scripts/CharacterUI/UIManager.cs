@@ -9,9 +9,23 @@ public class UIManager : MonoBehaviour
     [SerializeField] EquipUI equipUI;
     [SerializeField] Image draggableItem;
     [SerializeField] DropArea dropArea;
-    //PlayerController player;
-    GameObject player;
+    [SerializeField] ItemSaveManager saveManager;
+    [SerializeField] PlayerController player;
     private ItemSlot draggedSlot;
+
+    public Inventory Inventory { get => inventory; set => _ = inventory; }
+    public EquipUI EquipUI { get => equipUI; set => _ = equipUI; }
+
+    private void Start()
+    {
+        // Find the item saver gameobject and get reference to its script if it's not assigned yet.
+        if(saveManager == null)
+            saveManager = GameObject.Find("ItemSaver").GetComponent<ItemSaveManager>();
+
+        // Find the player gameobject and get reference to its script if it's not assigned yet.
+        if(player == null)
+            player = GameObject.Find("Player").GetComponent<PlayerController>();                                                                       
+    }
 
     private void Awake()
     {
@@ -41,16 +55,13 @@ public class UIManager : MonoBehaviour
         }
         else if (itemSlot.Item is Food)
         {
-            Food food = (Food)itemSlot.Item;
-            player = GameObject.Find("Player"); // Find the player gameobject to heal.
-            
+            Food food = (Food)itemSlot.Item;          
 
             if (food.IsConsumable)
             {
-                player.GetComponent<PlayerController>().Heal(food.healHeath); // Perform healing.
+                player.Heal(food.healHeath); // Perform healing.
                 // Tells the health bar to update according to the player's current hp.
-                GameObject.Find("Health Bar").GetComponent<StatBarController>().SetCurrentValue(player.GetComponent<PlayerController>().HealthPoints);
-
+                GameObject.Find("Health Bar").GetComponent<StatBarController>().SetCurrentValue(player.HealthPoints);
                 inventory.RemoveItem(food);
                 food.Destroy();
             }

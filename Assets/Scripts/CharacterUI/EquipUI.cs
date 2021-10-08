@@ -6,6 +6,8 @@ public class EquipUI : MonoBehaviour
     [SerializeField] Transform equipSlotParent;
     [SerializeField] EquipSlot[] equipSlots;
 
+    public EquipSlot[] EquipSlots { get => equipSlots; set => _ = equipSlots; }
+
     public event Action<ItemSlot> OnRightClickEvent;
     public event Action<ItemSlot> OnBeginDragEvent;
     public event Action<ItemSlot> OnEndDragEvent;
@@ -67,5 +69,13 @@ public class EquipUI : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void Clear()
+    {
+        for(int i = 0; i < equipSlots.Length; i++)
+        {
+            equipSlots[i].Item = null;
+        }
     }
 }
