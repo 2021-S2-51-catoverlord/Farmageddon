@@ -18,9 +18,6 @@ public abstract class EntityController : MonoBehaviour
     private bool isAttacking;
     private bool isAlive;
 
-    private float attackTime = 0.25f;
-    private float attackCounter = 0.25f;
-
     // Get and set methods for entity's attributes.
     public string EntityName { get; set; }
     public int HealthPoints { get; set; }

@@ -1,16 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class KeyInput : MonoBehaviour
 {
     [SerializeField] GameObject inventoryUI;
     [SerializeField] GameObject equipUI;
+    [SerializeField] GameObject sellArea;
 
     private void Start()
     {
+        if(sellArea == null)
+        {
+            sellArea = transform.parent.Find("Sell Area").gameObject;
+        }
+    
         inventoryUI.SetActive(false);
         equipUI.SetActive(false);
+        sellArea.SetActive(false);
     }
 
     // Update is called once per frame
@@ -24,6 +29,11 @@ public class KeyInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             equipUI.SetActive(!equipUI.activeSelf);
+        }
+
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            sellArea.SetActive(!sellArea.activeSelf);
         }
     }
 }

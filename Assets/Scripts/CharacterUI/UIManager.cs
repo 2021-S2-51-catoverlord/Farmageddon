@@ -9,12 +9,18 @@ public class UIManager : MonoBehaviour
     [SerializeField] EquipUI equipUI;
     [SerializeField] Image draggableItem;
     [SerializeField] DropArea dropArea;
-    [SerializeField] Money money;
-    [SerializeField] MoneyController moneyController;
-    //PlayerController player;
+    [SerializeField] SellAreaController sellArea;
 
     GameObject player;
     private ItemSlot draggedSlot;
+
+    private void Start()
+    {
+        if(sellArea == null)
+        {
+            sellArea = Resources.FindObjectsOfTypeAll<SellAreaController>()[0];
+        }
+    }
 
     private void Awake()
     {
@@ -34,6 +40,9 @@ public class UIManager : MonoBehaviour
         inventory.OnDropEvent += Drop;
         equipUI.OnDropEvent += Drop;
         dropArea.OnDropEvent += DropOutside;
+
+        //if(sellArea != null)
+        sellArea.OnDropEvent += DropSell;
     }
 
     private void InventoryRightClick(ItemSlot itemSlot)
@@ -116,6 +125,20 @@ public class UIManager : MonoBehaviour
             return;
         }
         
+        draggedSlot.Item.Destroy();
+        draggedSlot.Item = null;
+        draggedSlot.Amount = 0;
+    }
+
+    private void DropSell()
+    {
+        if(draggedSlot == null)
+        {
+            return;
+        }
+
+        // Update the Money model by adding (price x quantity) to its current balance.
+        sellArea.MoneyModel.AddMoney(draggedSlot.Item.price * draggedSlot.Amount);
         draggedSlot.Item.Destroy();
         draggedSlot.Item = null;
         draggedSlot.Amount = 0;

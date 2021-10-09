@@ -14,7 +14,7 @@ public class Money : MonoBehaviour
         if(DisplayUIText == null)
         {
             // Reference the attached GameObject's Text component to this script.
-            DisplayUIText = GetComponent<Text>(); 
+            DisplayUIText = GetComponent<Text>();
         }
 
         CurrentBalance = 10;

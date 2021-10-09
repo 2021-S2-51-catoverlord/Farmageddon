@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoneyController : MonoBehaviour
 {
-    protected Money MoneyModel;
+    public Money MoneyModel { get; set; }
 
     // Start is called before the first frame update
     void Start()
