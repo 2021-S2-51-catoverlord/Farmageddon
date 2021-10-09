@@ -9,7 +9,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] EquipUI equipUI;
     [SerializeField] Image draggableItem;
     [SerializeField] DropArea dropArea;
+    [SerializeField] Money money;
+    [SerializeField] MoneyController moneyController;
     //PlayerController player;
+
     GameObject player;
     private ItemSlot draggedSlot;
 
@@ -112,7 +115,7 @@ public class UIManager : MonoBehaviour
         {
             return;
         }
-
+        
         draggedSlot.Item.Destroy();
         draggedSlot.Item = null;
         draggedSlot.Amount = 0;
