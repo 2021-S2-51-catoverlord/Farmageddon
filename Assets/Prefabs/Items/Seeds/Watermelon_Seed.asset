@@ -15,6 +15,6 @@ MonoBehaviour:
   id: b4dd4993616bf994f8455d2eb65557b9
   itemName: Watermelon Seeds
   icon: {fileID: 3945209669962335706, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
-  price: 0
+  price: 5
   MaxStacks: 64
   growthTime: 0

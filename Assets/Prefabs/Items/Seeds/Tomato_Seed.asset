@@ -15,6 +15,6 @@ MonoBehaviour:
   id: 32b70341ee43872489eb5d30bdb21f87
   itemName: Tomato Seeds
   icon: {fileID: -5277911581303883326, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
-  price: 0
+  price: 5
   MaxStacks: 64
   growthTime: 0

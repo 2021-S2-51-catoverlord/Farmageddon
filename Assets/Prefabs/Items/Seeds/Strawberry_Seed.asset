@@ -15,6 +15,6 @@ MonoBehaviour:
   id: ad8aab71f1ab4394ab01f1c609a45b0d
   itemName: Strawberry Seeds
   icon: {fileID: -1040858813372044844, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
-  price: 0
+  price: 5
   MaxStacks: 64
   growthTime: 0

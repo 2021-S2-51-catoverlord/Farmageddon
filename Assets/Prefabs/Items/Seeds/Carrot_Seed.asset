@@ -15,6 +15,6 @@ MonoBehaviour:
   id: bb1641dcbc954814ca156da1dd3a7006
   itemName: Carrot Seeds
   icon: {fileID: -2273560400057252286, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
-  price: 0
+  price: 5
   MaxStacks: 64
   growthTime: 0
