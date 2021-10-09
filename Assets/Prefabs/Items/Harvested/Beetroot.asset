@@ -15,7 +15,8 @@ MonoBehaviour:
   id: 5baa7897f62199c4f950ac3b5958bd9d
   itemName: Beetroot
   icon: {fileID: -1138152229542321017, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
-  price: 0
-  MaxStacks: 64
-  IsConsumable: 1
-  healHeath: 25
+  itemDescription: Beetroot
+  price: 120
+  maxStacks: 10
+  isConsumable: 1
+  healHeath: 10

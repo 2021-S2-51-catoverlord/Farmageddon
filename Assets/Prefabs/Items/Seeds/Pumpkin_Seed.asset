@@ -15,6 +15,7 @@ MonoBehaviour:
   id: dca5a7852393a2d47a21b73cb70ba2f5
   itemName: Pumpkin Seeds
   icon: {fileID: -8463751307097313094, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
-  price: 0
-  MaxStacks: 64
-  growthTime: 0
+  itemDescription: Pumpkin Seeds
+  price: 20
+  maxStacks: 10
+  growthTime: 12

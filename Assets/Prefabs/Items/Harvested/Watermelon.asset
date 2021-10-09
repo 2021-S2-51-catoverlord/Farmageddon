@@ -15,7 +15,8 @@ MonoBehaviour:
   id: afd97b249296bef4d8a22d2f5ed35522
   itemName: Watermelon
   icon: {fileID: -3085945388132976002, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
-  price: 0
-  MaxStacks: 64
-  IsConsumable: 1
-  healHeath: 25
+  itemDescription: Watermelon
+  price: 250
+  maxStacks: 10
+  isConsumable: 1
+  healHeath: 10

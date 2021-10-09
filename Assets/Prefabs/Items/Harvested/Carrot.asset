@@ -15,7 +15,8 @@ MonoBehaviour:
   id: a0c2cc1afd2d82544b7f2cd1a3db8531
   itemName: Carrot
   icon: {fileID: 8243356241797845907, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
-  price: 0
-  MaxStacks: 64
-  IsConsumable: 1
-  healHeath: 25
+  itemDescription: Carrot
+  price: 74
+  maxStacks: 10
+  isConsumable: 1
+  healHeath: 10
