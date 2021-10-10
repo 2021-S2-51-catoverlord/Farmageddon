@@ -26,7 +26,10 @@ public class EquipUI : MonoBehaviour
 
     private void OnValidate()
     {
-        equipSlots = equipSlotParent.GetComponentsInChildren<EquipSlot>();
+        if(equipSlotParent != null)
+        {
+            equipSlots = equipSlotParent.GetComponentsInChildren<EquipSlot>();
+        }
     }
 
     /// <summary>
@@ -42,6 +45,7 @@ public class EquipUI : MonoBehaviour
             {
                 oldItem = (Equipment)equipSlots[i].Item; //assign old item to out variable
                 equipSlots[i].Item = equipment;
+                equipSlots[i].Amount = 1;
                 return true;
             }
         }
@@ -62,6 +66,7 @@ public class EquipUI : MonoBehaviour
             if(equipSlots[i].Item == equipment)
             {
                 equipSlots[i].Item = null;
+                equipSlots[i].Amount = 0;
                 return true;
             }
         }
@@ -74,6 +79,7 @@ public class EquipUI : MonoBehaviour
         for(int i = 0; i < equipSlots.Length; i++)
         {
             equipSlots[i].Item = null;
+            equipSlots[i].Amount = 0;
         }
     }
 }

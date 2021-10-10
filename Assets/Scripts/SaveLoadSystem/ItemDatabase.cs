@@ -9,9 +9,8 @@ public class ItemDatabase : ScriptableObject
     [SerializeField] Item[] itemRepository;
 
     /// <summary>
-    /// Method to do a search through the list of items in the 
-    /// database (created from searching the game folder) and match it 
-    /// with an item ID passed in.
+    /// Method to do a search through the list of items in the database (created 
+    /// from searching the game folder) and match it with an item ID passed in.
     /// </summary>
     /// <param name="itemID"></param>
     /// <returns></returns>
@@ -21,7 +20,7 @@ public class ItemDatabase : ScriptableObject
         {
             if(item.Id == itemID) // Check if item ID is found in the database.
             {
-                return item; // Return a copy of the item.
+                return item;
             }
         }
         return null;

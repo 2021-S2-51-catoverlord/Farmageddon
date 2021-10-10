@@ -7,22 +7,22 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
     public GameObject inventoryUI;
     public GameObject equipmentUI;
-    public UIManager uiManager;
+    public UIManager UIManager;
     [Space]
     public Button SaveButton;
     public Button LoadButton;
 
     private void Awake()
     {
-        if(uiManager == null)
+        if(UIManager == null)
         {
-            uiManager = GameObject.Find("CharacterUI").GetComponent<UIManager>();
+            UIManager = GameObject.Find("CharacterUI").GetComponent<UIManager>();
         }
 
-        //SaveButton.onClick.AddListener(SaveGame);
-        SaveButton.onClick.AddListener(uiManager.SaveInventoryData);
-        //LoadButton.onClick.AddListener(LoadGame);
-        LoadButton.onClick.AddListener(uiManager.LoadInventoryData);
+        // Register listeners (and assign actions to perform upon button press).
+        SaveButton.onClick.AddListener(UIManager.SaveInventoryData);
+
+        LoadButton.onClick.AddListener(UIManager.LoadInventoryData);
     }
 
     void Update()
@@ -62,7 +62,6 @@ public class PauseMenu : MonoBehaviour
     {
         // Tell save managers to save the game's current state.
         //SaveManager.SaveGame("savedGame.json");
-        //UIManager.SaveInventoryData();
         Debug.Log("Game Saved");
     }
 
@@ -70,7 +69,6 @@ public class PauseMenu : MonoBehaviour
     {
         // Tell save managers to load the game.
         //SaveManager.LoadGame("savedGame.json");
-        //UIManager.LoadInventoryData();
         Debug.Log("Game Loaded");
         Resume();
     }
@@ -78,6 +76,11 @@ public class PauseMenu : MonoBehaviour
     public void QuitGame()
     {
         Debug.Log("Game Quit");
-        Application.Quit();
+#if UNITY_EDITOR
+        // Quit the game in Editor mode.
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+         Application.Quit();
+#endif
     }
 }

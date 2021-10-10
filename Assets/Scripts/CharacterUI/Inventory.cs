@@ -157,6 +157,7 @@ public class Inventory : MonoBehaviour, IItemContainer
         for(int i = 0; i < itemSlots.Length; i++)
         {
             itemSlots[i].Item = null;
+            itemSlots[i].Amount = 0;
         }
     }
 }

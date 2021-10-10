@@ -1,12 +1,15 @@
+using System.IO;
 using UnityEngine;
 
 public static class ItemSaveIO
 {
-    private static readonly string BaseSavePath;
+    public static readonly string BaseSavePath;
+    public static readonly string FileExtension;
 
     static ItemSaveIO()
     {
-        BaseSavePath = Application.persistentDataPath;
+        BaseSavePath = Application.persistentDataPath + "/";
+        FileExtension = ".dat";
     }
 
     /// <summary>
@@ -16,7 +19,9 @@ public static class ItemSaveIO
     /// <param name="fileName"></param>
     public static void SaveItems(ItemSlotSaveData items, string fileName)
     {
-        FileReadWrite.WriteBinToFile(BaseSavePath + "/" + fileName + ".dat", items);
+        string fullPath = BaseSavePath + fileName + FileExtension;
+        //Debug.Log(fullPath);
+        FileIO.WriteBinToFile(fullPath, items);
     }
 
     /// <summary>
@@ -27,11 +32,11 @@ public static class ItemSaveIO
     /// <returns></returns>
     public static ItemSlotSaveData LoadItems(string fileName)
     {
-        string filePath = BaseSavePath + "/" + fileName + ".dat";
+        string fullPath = BaseSavePath + fileName + FileExtension;
 
-        if(System.IO.File.Exists(filePath))
+        if(File.Exists(fullPath))
         {
-            return FileReadWrite.ReadBinFromFile<ItemSlotSaveData>(filePath);
+            return FileIO.ReadBinFromFile<ItemSlotSaveData>(fullPath);
         }
         return null;
     }

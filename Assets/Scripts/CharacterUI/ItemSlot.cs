@@ -30,9 +30,6 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
         {
             amtTxt = GetComponentInChildren<Text>();
         }
-
-        Item = item;
-        Amount = amount;
     }
 
     public virtual bool CanReceiveItem(Item item)
@@ -57,7 +54,6 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
             }
         }
     }
-
     public void OnBeginDrag(PointerEventData eventData)
     {
         if(OnBeginDragEvent != null)

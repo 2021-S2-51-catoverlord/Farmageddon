@@ -43,14 +43,12 @@ public class UIManager : MonoBehaviour
 
     private void InventoryRightClick(ItemSlot itemSlot)
     {
-        if(itemSlot.Item is Equipment)
+        if(itemSlot.Item is Equipment equipment)
         {
-            Equip((Equipment)itemSlot.Item);
+            Equip(equipment);
         }
-        else if(itemSlot.Item is Food)
+        else if(itemSlot.Item is Food food)
         {
-            Food food = (Food)itemSlot.Item;
-
             if(food.IsConsumable)
             {
                 player.Heal(food.healHeath); // Perform healing.
@@ -64,9 +62,9 @@ public class UIManager : MonoBehaviour
 
     private void EquipmentRightClick(ItemSlot itemSlot)
     {
-        if(itemSlot.Item is Equipment)
+        if(itemSlot.Item is Equipment equipment)
         {
-            Unequip((Equipment)itemSlot.Item);
+            Unequip(equipment);
         }
     }
 
@@ -153,8 +151,7 @@ public class UIManager : MonoBehaviour
     {
         if(inventory.RemoveItem(equipment)) //Remove item from inventory
         {
-            Equipment oldItem;
-            if(equipUI.AddItem(equipment, out oldItem)) //Add to panel
+            if(equipUI.AddItem(equipment, out Equipment oldItem)) //Add to panel
             {
                 if(oldItem != null) //Return item to inventory if there is a previous item
                 {
@@ -184,13 +181,13 @@ public class UIManager : MonoBehaviour
     {
         saveManager.SaveInventory();
         saveManager.SaveEquipment();
-        Debug.Log("Saved inventory as binary.");
+        Debug.Log("Inventory and Equipments saved to: " + Application.persistentDataPath);
     }
 
     public void LoadInventoryData()
     {
         saveManager.LoadInventory();
         saveManager.LoadEquipment();
-        Debug.Log("Loaded inventory from binary.");
+        Debug.Log("Inventory and Equipments loaded from: " + Application.persistentDataPath);
     }
 }
