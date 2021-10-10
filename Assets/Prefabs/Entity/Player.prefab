@@ -992,6 +992,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryUI: {fileID: 1483895024856900900}
   equipUI: {fileID: 1483895025421530796}
+  tooltip: {fileID: 0}
 --- !u!1 &1483895024610924449
 GameObject:
   m_ObjectHideFlags: 0
@@ -2675,6 +2676,7 @@ MonoBehaviour:
   speed: 6
   healthBar: {fileID: 8118775068004000804}
   staminaBar: {fileID: 7798899150261628675}
+  Damage: 0
   isInventoryActive: 0
 --- !u!50 &8021334143088886673
 Rigidbody2D:

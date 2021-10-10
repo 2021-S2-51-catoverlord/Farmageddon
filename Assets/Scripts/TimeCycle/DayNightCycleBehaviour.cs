@@ -68,6 +68,7 @@ public class DayNightCycleBehaviour : MonoBehaviour
     public int yearCount { get; private set; }
     public float g;//debugging
     public float localTimeElapsed { get; private set; }
+    public int TotalDayCount { get => totalDayCount; set => totalDayCount = value; }
 
     public float time;
 
@@ -124,6 +125,7 @@ void Start()
         if (initDay != 0)
         { 
             dayCount += initDay;
+            totalDayCount += dayCount;
         } else
         {
             dayCount = 0;

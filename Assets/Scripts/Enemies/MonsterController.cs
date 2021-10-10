@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class MonsterController : EntityController
 {
+    //object variables
     private GameObject targetObj = null; // get player object
     private Transform target = null; //get player transform
     private PlayerController Player = null;
-    [SerializeField]
-    private int damage;
+    private DayNightCycleBehaviour TimeController = null;
+    //search and movement variables
     [SerializeField]
     private float baseSearch = 10f; // base range of the monster
     [SerializeField]
@@ -20,34 +21,42 @@ public class MonsterController : EntityController
     private int searchBoost = 5; //how far the range of the monster becomes once they have seen the target
     [SerializeField]
     [Range(5, 100)]
-    private int maxMovement;
-    [SerializeField]
-    private int damageDelt;
-    [SerializeField]
-    private float attackCooldownInSeconds = 1;
-    private float timeStamp = -1; //timeStamp starts negative so we can initially set the timeStamp
-     
-
+    private int maxMovement; //used in wander to determine how long the ai moves in a single direction.
     private MonsterBehaviour monsterState = MonsterBehaviour.Wandering;
     private int wanderMovement = 0;
     private int wanderdirection;
+    //combat variables
+    [SerializeField]
+    private int baseDmg;
+    [SerializeField]
+    private int scalingByDay = 20;
+    private int enemyDamage;
+    [SerializeField]
+    private int baseHP;
+    [SerializeField]
+    private float attackCooldownInSeconds = 1;
+    private float timeStamp = -1; //timeStamp starts negative so we can initially set the timeStamp
     private bool playerSeen = false;
-
     private bool playerInSight = false;
+     
+
     public bool PlayerInSight { get => playerInSight; set => playerInSight = value; }
 
     protected override void Start()
     {
+        TimeController = Resources.FindObjectsOfTypeAll<DayNightCycleBehaviour>()[0];
+        ScaleOnSpawn();
         targetObj = GameObject.FindWithTag("Player");
         target = targetObj.transform;
         Player = targetObj.GetComponent(typeof(PlayerController)) as PlayerController;
+
         
         base.Start();
     }
 
     protected override void Update()
     {
-        playerInSight = checkVisibility(); //check if player is in range of monster
+        playerInSight = CheckVisibility(); //check if player is in range of monster
 
         if (playerInSight && !playerSeen) //player seen for the first time, change state to attacking and increase the vision range
         {
@@ -68,7 +77,7 @@ public class MonsterController : EntityController
         switch (monsterState)
         {
             case MonsterBehaviour.Attacking:
-                combatTarget();
+                CombatTarget();
                 
                 break;
             case MonsterBehaviour.Searching:
@@ -87,7 +96,7 @@ public class MonsterController : EntityController
     }
 
     //returns true if a straight line can be drawn between this object and the target, givin the target is within the visible arc
-    private bool checkVisibility()
+    private bool CheckVisibility()
     {
         //find direction of target
         Vector3 directionToTarget = target.position - transform.position;
@@ -125,9 +134,22 @@ public class MonsterController : EntityController
 
         return playerInSight;
     }
+    private void ScaleOnSpawn()
+    {
+        //increase 
+        enemyDamage = Mathf.FloorToInt(baseDmg * ((TimeController.TotalDayCount + scalingByDay) / scalingByDay));
+
+        this.maxHP = Mathf.FloorToInt(baseHP * ((TimeController.TotalDayCount + scalingByDay) / scalingByDay));
+
+        Debug.Log("dmg" + Mathf.FloorToInt(baseDmg * ((TimeController.TotalDayCount + scalingByDay) / scalingByDay)));
+        Debug.Log("HP" + Mathf.FloorToInt(baseHP * ((TimeController.TotalDayCount + scalingByDay) / scalingByDay)));
+    }
+    /**
+     * AI action logic \/
+     */
 
     // handles combat if AI is in Attacking behaviour
-    private void combatTarget()
+    private void CombatTarget()
     {
         // value of AI's X value relative to the Target, positive is right of the target, negative is left of the target
         float RelativeX = Mathf.Floor(this.transform.position.x - target.transform.position.x);
@@ -175,14 +197,13 @@ public class MonsterController : EntityController
             }
             else
             {
-                attack();
+                Attack();
             }
             
         }
     }
-    private void attack()
+    private new void Attack()
     {
-        base.Attack();
         if (timeStamp == -1)
         {
             timeStamp = Time.time;
@@ -193,13 +214,12 @@ public class MonsterController : EntityController
         {
 
             timeStamp = Time.time + attackCooldownInSeconds;
-            Player.TakeDamage(damageDelt);
+            Player.TakeDamage(enemyDamage);
+            base.Attack();
         }       
 
     }
-  
-    //generates random movement for the AI
-    private void wander()
+    private void Wander()
     {
         if (wanderMovement == maxMovement || wanderMovement == 0 )
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class EntityController : MonoBehaviour
 {
-    protected static int MAX_HP = 100;
+    protected int maxHP = 100;
 
     [SerializeField]
     protected float speed; // Speed of movement.
@@ -41,7 +41,7 @@ public abstract class EntityController : MonoBehaviour
         EntityAnimator = GetComponent<Animator>();
 
         // Initialise entity's hp.
-        HealthPoints = EntityController.MAX_HP;
+        HealthPoints = this.maxHP;
 
         // Set the entity to be alive.
         IsAlive = true;
@@ -159,13 +159,13 @@ public abstract class EntityController : MonoBehaviour
     public void Heal(int healing)
     {
         // If current health points is less than the maximum (100)...
-        if (HealthPoints < EntityController.MAX_HP)
+        if (HealthPoints < maxHP)
         {
             // Increment hp.
             HealthPoints += healing;
 
             // Ensure HP is not over the maximum.
-            HealthPoints = HealthPoints > EntityController.MAX_HP ? EntityController.MAX_HP : HealthPoints;
+            HealthPoints = HealthPoints > maxHP ? maxHP : HealthPoints;
         }
     }
 

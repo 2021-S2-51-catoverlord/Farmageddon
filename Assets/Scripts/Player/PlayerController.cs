@@ -69,7 +69,7 @@ public class PlayerController : EntityController
         Damage = 5;
 
         // Initilise the sliders' max values.
-        healthBar.SetMaxValue(EntityController.MAX_HP);
+        healthBar.SetMaxValue(this.maxHP);
         staminaBar.SetMaxValue(PlayerController.MAX_STAMINA);
     }
 
