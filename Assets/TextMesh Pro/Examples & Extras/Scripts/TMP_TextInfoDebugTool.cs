@@ -1,7 +1,6 @@
 ﻿using System;
-using UnityEngine;
-using System.Collections;
 using UnityEditor;
+using UnityEngine;
 
 
 namespace TMPro.Examples
@@ -11,7 +10,7 @@ namespace TMPro.Examples
     {
         // Since this script is used for debugging, we exclude it from builds.
         // TODO: Rework this script to make it into an editor utility.
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         public bool ShowCharacters;
         public bool ShowWords;
         public bool ShowLinks;
@@ -34,11 +33,11 @@ namespace TMPro.Examples
 
         void OnDrawGizmos()
         {
-            if (m_TextComponent == null)
+            if(m_TextComponent == null)
             {
                 m_TextComponent = GetComponent<TMP_Text>();
 
-                if (m_TextComponent == null)
+                if(m_TextComponent == null)
                     return;
             }
 
@@ -57,37 +56,37 @@ namespace TMPro.Examples
 
             // Draw line metrics
             #region Draw Lines
-            if (ShowLines)
+            if(ShowLines)
                 DrawLineBounds();
             #endregion
 
             // Draw word metrics
             #region Draw Words
-            if (ShowWords)
+            if(ShowWords)
                 DrawWordBounds();
             #endregion
 
             // Draw character metrics
             #region Draw Characters
-            if (ShowCharacters)
+            if(ShowCharacters)
                 DrawCharactersBounds();
             #endregion
 
             // Draw Quads around each of the words
             #region Draw Links
-            if (ShowLinks)
+            if(ShowLinks)
                 DrawLinkBounds();
             #endregion
 
             // Draw Quad around the bounds of the text
             #region Draw Bounds
-            if (ShowMeshBounds)
+            if(ShowMeshBounds)
                 DrawBounds();
             #endregion
 
             // Draw Quad around the rendered region of the text.
             #region Draw Text Bounds
-            if (ShowTextBounds)
+            if(ShowTextBounds)
                 DrawTextBounds();
             #endregion
         }
@@ -101,7 +100,7 @@ namespace TMPro.Examples
         {
             int characterCount = m_TextInfo.characterCount;
 
-            for (int i = 0; i < characterCount; i++)
+            for(int i = 0; i < characterCount; i++)
             {
                 // Draw visible as well as invisible characters
                 TMP_CharacterInfo characterInfo = m_TextInfo.characterInfo[i];
@@ -110,10 +109,10 @@ namespace TMPro.Examples
                                           characterInfo.lineNumber < m_TextComponent.maxVisibleLines &&
                                           i >= m_TextComponent.firstVisibleCharacter;
 
-                if (m_TextComponent.overflowMode == TextOverflowModes.Page)
+                if(m_TextComponent.overflowMode == TextOverflowModes.Page)
                     isCharacterVisible = isCharacterVisible && characterInfo.pageNumber + 1 == m_TextComponent.pageToDisplay;
 
-                if (!isCharacterVisible)
+                if(!isCharacterVisible)
                     continue;
 
                 float dottedLineSize = 6;
@@ -125,7 +124,7 @@ namespace TMPro.Examples
                 Vector3 bottomRight = m_Transform.TransformPoint(new Vector3(characterInfo.bottomRight.x, characterInfo.bottomRight.y, 0));
 
                 // Draw character bounds
-                if (characterInfo.isVisible)
+                if(characterInfo.isVisible)
                 {
                     Color color = Color.green;
                     DrawDottedRectangle(bottomLeft, topRight, color);
@@ -160,7 +159,7 @@ namespace TMPro.Examples
                 Vector3 meanlineStart = new Vector3(topLeft.x, m_Transform.TransformPoint(new Vector3(0, meanline, 0)).y, 0);
                 Vector3 meanlineEnd = new Vector3(topRight.x, m_Transform.TransformPoint(new Vector3(0, meanline, 0)).y, 0);
 
-                if (characterInfo.isVisible)
+                if(characterInfo.isVisible)
                 {
                     // Cap line
                     Handles.color = Color.cyan;
@@ -195,64 +194,64 @@ namespace TMPro.Examples
                 DrawCrosshair(advancePosition, 0.0125f / m_ScaleMultiplier, Color.yellow);
 
                 // Draw text labels for metrics
-               if (m_HandleSize < 0.5f)
-               {
-                   GUIStyle style = new GUIStyle(GUI.skin.GetStyle("Label"));
-                   style.normal.textColor = new Color(0.6f, 0.6f, 0.6f, 1.0f);
-                   style.fontSize = 12;
-                   style.fixedWidth = 200;
-                   style.fixedHeight = 20;
+                if(m_HandleSize < 0.5f)
+                {
+                    GUIStyle style = new GUIStyle(GUI.skin.GetStyle("Label"));
+                    style.normal.textColor = new Color(0.6f, 0.6f, 0.6f, 1.0f);
+                    style.fontSize = 12;
+                    style.fixedWidth = 200;
+                    style.fixedHeight = 20;
 
-                   Vector3 labelPosition;
-                   float center = (origin + advance) / 2;
+                    Vector3 labelPosition;
+                    float center = (origin + advance) / 2;
 
-                   //float baselineMetrics = 0;
-                   //float ascentlineMetrics = ascentline - baseline;
-                   //float caplineMetrics = capline - baseline;
-                   //float meanlineMetrics = meanline - baseline;
-                   //float descentlineMetrics = descentline - baseline;
+                    //float baselineMetrics = 0;
+                    //float ascentlineMetrics = ascentline - baseline;
+                    //float caplineMetrics = capline - baseline;
+                    //float meanlineMetrics = meanline - baseline;
+                    //float descentlineMetrics = descentline - baseline;
 
-                   // Ascent Line
-                   labelPosition = m_Transform.TransformPoint(new Vector3(center, ascentline, 0));
-                   style.alignment = TextAnchor.UpperCenter;
-                   Handles.Label(labelPosition, "Ascent Line", style);
-                   //Handles.Label(labelPosition, "Ascent Line (" + ascentlineMetrics.ToString("f3") + ")" , style);
+                    // Ascent Line
+                    labelPosition = m_Transform.TransformPoint(new Vector3(center, ascentline, 0));
+                    style.alignment = TextAnchor.UpperCenter;
+                    Handles.Label(labelPosition, "Ascent Line", style);
+                    //Handles.Label(labelPosition, "Ascent Line (" + ascentlineMetrics.ToString("f3") + ")" , style);
 
-                   // Base Line
-                   labelPosition = m_Transform.TransformPoint(new Vector3(center, baseline, 0));
-                   Handles.Label(labelPosition, "Base Line", style);
-                   //Handles.Label(labelPosition, "Base Line (" + baselineMetrics.ToString("f3") + ")" , style);
+                    // Base Line
+                    labelPosition = m_Transform.TransformPoint(new Vector3(center, baseline, 0));
+                    Handles.Label(labelPosition, "Base Line", style);
+                    //Handles.Label(labelPosition, "Base Line (" + baselineMetrics.ToString("f3") + ")" , style);
 
-                   // Descent line
-                   labelPosition = m_Transform.TransformPoint(new Vector3(center, descentline, 0));
-                   Handles.Label(labelPosition, "Descent Line", style);
-                   //Handles.Label(labelPosition, "Descent Line (" + descentlineMetrics.ToString("f3") + ")" , style);
+                    // Descent line
+                    labelPosition = m_Transform.TransformPoint(new Vector3(center, descentline, 0));
+                    Handles.Label(labelPosition, "Descent Line", style);
+                    //Handles.Label(labelPosition, "Descent Line (" + descentlineMetrics.ToString("f3") + ")" , style);
 
-                   if (characterInfo.isVisible)
-                   {
-                       // Cap Line
-                       labelPosition = m_Transform.TransformPoint(new Vector3(center, capline, 0));
-                       style.alignment = TextAnchor.UpperCenter;
-                       Handles.Label(labelPosition, "Cap Line", style);
-                       //Handles.Label(labelPosition, "Cap Line (" + caplineMetrics.ToString("f3") + ")" , style);
+                    if(characterInfo.isVisible)
+                    {
+                        // Cap Line
+                        labelPosition = m_Transform.TransformPoint(new Vector3(center, capline, 0));
+                        style.alignment = TextAnchor.UpperCenter;
+                        Handles.Label(labelPosition, "Cap Line", style);
+                        //Handles.Label(labelPosition, "Cap Line (" + caplineMetrics.ToString("f3") + ")" , style);
 
-                       // Mean Line
-                       labelPosition = m_Transform.TransformPoint(new Vector3(center, meanline, 0));
-                       style.alignment = TextAnchor.UpperCenter;
-                       Handles.Label(labelPosition, "Mean Line", style);
-                       //Handles.Label(labelPosition, "Mean Line (" + ascentlineMetrics.ToString("f3") + ")" , style);
+                        // Mean Line
+                        labelPosition = m_Transform.TransformPoint(new Vector3(center, meanline, 0));
+                        style.alignment = TextAnchor.UpperCenter;
+                        Handles.Label(labelPosition, "Mean Line", style);
+                        //Handles.Label(labelPosition, "Mean Line (" + ascentlineMetrics.ToString("f3") + ")" , style);
 
-                       // Origin
-                       labelPosition = m_Transform.TransformPoint(new Vector3(origin, baseline, 0));
-                       style.alignment = TextAnchor.UpperRight;
-                       Handles.Label(labelPosition, "Origin ", style);
+                        // Origin
+                        labelPosition = m_Transform.TransformPoint(new Vector3(origin, baseline, 0));
+                        style.alignment = TextAnchor.UpperRight;
+                        Handles.Label(labelPosition, "Origin ", style);
 
-                       // Advance
-                       labelPosition = m_Transform.TransformPoint(new Vector3(advance, baseline, 0));
-                       style.alignment = TextAnchor.UpperLeft;
-                       Handles.Label(labelPosition, "  Advance", style);
-                   }
-               }
+                        // Advance
+                        labelPosition = m_Transform.TransformPoint(new Vector3(advance, baseline, 0));
+                        style.alignment = TextAnchor.UpperLeft;
+                        Handles.Label(labelPosition, "  Advance", style);
+                    }
+                }
             }
         }
 
@@ -263,7 +262,7 @@ namespace TMPro.Examples
         /// <param name="text"></param>
         void DrawWordBounds()
         {
-            for (int i = 0; i < m_TextInfo.wordCount; i++)
+            for(int i = 0; i < m_TextInfo.wordCount; i++)
             {
                 TMP_WordInfo wInfo = m_TextInfo.wordInfo[i];
 
@@ -280,7 +279,7 @@ namespace TMPro.Examples
                 Color wordColor = Color.green;
 
                 // Iterate through each character of the word
-                for (int j = 0; j < wInfo.characterCount; j++)
+                for(int j = 0; j < wInfo.characterCount; j++)
                 {
                     int characterIndex = wInfo.firstCharacterIndex + j;
                     TMP_CharacterInfo currentCharInfo = m_TextInfo.characterInfo[characterIndex];
@@ -294,7 +293,7 @@ namespace TMPro.Examples
                     maxAscender = Mathf.Max(maxAscender, currentCharInfo.ascender);
                     minDescender = Mathf.Min(minDescender, currentCharInfo.descender);
 
-                    if (isBeginRegion == false && isCharacterVisible)
+                    if(isBeginRegion == false && isCharacterVisible)
                     {
                         isBeginRegion = true;
 
@@ -304,7 +303,7 @@ namespace TMPro.Examples
                         //Debug.Log("Start Word Region at [" + currentCharInfo.character + "]");
 
                         // If Word is one character
-                        if (wInfo.characterCount == 1)
+                        if(wInfo.characterCount == 1)
                         {
                             isBeginRegion = false;
 
@@ -321,7 +320,7 @@ namespace TMPro.Examples
                     }
 
                     // Last Character of Word
-                    if (isBeginRegion && j == wInfo.characterCount - 1)
+                    if(isBeginRegion && j == wInfo.characterCount - 1)
                     {
                         isBeginRegion = false;
 
@@ -336,7 +335,7 @@ namespace TMPro.Examples
                         //Debug.Log("End Word Region at [" + currentCharInfo.character + "]");
                     }
                     // If Word is split on more than one line.
-                    else if (isBeginRegion && currentLine != m_TextInfo.characterInfo[characterIndex + 1].lineNumber)
+                    else if(isBeginRegion && currentLine != m_TextInfo.characterInfo[characterIndex + 1].lineNumber)
                     {
                         isBeginRegion = false;
 
@@ -369,7 +368,7 @@ namespace TMPro.Examples
         {
             TMP_TextInfo textInfo = m_TextComponent.textInfo;
 
-            for (int i = 0; i < textInfo.linkCount; i++)
+            for(int i = 0; i < textInfo.linkCount; i++)
             {
                 TMP_LinkInfo linkInfo = textInfo.linkInfo[i];
 
@@ -386,7 +385,7 @@ namespace TMPro.Examples
                 Color32 linkColor = Color.cyan;
 
                 // Iterate through each character of the link text
-                for (int j = 0; j < linkInfo.linkTextLength; j++)
+                for(int j = 0; j < linkInfo.linkTextLength; j++)
                 {
                     int characterIndex = linkInfo.linkTextfirstCharacterIndex + j;
                     TMP_CharacterInfo currentCharInfo = textInfo.characterInfo[characterIndex];
@@ -400,7 +399,7 @@ namespace TMPro.Examples
                     maxAscender = Mathf.Max(maxAscender, currentCharInfo.ascender);
                     minDescender = Mathf.Min(minDescender, currentCharInfo.descender);
 
-                    if (isBeginRegion == false && isCharacterVisible)
+                    if(isBeginRegion == false && isCharacterVisible)
                     {
                         isBeginRegion = true;
 
@@ -410,7 +409,7 @@ namespace TMPro.Examples
                         //Debug.Log("Start Word Region at [" + currentCharInfo.character + "]");
 
                         // If Link is one character
-                        if (linkInfo.linkTextLength == 1)
+                        if(linkInfo.linkTextLength == 1)
                         {
                             isBeginRegion = false;
 
@@ -427,7 +426,7 @@ namespace TMPro.Examples
                     }
 
                     // Last Character of Link
-                    if (isBeginRegion && j == linkInfo.linkTextLength - 1)
+                    if(isBeginRegion && j == linkInfo.linkTextLength - 1)
                     {
                         isBeginRegion = false;
 
@@ -442,7 +441,7 @@ namespace TMPro.Examples
                         //Debug.Log("End Word Region at [" + currentCharInfo.character + "]");
                     }
                     // If Link is split on more than one line.
-                    else if (isBeginRegion && currentLine != textInfo.characterInfo[characterIndex + 1].lineNumber)
+                    else if(isBeginRegion && currentLine != textInfo.characterInfo[characterIndex + 1].lineNumber)
                     {
                         isBeginRegion = false;
 
@@ -473,7 +472,7 @@ namespace TMPro.Examples
         {
             int lineCount = m_TextInfo.lineCount;
 
-            for (int i = 0; i < lineCount; i++)
+            for(int i = 0; i < lineCount; i++)
             {
                 TMP_LineInfo lineInfo = m_TextInfo.lineInfo[i];
                 TMP_CharacterInfo firstCharacterInfo = m_TextInfo.characterInfo[lineInfo.firstCharacterIndex];
@@ -483,7 +482,7 @@ namespace TMPro.Examples
                                       i > m_TextComponent.maxVisibleLines ||
                                      (m_TextComponent.overflowMode == TextOverflowModes.Page && firstCharacterInfo.pageNumber + 1 != m_TextComponent.pageToDisplay) ? false : true;
 
-                if (!isLineVisible) continue;
+                if(!isLineVisible) continue;
 
                 float lineBottomLeft = firstCharacterInfo.bottomLeft.x;
                 float lineTopRight = lastCharacterInfo.topRight.x;
@@ -519,7 +518,7 @@ namespace TMPro.Examples
                 Handles.DrawDottedLine(descentLineStart, descentLineEnd, dottedLineSize);
 
                 // Draw text labels for metrics
-                if (m_HandleSize < 1.0f)
+                if(m_HandleSize < 1.0f)
                 {
                     GUIStyle style = new GUIStyle();
                     style.normal.textColor = new Color(0.8f, 0.8f, 0.8f, 1.0f);
@@ -646,7 +645,7 @@ namespace TMPro.Examples
             UnityEditor.Handles.DrawDottedLine(tr, br, dotSpacing);
             UnityEditor.Handles.DrawDottedLine(br, bl, dotSpacing);
         }
-        #endif
+#endif
     }
 }
 

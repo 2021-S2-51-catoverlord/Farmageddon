@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using TMPro;
 
 
 namespace TMPro.Examples
@@ -26,7 +23,7 @@ namespace TMPro.Examples
         {
             // Get a reference to the TMP text component if one already exists otherwise add one.
             // This example show the convenience of having both TMP components derive from TMP_Text. 
-            if (ObjectType == 0)
+            if(ObjectType == 0)
                 m_text = GetComponent<TextMeshPro>() ?? gameObject.AddComponent<TextMeshPro>();
             else
                 m_text = GetComponent<TextMeshProUGUI>() ?? gameObject.AddComponent<TextMeshProUGUI>();
@@ -53,7 +50,7 @@ namespace TMPro.Examples
 
         void Update()
         {
-            if (!isStatic)
+            if(!isStatic)
             {
                 m_text.SetText(k_label, count % 1000);
                 count += 1;

@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class EquipSlot : ItemSlot
 {
     public EquipmentType equipType;
@@ -14,7 +10,7 @@ public class EquipSlot : ItemSlot
 
     public override bool CanReceiveItem(Item item)
     {
-        if (item == null)
+        if(item == null)
         {
             return true;
         }

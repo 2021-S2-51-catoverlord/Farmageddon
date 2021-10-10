@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ItemPickUp : MonoBehaviour
 {
@@ -10,7 +7,7 @@ public class ItemPickUp : MonoBehaviour
 
     private void Start()
     {
-        if (inventory == null) // If inventory has not been assigned yet...
+        if(inventory == null) // If inventory has not been assigned yet...
         {
             // Find the Inventory and get the reference of its script.
             //inventory = GameObject.Find("CharacterUI").GetComponentInChildren<Inventory>();
@@ -25,7 +22,7 @@ public class ItemPickUp : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D target)
     {
         // If the player collided with the object...
-        if (target.gameObject.tag == "Player")
+        if(target.gameObject.tag == "Player")
         {
             PickUp();
         }
@@ -40,7 +37,7 @@ public class ItemPickUp : MonoBehaviour
         bool itemPickedUp = inventory.AddItem(item.GetItemCopy());
 
         // If the item has been successfully picked up...
-        if (itemPickedUp)
+        if(itemPickedUp)
         {
             // Make the game object disappear from the scene.
             Destroy(gameObject);

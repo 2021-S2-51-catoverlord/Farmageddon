@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections;
 
 
 namespace TMPro.Examples
@@ -31,16 +30,16 @@ namespace TMPro.Examples
         {
             m_isHoveringObject = false;
 
-            if (TMP_TextUtilities.IsIntersectingRectTransform(m_TextMeshPro.rectTransform, Input.mousePosition, Camera.main))
+            if(TMP_TextUtilities.IsIntersectingRectTransform(m_TextMeshPro.rectTransform, Input.mousePosition, Camera.main))
             {
                 m_isHoveringObject = true;
             }
 
-            if (m_isHoveringObject)
+            if(m_isHoveringObject)
             {
                 #region Example of Character Selection
                 int charIndex = TMP_TextUtilities.FindIntersectingCharacter(m_TextMeshPro, Input.mousePosition, Camera.main, true);
-                if (charIndex != -1 && charIndex != m_lastCharIndex && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
+                if(charIndex != -1 && charIndex != m_lastCharIndex && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
                 {
                     //Debug.Log("[" + m_TextMeshPro.textInfo.characterInfo[charIndex].character + "] has been selected.");
 
@@ -69,14 +68,14 @@ namespace TMPro.Examples
                 int linkIndex = TMP_TextUtilities.FindIntersectingLink(m_TextMeshPro, Input.mousePosition, m_Camera);
 
                 // Clear previous link selection if one existed.
-                if ((linkIndex == -1 && m_selectedLink != -1) || linkIndex != m_selectedLink)
+                if((linkIndex == -1 && m_selectedLink != -1) || linkIndex != m_selectedLink)
                 {
                     //m_TextPopup_RectTransform.gameObject.SetActive(false);
                     m_selectedLink = -1;
                 }
 
                 // Handle new Link selection.
-                if (linkIndex != -1 && linkIndex != m_selectedLink)
+                if(linkIndex != -1 && linkIndex != m_selectedLink)
                 {
                     m_selectedLink = linkIndex;
 
@@ -89,7 +88,7 @@ namespace TMPro.Examples
 
                     RectTransformUtility.ScreenPointToWorldPointInRectangle(m_TextMeshPro.rectTransform, Input.mousePosition, m_Camera, out worldPointInRectangle);
 
-                    switch (linkInfo.GetLinkID())
+                    switch(linkInfo.GetLinkID())
                     {
                         case "id_01": // 100041637: // id_01
                                       //m_TextPopup_RectTransform.position = worldPointInRectangle;
@@ -109,7 +108,7 @@ namespace TMPro.Examples
                 #region Example of Word Selection
                 // Check if Mouse intersects any words and if so assign a random color to that word.
                 int wordIndex = TMP_TextUtilities.FindIntersectingWord(m_TextMeshPro, Input.mousePosition, Camera.main);
-                if (wordIndex != -1 && wordIndex != m_lastWordIndex)
+                if(wordIndex != -1 && wordIndex != m_lastWordIndex)
                 {
                     m_lastWordIndex = wordIndex;
 
@@ -123,7 +122,7 @@ namespace TMPro.Examples
                     Color32[] vertexColors = m_TextMeshPro.textInfo.meshInfo[0].colors32;
 
                     Color32 c = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), 255);
-                    for (int i = 0; i < wInfo.characterCount; i++)
+                    for(int i = 0; i < wInfo.characterCount; i++)
                     {
                         int vertexIndex = m_TextMeshPro.textInfo.characterInfo[wInfo.firstCharacterIndex + i].vertexIndex;
 

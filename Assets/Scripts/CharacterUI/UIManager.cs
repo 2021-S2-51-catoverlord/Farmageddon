@@ -1,34 +1,28 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] Inventory inventory;
-    [SerializeField] EquipUI equipUI;
+    [SerializeField] public Inventory inventory;
+    [SerializeField] public EquipUI equipUI;
     [SerializeField] Image draggableItem;
     [SerializeField] DropArea dropArea;
-    [SerializeField] ItemSaveManager saveManager;
+    [Space]
     [SerializeField] PlayerController player;
+    [SerializeField] ItemSaveManager saveManager;
+
     private ItemSlot draggedSlot;
-
-    public Inventory Inventory { get => inventory; set => _ = inventory; }
-    public EquipUI EquipUI { get => equipUI; set => _ = equipUI; }
-
-    private void Start()
-    {
-        // Find the item saver gameobject and get reference to its script if it's not assigned yet.
-        if(saveManager == null)
-            saveManager = GameObject.Find("ItemSaver").GetComponent<ItemSaveManager>();
-
-        // Find the player gameobject and get reference to its script if it's not assigned yet.
-        if(player == null)
-            player = GameObject.Find("Player").GetComponent<PlayerController>();                                                                       
-    }
 
     private void Awake()
     {
+        // Find the player gameobject and get reference to its script if it's not assigned yet.
+        if(player == null)
+            player = GameObject.Find("Player").GetComponent<PlayerController>();
+
+        // Find the item saver gameobject and get reference to its script if it's not assigned yet.
+        if(saveManager == null)
+            saveManager = GetComponent<ItemSaveManager>();
+
         //Right Click Events
         inventory.OnRightClickEvent += InventoryRightClick;
         equipUI.OnRightClickEvent += EquipmentRightClick;
@@ -53,11 +47,11 @@ public class UIManager : MonoBehaviour
         {
             Equip((Equipment)itemSlot.Item);
         }
-        else if (itemSlot.Item is Food)
+        else if(itemSlot.Item is Food)
         {
-            Food food = (Food)itemSlot.Item;          
+            Food food = (Food)itemSlot.Item;
 
-            if (food.IsConsumable)
+            if(food.IsConsumable)
             {
                 player.Heal(food.healHeath); // Perform healing.
                 // Tells the health bar to update according to the player's current hp.
@@ -70,7 +64,7 @@ public class UIManager : MonoBehaviour
 
     private void EquipmentRightClick(ItemSlot itemSlot)
     {
-        if (itemSlot.Item is Equipment)
+        if(itemSlot.Item is Equipment)
         {
             Unequip((Equipment)itemSlot.Item);
         }
@@ -78,7 +72,7 @@ public class UIManager : MonoBehaviour
 
     private void BeginDrag(ItemSlot itemSlot)
     {
-        if (itemSlot.Item != null)
+        if(itemSlot.Item != null)
         {
             draggedSlot = itemSlot;
             draggableItem.sprite = itemSlot.Item.icon;
@@ -95,7 +89,7 @@ public class UIManager : MonoBehaviour
 
     private void Drag(ItemSlot itemSlot)
     {
-        if (draggableItem.enabled)
+        if(draggableItem.enabled)
         {
             draggableItem.transform.position = Input.mousePosition;
         }
@@ -103,16 +97,16 @@ public class UIManager : MonoBehaviour
 
     private void Drop(ItemSlot dropItemSlot)
     {
-        if (draggedSlot == null)
+        if(draggedSlot == null)
         {
             return;
         }
 
-        if (dropItemSlot.CanAddStack(draggedSlot.Item))
+        if(dropItemSlot.CanAddStack(draggedSlot.Item))
         {
             AddStacks(dropItemSlot);
         }
-        else if (dropItemSlot.CanReceiveItem(draggedSlot.Item) && draggedSlot.CanReceiveItem(dropItemSlot.Item))
+        else if(dropItemSlot.CanReceiveItem(draggedSlot.Item) && draggedSlot.CanReceiveItem(dropItemSlot.Item))
         {
             SwapItems(dropItemSlot);
         }
@@ -120,7 +114,7 @@ public class UIManager : MonoBehaviour
 
     private void DropOutside()
     {
-        if (draggedSlot == null)
+        if(draggedSlot == null)
         {
             return;
         }
@@ -155,16 +149,16 @@ public class UIManager : MonoBehaviour
     /// Equip equipment
     /// </summary>
     /// <param name="equipment"></param>
-    public void Equip (Equipment equipment)
+    public void Equip(Equipment equipment)
     {
-        if (inventory.RemoveItem(equipment)) //Remove item from inventory
+        if(inventory.RemoveItem(equipment)) //Remove item from inventory
         {
             Equipment oldItem;
-            if (equipUI.AddItem(equipment, out oldItem)) //Add to panel
+            if(equipUI.AddItem(equipment, out oldItem)) //Add to panel
             {
-                if (oldItem != null) //Return item to inventory if there is a previous item
+                if(oldItem != null) //Return item to inventory if there is a previous item
                 {
-                    inventory.AddItem(oldItem); 
+                    inventory.AddItem(oldItem);
                 }
             }
             else
@@ -178,11 +172,25 @@ public class UIManager : MonoBehaviour
     /// Unequip 
     /// </summary>
     /// <param name="equipment"></param>
-    public void Unequip (Equipment equipment)
+    public void Unequip(Equipment equipment)
     {
-        if (!inventory.IsFull() && equipUI.RemoveItem(equipment))
+        if(!inventory.IsFull() && equipUI.RemoveItem(equipment))
         {
             inventory.AddItem(equipment);
         }
+    }
+
+    public void SaveInventoryData()
+    {
+        saveManager.SaveInventory();
+        saveManager.SaveEquipment();
+        Debug.Log("Saved inventory as binary.");
+    }
+
+    public void LoadInventoryData()
+    {
+        saveManager.LoadInventory();
+        saveManager.LoadEquipment();
+        Debug.Log("Loaded inventory from binary.");
     }
 }

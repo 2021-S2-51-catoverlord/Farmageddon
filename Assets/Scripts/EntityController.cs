@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class EntityController : MonoBehaviour
@@ -71,7 +69,7 @@ public abstract class EntityController : MonoBehaviour
     public void HandleAnimLayers()
     {
         // If the character is moving...
-        if (IsMoving)
+        if(IsMoving)
         {
             // Change the main layer to the walking layer.
             ActivateAnimLayer("Walk Layer");
@@ -110,7 +108,7 @@ public abstract class EntityController : MonoBehaviour
     public void ActivateAnimLayer(string layerName)
     {
         // For each animation layer of the EntityController...
-        for (int i = 0; i < EntityAnimator.layerCount; i++)
+        for(int i = 0; i < EntityAnimator.layerCount; i++)
         {
             // Disable all the layers.
             EntityAnimator.SetLayerWeight(i, 0);
@@ -127,7 +125,7 @@ public abstract class EntityController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         // If current health points is greater than 0...
-        if (HealthPoints > 0)
+        if(HealthPoints > 0)
         {
             // Decrement hp.
             HealthPoints -= damage;
@@ -135,7 +133,7 @@ public abstract class EntityController : MonoBehaviour
             // Ensure HP is not a negative.
             HealthPoints = HealthPoints < 0 ? 0 : HealthPoints;
         }
-        
+
         // If current health points is 0 or less....
         if(HealthPoints <= 0)
         {
@@ -156,7 +154,7 @@ public abstract class EntityController : MonoBehaviour
     public void Heal(int healing)
     {
         // If current health points is less than the maximum (100)...
-        if (HealthPoints < EntityController.MAX_HP)
+        if(HealthPoints < EntityController.MAX_HP)
         {
             // Increment hp.
             HealthPoints += healing;

@@ -1,8 +1,5 @@
 using UnityEngine;
-using System.Collections;
 using UnityEngine.Tilemaps;
-using System.Collections.Generic;
-using UnityEngine.UI;
 
 /**
     Abstraction of the Tilemap layers
@@ -43,11 +40,11 @@ namespace Gameplay
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Home))
+            if(Input.GetKeyDown(KeyCode.Home))
             {
                 IncreaseSelectionLayer();
             }
-            if (Input.GetKeyDown(KeyCode.End))
+            if(Input.GetKeyDown(KeyCode.End))
             {
                 DecreaseSelectionLayer();
             }
@@ -70,7 +67,7 @@ namespace Gameplay
 
         public TilemapLayer GetCurrentSelectedLayer()
         {
-            switch (currentSelectionLayer)
+            switch(currentSelectionLayer)
             {
                 case (int)Layers.GROUND: return GroundLayer;
                 case (int)Layers.OBJECTS: return ObjectsLayer;

@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 
 namespace TMPro.Examples
 {
-    
+
     public class ObjectSpin : MonoBehaviour
     {
 
@@ -38,11 +37,11 @@ namespace TMPro.Examples
         // Update is called once per frame
         void Update()
         {
-            if (Motion == MotionType.Rotation)
+            if(Motion == MotionType.Rotation)
             {
                 m_transform.Rotate(0, SpinSpeed * Time.deltaTime, 0);
             }
-            else if (Motion == MotionType.BackAndForth)
+            else if(Motion == MotionType.BackAndForth)
             {
                 m_time += SpinSpeed * Time.deltaTime;
                 m_transform.rotation = Quaternion.Euler(m_initial_Rotation.x, Mathf.Sin(m_time) * RotationRange + m_initial_Rotation.y, m_initial_Rotation.z);

@@ -1,10 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 
 namespace TMPro.Examples
 {
-    
+
     public class ShaderPropAnimator : MonoBehaviour
     {
 
@@ -35,7 +35,7 @@ namespace TMPro.Examples
             float glowPower;
             m_frame = Random.Range(0f, 1f);
 
-            while (true)
+            while(true)
             {
                 //lightAngle = (m_Material.GetFloat(ShaderPropertyIDs.ID_LightAngle) + Time.deltaTime) % 6.2831853f;
                 //m_Material.SetFloat(ShaderPropertyIDs.ID_LightAngle, lightAngle);

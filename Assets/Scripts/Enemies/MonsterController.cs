@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class MonsterController : EntityController
@@ -45,26 +42,27 @@ public class MonsterController : EntityController
     {
         playerInSight = checkVisibility(); //check if player is in range of monster
 
-        if (playerInSight && !playerSeen) //player seen for the first time, change state to attacking and increase the vision range
+        if(playerInSight && !playerSeen) //player seen for the first time, change state to attacking and increase the vision range
         {
             playerSeen = true;
             monsterState = MonsterBehaviour.Attacking;
             baseSearch = baseSearch * searchBoost;
         }
-        else if (playerSeen && !playerInSight) //player has been seen but is no longer in vision range
+        else if(playerSeen && !playerInSight) //player has been seen but is no longer in vision range
         {
             monsterState = MonsterBehaviour.Searching;
 
-        }else if(playerSeen && playerInSight) //player is seen and has been seen before
+        }
+        else if(playerSeen && playerInSight) //player is seen and has been seen before
         {
             monsterState = MonsterBehaviour.Attacking;
         }
-      
-        switch (monsterState)
+
+        switch(monsterState)
         {
             case MonsterBehaviour.Attacking:
                 combatTarget();
-                if (debugToggle)
+                if(debugToggle)
                 {
                     Debug.Log(monsterState);
                 }
@@ -72,13 +70,13 @@ public class MonsterController : EntityController
             case MonsterBehaviour.Searching:
                 //wander();
                 this.direction = Vector2.zero;
-                if (debugToggle)
+                if(debugToggle)
                 {
                     Debug.Log(monsterState);
                 }
                 break;
             case MonsterBehaviour.Wandering:
-                if (debugToggle)
+                if(debugToggle)
                 {
                     Debug.Log(monsterState);
                 }
@@ -109,27 +107,27 @@ public class MonsterController : EntityController
         Ray2D ray = new Ray2D(transform.position, directionToTarget);
 
         //store info on the hit
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget,baseSearch);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget, baseSearch);
 
         //fire raycast, does it hit anything?
-        if (debugToggle)
+        if(debugToggle)
         {
             Debug.DrawRay(transform.position, directionToTarget);
         }
-        
-        if (hit)
+
+        if(hit)
         {
-            if (debugToggle)
+            if(debugToggle)
             {
                 Debug.Log("raycast hit");
                 //Debug.Log(hit.transform.position.ToString());
                 Debug.Log(hit.transform.gameObject.ToString());
             }
-            if (hit.collider.transform == target)
+            if(hit.collider.transform == target)
             {
                 //then we can see the target
                 playerInSight = true;
-                if (debugToggle)
+                if(debugToggle)
                 {
                     Debug.Log("player in sight");
                 }
@@ -158,9 +156,9 @@ public class MonsterController : EntityController
 
         this.direction = Vector2.zero;
 
-        if (RelativeX != 0) //check if AI is on same x level as target
+        if(RelativeX != 0) //check if AI is on same x level as target
         {
-            if (RelativeX < 0) // check if the AI is on the left or right of the target. 
+            if(RelativeX < 0) // check if the AI is on the left or right of the target. 
             {
                 // target is to the left of the target, move right
                 this.direction += Vector2.right;
@@ -171,9 +169,9 @@ public class MonsterController : EntityController
                 this.direction += Vector2.left;
             }
         }
-        else if (RelativeY != 0) // check if target is on the same Y level
+        else if(RelativeY != 0) // check if target is on the same Y level
         {
-            if (RelativeY < 0)  // check if AI is above or below the target
+            if(RelativeY < 0)  // check if AI is above or below the target
             {
                 //AI is below target, move up
                 this.direction += Vector2.up;
@@ -185,16 +183,16 @@ public class MonsterController : EntityController
             }
         }
     }
-  
+
     //generates random movement for the AI
     private void wander()
     {
-        if (wanderMovement == maxMovement || wanderMovement == 0 )
+        if(wanderMovement == maxMovement || wanderMovement == 0)
         {
             wanderdirection = Random.Range(1, 4);
             wanderMovement = 0;
         }
-        switch (wanderdirection)
+        switch(wanderdirection)
         {
             case 1:
                 this.direction = Vector2.up;
@@ -216,7 +214,7 @@ public class MonsterController : EntityController
     private void OnCollisionStay(Collision collisionInfo)
     {
         Debug.Log("Collision");
-        if (collisionInfo.gameObject == targetObj)
+        if(collisionInfo.gameObject == targetObj)
         {
             Player.TakeDamage(damage);
         }

@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 
 namespace TMPro.Examples
@@ -48,7 +48,7 @@ namespace TMPro.Examples
 
         void Start()
         {
-            if (SpawnType == 0)
+            if(SpawnType == 0)
             {
                 // TextMesh Pro Implementation
                 m_textMeshPro = m_floatingText.AddComponent<TextMeshPro>();
@@ -71,7 +71,7 @@ namespace TMPro.Examples
 
                 StartCoroutine(DisplayTextMeshProFloatingText());
             }
-            else if (SpawnType == 1)
+            else if(SpawnType == 1)
             {
                 //Debug.Log("Spawning TextMesh Objects.");
 
@@ -87,7 +87,7 @@ namespace TMPro.Examples
 
                 StartCoroutine(DisplayTextMeshFloatingText());
             }
-            else if (SpawnType == 2)
+            else if(SpawnType == 2)
             {
 
             }
@@ -124,11 +124,11 @@ namespace TMPro.Examples
 
             float fadeDuration = 3 / starting_Count * CountDuration;
 
-            while (current_Count > 0)
+            while(current_Count > 0)
             {
                 current_Count -= (Time.deltaTime / CountDuration) * starting_Count;
 
-                if (current_Count <= 3)
+                if(current_Count <= 3)
                 {
                     //Debug.Log("Fading Counter ... " + current_Count.ToString("f2"));
                     alpha = Mathf.Clamp(alpha - (Time.deltaTime / fadeDuration) * 255, 0, 255);
@@ -144,7 +144,7 @@ namespace TMPro.Examples
                 m_floatingText_Transform.position += new Vector3(0, starting_Count * Time.deltaTime, 0);
 
                 // Align floating text perpendicular to Camera.
-                if (!lastPOS.Compare(m_cameraTransform.position, 1000) || !lastRotation.Compare(m_cameraTransform.rotation, 1000))
+                if(!lastPOS.Compare(m_cameraTransform.position, 1000) || !lastRotation.Compare(m_cameraTransform.rotation, 1000))
                 {
                     lastPOS = m_cameraTransform.position;
                     lastRotation = m_cameraTransform.rotation;
@@ -179,11 +179,11 @@ namespace TMPro.Examples
 
             float fadeDuration = 3 / starting_Count * CountDuration;
 
-            while (current_Count > 0)
+            while(current_Count > 0)
             {
                 current_Count -= (Time.deltaTime / CountDuration) * starting_Count;
 
-                if (current_Count <= 3)
+                if(current_Count <= 3)
                 {
                     //Debug.Log("Fading Counter ... " + current_Count.ToString("f2"));
                     alpha = Mathf.Clamp(alpha - (Time.deltaTime / fadeDuration) * 255, 0, 255);
@@ -199,7 +199,7 @@ namespace TMPro.Examples
                 m_floatingText_Transform.position += new Vector3(0, starting_Count * Time.deltaTime, 0);
 
                 // Align floating text perpendicular to Camera.
-                if (!lastPOS.Compare(m_cameraTransform.position, 1000) || !lastRotation.Compare(m_cameraTransform.rotation, 1000))
+                if(!lastPOS.Compare(m_cameraTransform.position, 1000) || !lastRotation.Compare(m_cameraTransform.rotation, 1000))
                 {
                     lastPOS = m_cameraTransform.position;
                     lastRotation = m_cameraTransform.rotation;

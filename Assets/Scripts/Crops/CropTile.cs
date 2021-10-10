@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.Tilemaps;
 
 namespace Gameplay
@@ -38,10 +35,10 @@ namespace Gameplay
 
         private void OnGrowEvent(string plantID)
         {
-            if (plantID != ID) return;
+            if(plantID != ID) return;
 
             // Unsubscribe
-            if (currStageIndex >= GrowthStageTiles.Length)
+            if(currStageIndex >= GrowthStageTiles.Length)
             {
                 TileController.instance.OnStageGrow -= OnGrowEvent;
                 isGrown = true;

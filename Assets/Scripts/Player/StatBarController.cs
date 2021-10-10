@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +14,7 @@ public class StatBarController : MonoBehaviour
         slider.maxValue = maxValue;
         slider.value = maxValue;
     }
-    
+
     //Set current value.
     public void SetCurrentValue(int currentValue)
     {

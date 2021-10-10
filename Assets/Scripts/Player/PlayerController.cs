@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : EntityController
@@ -73,22 +72,22 @@ public class PlayerController : EntityController
         this.IsAttacking = false;
 
         /// Code for single direction.
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             // Move up.
             this.direction += Vector2.up;
         }
-        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        else if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             // Move left.
             this.direction += Vector2.left;
         }
-        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        else if(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             // Move down.
             this.direction += Vector2.down;
         }
-        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        else if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             // Move right.
             this.direction += Vector2.right;
@@ -107,14 +106,14 @@ public class PlayerController : EntityController
         }
 
         // Test health bar.
-        if (Input.GetKeyDown(KeyCode.Z))
+        if(Input.GetKeyDown(KeyCode.Z))
         {
             TakeDamage(3);
             // Update the health bar slider.
             healthBar.SetCurrentValue(HealthPoints);
             //Debug.Log("HP: " + HealthPoints);
         }
-        else if (Input.GetKeyDown(KeyCode.X))
+        else if(Input.GetKeyDown(KeyCode.X))
         {
             Heal(3);
             // Update the health bar slider.
@@ -123,7 +122,7 @@ public class PlayerController : EntityController
         }
 
         // Test stamina bar.
-        if (Input.GetKeyDown(KeyCode.C))
+        if(Input.GetKeyDown(KeyCode.C))
         {
             UseStamina(2);
             //Debug.Log("Stamina: " + StaminaPoints);
@@ -137,7 +136,7 @@ public class PlayerController : EntityController
     public void UseStamina(int amount)
     {
         // If there is still some stamina...
-        if (StaminaPoints > 0)
+        if(StaminaPoints > 0)
         {
             // Decrement stamina.
             StaminaPoints -= amount;
@@ -183,7 +182,7 @@ public class PlayerController : EntityController
             staminaBar.SetCurrentValue(StaminaPoints);
 
             // Create a 10 ms delay.
-            yield return regenTick; 
+            yield return regenTick;
         }
     }
 

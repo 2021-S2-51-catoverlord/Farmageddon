@@ -11,12 +11,8 @@
 /  This code will need to be refactored to implement changing seasons, as length of day and night would differ. 
 */
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
-using UnityEngine.Rendering;
 using UnityEngine.Tilemaps;
 
 // Seasons, in chunks of 3 months
@@ -74,8 +70,8 @@ public class DayNightCycleBehaviour : MonoBehaviour
     public bool isDay;
     public bool isNight;
 
- // Start is called before the first frame update
-void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         timelight = GetComponent<Light2D>();
 
@@ -113,33 +109,36 @@ void Start()
         seasonGradient.SetKeys(seasonKey, seasonalAlpha);
 
         yearLength = (Enum.GetNames(typeof(MonthName)).Length - 1) * monthLength;
-        if (initTime != 0)
+        if(initTime != 0)
         {
             localTimeElapsed += initTime;
-        } else
+        }
+        else
         {
             localTimeElapsed = 0;
         }
 
-        if (initDay != 0)
-        { 
+        if(initDay != 0)
+        {
             dayCount += initDay;
-        } else
+        }
+        else
         {
             dayCount = 0;
         }
 
-        if (initMonth != 0)
+        if(initMonth != 0)
         {
             month = (MonthName)initMonth;
-        } else
+        }
+        else
         {
             month = MonthName.Janril;
             season = Season.SPRIMMER;
         }
 
         float g = (float)totalDayCount / ((float)yearLength / 4);
-        switch (season)
+        switch(season)
         {
             case Season.SPRIMMER:
                 setSeasonGradient(spring_tiles, g);
@@ -161,21 +160,22 @@ void Start()
                 break;
         }
 
-        if (monthLength < 1)
+        if(monthLength < 1)
         {
             monthLength = 30;
         }
 
-        if ((float)Math.Round((double)(localTimeElapsed / gameDayLength), 2) < 0.25 || (float)Math.Round((double)(localTimeElapsed / gameDayLength), 2) >= 0.75)
+        if((float)Math.Round((double)(localTimeElapsed / gameDayLength), 2) < 0.25 || (float)Math.Round((double)(localTimeElapsed / gameDayLength), 2) >= 0.75)
         {
             isNight = true;
-        } else
+        }
+        else
         {
             isDay = true;
         }
 
 
-     
+
 
     }
 
@@ -190,11 +190,12 @@ void Start()
         time = (float)Math.Round((double)timeRatio, 2);
 
         //0 || 1 = midnight, 0.25 = sunrise, 0.5 = midday, 0.75 = sunset
-        if ( time == 0.25 )
+        if(time == 0.25)
         {
             isNight = false;
             isDay = true;
-        } else if (time == 0.75)
+        }
+        else if(time == 0.75)
         {
             isNight = true;
             isDay = false;
@@ -203,11 +204,11 @@ void Start()
         timelight.color = gradient.Evaluate(timeRatio);
 
 
-        if (localTimeElapsed >= gameDayLength)
+        if(localTimeElapsed >= gameDayLength)
         {
             dayIncrease();
         }
-        
+
     }
 
     void dayIncrease()
@@ -216,11 +217,11 @@ void Start()
         totalDayCount++;
         seasonalDayCount++;
 
-        g = (float)seasonalDayCount / (3*monthLength);
+        g = (float)seasonalDayCount / (3 * monthLength);
 
         localTimeElapsed = 0;
 
-        if (dayCount == monthLength)
+        if(dayCount == monthLength)
         {
             int m = (int)month;
             m++;
@@ -231,33 +232,33 @@ void Start()
 
             dayCount = 0;
 
-            if ((int)month >= 1 && (int)month <= 3)
+            if((int)month >= 1 && (int)month <= 3)
             {
-                if ((int)month == 1)
+                if((int)month == 1)
                 {
                     seasonalDayCount = 0;
                 }
                 setSeason(Season.SPRIMMER);
             }
-            else if ((int)month >= 4 && (int)month <= 6)
+            else if((int)month >= 4 && (int)month <= 6)
             {
-                if ((int)month == 4)
+                if((int)month == 4)
                 {
                     seasonalDayCount = 0;
                 }
                 setSeason(Season.SUMTUMN);
             }
-            else if ((int)month >= 7 && (int)month <= 9)
+            else if((int)month >= 7 && (int)month <= 9)
             {
-                if ((int)month == 7)
+                if((int)month == 7)
                 {
                     seasonalDayCount = 0;
                 }
                 setSeason(Season.AUNTER);
             }
-            else if ((int)month >= 10 && (int)month <= 12)
+            else if((int)month >= 10 && (int)month <= 12)
             {
-                if ((int)month == 10)
+                if((int)month == 10)
                 {
                     seasonalDayCount = 0;
                 }
@@ -269,7 +270,7 @@ void Start()
             }
         }
 
-        switch (season)
+        switch(season)
         {
             case Season.SPRIMMER:
                 setSeasonGradient(spring_tiles, g);
@@ -287,7 +288,7 @@ void Start()
                 break;
         }
 
-        if (totalDayCount >= yearLength)
+        if(totalDayCount >= yearLength)
         {
             yearLength++;
             totalDayCount = 0;
@@ -297,7 +298,7 @@ void Start()
     int MonthIncrease(int m)
     {
 
-        if ((int)month == 12)
+        if((int)month == 12)
         {
             return 1;
         }
@@ -309,7 +310,7 @@ void Start()
 
     void setSeasonGradient(Tilemap[] t, float g)
     {
-        foreach (Tilemap tm in t)
+        foreach(Tilemap tm in t)
         {
             tm.color = seasonGradient.Evaluate(g);
         }
@@ -317,7 +318,7 @@ void Start()
 
     void setSeason(Season s)
     {
-        if (g >= 1)
+        if(g >= 1)
         {
             g = 0;
         }

@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -9,12 +7,29 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
     public GameObject inventoryUI;
     public GameObject equipmentUI;
+    public UIManager uiManager;
+    [Space]
+    public Button SaveButton;
+    public Button LoadButton;
+
+    private void Awake()
+    {
+        if(uiManager == null)
+        {
+            uiManager = GameObject.Find("CharacterUI").GetComponent<UIManager>();
+        }
+
+        //SaveButton.onClick.AddListener(SaveGame);
+        SaveButton.onClick.AddListener(uiManager.SaveInventoryData);
+        //LoadButton.onClick.AddListener(LoadGame);
+        LoadButton.onClick.AddListener(uiManager.LoadInventoryData);
+    }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused)
+            if(isPaused)
             {
                 Resume();
             }
@@ -28,6 +43,8 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
+        inventoryUI.SetActive(inventoryUI.activeSelf);
+        equipmentUI.SetActive(equipmentUI.activeSelf);
         Time.timeScale = 1f;
         isPaused = false;
     }
@@ -43,18 +60,18 @@ public class PauseMenu : MonoBehaviour
 
     public void SaveGame()
     {
-        //string fileName = "saved_" + DateTime.Now.ToString("s") + ".json"; 
-        // Tell  save manager to save the game's current state.
-        SaveManager.SaveGame("savedGame.json");
+        // Tell save managers to save the game's current state.
+        //SaveManager.SaveGame("savedGame.json");
+        //UIManager.SaveInventoryData();
         Debug.Log("Game Saved");
     }
 
     public void LoadGame()
     {
-        // Tell save manager to load the game.
-        SaveManager.LoadGame("savedGame.json");
+        // Tell save managers to load the game.
+        //SaveManager.LoadGame("savedGame.json");
+        //UIManager.LoadInventoryData();
         Debug.Log("Game Loaded");
-
         Resume();
     }
 

@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 
 namespace TMPro.Examples
@@ -18,11 +17,11 @@ namespace TMPro.Examples
         void Start()
         {
 
-            for (int i = 0; i < NumberOfNPC; i++)
+            for(int i = 0; i < NumberOfNPC; i++)
             {
 
 
-                if (SpawnType == 0)
+                if(SpawnType == 0)
                 {
                     // TextMesh Pro Implementation
                     GameObject go = new GameObject();
@@ -46,7 +45,7 @@ namespace TMPro.Examples
                     floatingText_Script.SpawnType = 0;
                     floatingText_Script.IsTextObjectScaleStatic = IsTextObjectScaleStatic;
                 }
-                else if (SpawnType == 1)
+                else if(SpawnType == 1)
                 {
                     // TextMesh Implementation
                     GameObject go = new GameObject();
@@ -66,7 +65,7 @@ namespace TMPro.Examples
                     floatingText_Script = go.AddComponent<TextMeshProFloatingText>();
                     floatingText_Script.SpawnType = 1;
                 }
-                else if (SpawnType == 2)
+                else if(SpawnType == 2)
                 {
                     // Canvas WorldSpace Camera
                     GameObject go = new GameObject();

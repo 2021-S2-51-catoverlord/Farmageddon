@@ -1,7 +1,4 @@
 using LitJson;
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TransformSaver : SaveableBehaviour
@@ -20,9 +17,6 @@ public class TransformSaver : SaveableBehaviour
     /// <returns></returns>
     private JsonData SerializeValue(object obj)
     {
-        // Convert an object to JSON text, then parse this text back into a JSON
-        // representation, but it means that we don't need to write the
-        // (de)serialization code for built-in Unity types.
         return JsonMapper.ToObject(JsonUtility.ToJson(obj));
     }
 
@@ -62,19 +56,19 @@ public class TransformSaver : SaveableBehaviour
     public override void LoadFromData(JsonData data)
     {
         // Test to see if each item exists in the saved data.
-        if (data.ContainsKey(LOCAL_POSITION_KEY))
+        if(data.ContainsKey(LOCAL_POSITION_KEY))
         {
             // Update position
             transform.localPosition = DeserializeValue<Vector3>(data[LOCAL_POSITION_KEY]);
         }
-        
-        if (data.ContainsKey(LOCAL_ROTATION_KEY))
+
+        if(data.ContainsKey(LOCAL_ROTATION_KEY))
         {
             // Update rotation
             transform.localRotation = DeserializeValue<Quaternion>(data[LOCAL_ROTATION_KEY]);
         }
-        
-        if (data.ContainsKey(LOCAL_SCALE_KEY))
+
+        if(data.ContainsKey(LOCAL_SCALE_KEY))
         {
             // Update scale
             transform.localScale = DeserializeValue<Vector3>(data[LOCAL_SCALE_KEY]);

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
@@ -21,15 +21,18 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 
     protected virtual void OnValidate()
     {
-        if (image == null) // if the image is empty then get image
+        if(image == null) // if the image is empty then get image
         {
             image = GetComponent<Image>();
         }
 
-        if (amtTxt == null) // 
+        if(amtTxt == null)
         {
             amtTxt = GetComponentInChildren<Text>();
         }
+
+        Item = item;
+        Amount = amount;
     }
 
     public virtual bool CanReceiveItem(Item item)
@@ -46,9 +49,9 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData != null && eventData.button == PointerEventData.InputButton.Right)
+        if(eventData != null && eventData.button == PointerEventData.InputButton.Right)
         {
-            if (OnRightClickEvent != null)
+            if(OnRightClickEvent != null)
             {
                 OnRightClickEvent(this);
             }
@@ -57,7 +60,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (OnBeginDragEvent != null)
+        if(OnBeginDragEvent != null)
         {
             OnBeginDragEvent(this);
         }
@@ -65,7 +68,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (OnDragEvent != null)
+        if(OnDragEvent != null)
         {
             OnDragEvent(this);
         }
@@ -73,7 +76,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (OnEndDragEvent != null)
+        if(OnEndDragEvent != null)
         {
             OnEndDragEvent(this);
         }
@@ -81,7 +84,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (OnDropEvent != null)
+        if(OnDropEvent != null)
         {
             OnDropEvent(this);
         }
@@ -97,11 +100,11 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
         set
         {
             item = value;
-            if (item == null && amount != 0)
+            if(item == null && amount != 0)
             {
                 amount = 0;
             }
-            if (item == null)
+            if(item == null)
             {
                 image.color = disableColor;
             }
@@ -122,23 +125,23 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
         set
         {
             amount = value;
-            
-            if (amount == 0 && item != null)
+
+            if(amount == 0 && item != null)
             {
                 item = null;
             }
-            if (amount < 0)
+            if(amount < 0)
             {
                 amount = 0;
             }
-            if (amtTxt != null)
+            if(amtTxt != null)
             {
                 amtTxt.enabled = item != null && amount > 1;
-                if (amtTxt.enabled)
+                if(amtTxt.enabled)
                 {
                     amtTxt.text = amount.ToString();
                 }
             }
         }
-    } 
+    }
 }

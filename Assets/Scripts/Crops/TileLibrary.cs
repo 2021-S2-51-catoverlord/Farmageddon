@@ -1,8 +1,8 @@
-using UnityEngine;
-using System.Collections.Generic;
 using Gameplay;
-using UnityEngine.Tilemaps;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class TileLibrary : MonoBehaviour
 {
@@ -11,11 +11,11 @@ public class TileLibrary : MonoBehaviour
 
     private void Awake()
     {
-        if (!instance)
+        if(!instance)
         {
             instance = this;
         }
-        else if (instance != this)
+        else if(instance != this)
         {
             Destroy(gameObject);
         }
@@ -41,7 +41,7 @@ public class TileLibrary : MonoBehaviour
         Tiles.Add("beetroot", new CropTile()
         {
             Description = "Beetroot Sprout - Stage 1",
-            TileBase = Resources.Load<TileBase>("Crops/beetroot_1"), 
+            TileBase = Resources.Load<TileBase>("Crops/beetroot_1"),
             TileData = Resources.Load<Tile>("Crops/beetroot_1"),
             GrowthStageTiles = new GrowthStage[]
             {

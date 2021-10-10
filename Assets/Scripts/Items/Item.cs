@@ -10,7 +10,7 @@ public class Item : ScriptableObject
     public string itemName;
     public Sprite icon;
     public int price = 0;
-    [Range(1, 99)] 
+    [Range(1, 99)]
     public int MaxStacks = 1;
 
     public string Id

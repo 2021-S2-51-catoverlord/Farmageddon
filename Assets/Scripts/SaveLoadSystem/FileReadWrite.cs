@@ -2,7 +2,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 /// <summary>
-/// Utility class to read byte-data/write objects from/to a file specified by the caller. 
+/// Utility class to handle file I/O when saving/loading game data. 
 /// </summary>
 public static class FileReadWrite
 {
@@ -15,7 +15,7 @@ public static class FileReadWrite
     /// <param name="objectToWrite"></param>
     public static void WriteBinToFile<T>(string fileName, T objectToWrite)
     {
-        using Stream outStream = File.Open(fileName, FileMode.Create); 
+        using Stream outStream = File.Open(fileName, FileMode.Create);
         var binaryFormatter = new BinaryFormatter();
         binaryFormatter.Serialize(outStream, objectToWrite);
     }

@@ -1,10 +1,7 @@
 using LitJson;
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class SaveableBehaviour : MonoBehaviour, ISaveable, ISerializationCallbackReceiver 
+public abstract class SaveableBehaviour : MonoBehaviour, ISaveable, ISerializationCallbackReceiver
 {
     [HideInInspector]
     [SerializeField]
@@ -33,7 +30,7 @@ public abstract class SaveableBehaviour : MonoBehaviour, ISaveable, ISerializati
     /// </summary>
     public void OnBeforeSerialize()
     {
-        if (_saveID == null)
+        if(_saveID == null)
         {
             // Initialise SaveID with a GUID.
             _saveID = System.Guid.NewGuid().ToString();

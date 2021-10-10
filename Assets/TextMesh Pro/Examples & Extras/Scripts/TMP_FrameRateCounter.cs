@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 
 namespace TMPro.Examples
 {
-    
+
     public class TMP_FrameRateCounter : MonoBehaviour
     {
         public float UpdateInterval = 5.0f;
@@ -26,7 +25,7 @@ namespace TMPro.Examples
 
         void Awake()
         {
-            if (!enabled)
+            if(!enabled)
                 return;
 
             m_camera = Camera.main;
@@ -69,7 +68,7 @@ namespace TMPro.Examples
 
         void Update()
         {
-            if (AnchorPosition != last_AnchorPosition)
+            if(AnchorPosition != last_AnchorPosition)
                 Set_FrameCounter_Position(AnchorPosition);
 
             last_AnchorPosition = AnchorPosition;
@@ -77,15 +76,15 @@ namespace TMPro.Examples
             m_Frames += 1;
             float timeNow = Time.realtimeSinceStartup;
 
-            if (timeNow > m_LastInterval + UpdateInterval)
+            if(timeNow > m_LastInterval + UpdateInterval)
             {
                 // display two fractional digits (f2 format)
                 float fps = m_Frames / (timeNow - m_LastInterval);
                 float ms = 1000.0f / Mathf.Max(fps, 0.00001f);
 
-                if (fps < 30)
+                if(fps < 30)
                     htmlColorTag = "<color=yellow>";
-                else if (fps < 10)
+                else if(fps < 10)
                     htmlColorTag = "<color=red>";
                 else
                     htmlColorTag = "<color=green>";
@@ -106,7 +105,7 @@ namespace TMPro.Examples
             //Debug.Log("Changing frame counter anchor position.");
             m_TextMeshPro.margin = new Vector4(1f, 1f, 1f, 1f);
 
-            switch (anchor_position)
+            switch(anchor_position)
             {
                 case FpsCounterAnchorPositions.TopLeft:
                     m_TextMeshPro.alignment = TextAlignmentOptions.TopLeft;

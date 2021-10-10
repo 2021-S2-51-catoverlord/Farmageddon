@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 
 namespace TMPro.Examples
 {
-    
+
     public class TMPro_InstructionOverlay : MonoBehaviour
     {
 
@@ -23,7 +22,7 @@ namespace TMPro.Examples
 
         void Awake()
         {
-            if (!enabled)
+            if(!enabled)
                 return;
 
             m_camera = Camera.main;
@@ -56,7 +55,7 @@ namespace TMPro.Examples
         void Set_FrameCounter_Position(FpsCounterAnchorPositions anchor_position)
         {
 
-            switch (anchor_position)
+            switch(anchor_position)
             {
                 case FpsCounterAnchorPositions.TopLeft:
                     //m_TextMeshPro.anchor = AnchorPositions.TopLeft;

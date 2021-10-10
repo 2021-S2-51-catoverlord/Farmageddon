@@ -1,114 +1,91 @@
 using LitJson;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public static class SaveManager
 {
-    // Frequently used strings.
-    private const string ACTIVE_SCENE_KEY = "activeScene";
-    private const string SCENES_KEY = "scenes";
-    private const string OBJECTS_KEY = "objects";
-    private const string SAVEID_KEY = "$saveID"; // "$" is used to reduce the chance of a naming conflict.
+    private const string ActiveSceneKey = "activeScene";
+    private const string ScenesKey = "scenes";
+    private const string ObjectsKey = "objects";
+    private const string SaveIDKey = "$saveID";
 
-    // A reference to the delegate that runs after the scene loads, which performs the object state restoration.
-    public static UnityEngine.Events.UnityAction<Scene, LoadSceneMode> LoadObjectsAfterSceneLoad;
+    public static UnityAction<Scene, LoadSceneMode> LoadObjectsAfterSceneLoad;
 
     /// <summary>
-    /// Saves the game, and writes it to a file called fileName in the game's
-    /// persistent data directory.
+    /// Saves saveral game objects as json, writes it to a file called 
+    /// fileName in the game's persistent data directory.
     /// </summary>
     /// <param name="fileName"></param>
     public static void SaveGame(string fileName)
     {
-        // Create the JsonData that we will eventually write to disk
-        var result = new JsonData();
+        JsonData result = new JsonData();
 
-        // Find all MonoBehaviours by first finding every MonoBehaviour,
-        // and filtering it (only include those that are ISaveable).
-        var allSaveableObjects = Object.FindObjectsOfType<MonoBehaviour>().OfType<ISaveable>();
+        // Find all MonoBehaviours objects that implements ISaveable.
+        IEnumerable<ISaveable> allSaveableObjects = Object.FindObjectsOfType<MonoBehaviour>().OfType<ISaveable>();
 
-        // If there are objects to save...
         if(allSaveableObjects.Count() > 0)
         {
-            // Create the JsonData that will store the list of objects
-            var savedObjects = new JsonData();
+            JsonData savedObjects = new JsonData();
 
             // Iterate over every object we want to save
-            foreach(var saveableObject in allSaveableObjects)
+            foreach(ISaveable saveableObject in allSaveableObjects)
             {
-                // Get the object's saved data
-                var data = saveableObject.SavedData;
+                JsonData data = saveableObject.SavedData;
 
-                // We expect this to be an object (JSON's term for a
-                // dictionary) because we need to include the object's SaveID.
                 if(data.IsObject)
                 {
-                    // Record the Save ID for this object
-                    data[SAVEID_KEY] = saveableObject.SaveID;
-                    // Add the object's saved data to the collection.
+                    // Index this object with its Save ID
+                    data[SaveIDKey] = saveableObject.SaveID;
                     savedObjects.Add(data);
                 }
-                else // Otherwise...
+                else
                 {
-                    // Provide a helpful warning.
-                    var behaviour = saveableObject as MonoBehaviour;
-                    Debug.LogWarningFormat(behaviour,"{0}'s save data is not a dictionary. The object was not saved.", behaviour.name);
+                    MonoBehaviour behaviour = saveableObject as MonoBehaviour;
+                    Debug.LogWarningFormat(behaviour, "{0}'s save data is not a dictionary. The object was not saved.", behaviour.name);
                 }
             }
-            // Store the collection of saved objects in the result.
-            result[OBJECTS_KEY] = savedObjects;
+            
+            // Create an entry for objects saved.
+            result[ObjectsKey] = savedObjects;
         }
         else
         {
-            // Give a warning if there are no objects to save.
             Debug.LogWarningFormat("The scene did not include any saveable objects.");
         }
 
-        // Next, we need to record what scenes are open. Unity lets you
-        // have multiple scenes open at the same time, so we need to store
-        // all of them, as well as which scene is the "active" scene (the
-        // scene that new objects are added to, and which controls the
-        // lighting settings for the game).
+        // Save scenes.
 
-        // Create a JsonData that will store the list of open scenes.
-        var openScenes = new JsonData();
+        JsonData openScenes = new JsonData();
 
-        // Ask the scene manager how many scenes are open, and for each one, store the scene's name.
-        var sceneCount = SceneManager.sceneCount;
+        int sceneCount = SceneManager.sceneCount;
 
+
+        // Save all scenes that are in the game.
         for(int i = 0; i < sceneCount; i++)
         {
-            var scene = SceneManager.GetSceneAt(i);
+            Scene scene = SceneManager.GetSceneAt(i);
             openScenes.Add(scene.name);
         }
 
-        // Store the list of open scenes.
-        result[SCENES_KEY] = openScenes;
+        result[ScenesKey] = openScenes;
 
-        // Store the name of the active scene.
-        result[ACTIVE_SCENE_KEY] = SceneManager.GetActiveScene().name;
+        result[ActiveSceneKey] = SceneManager.GetActiveScene().name;
 
-        // Output generated saved data to disk. 
-        var outputPath = Path.Combine(Application.persistentDataPath, fileName);
+        string outputPath = Path.Combine(Application.persistentDataPath, fileName);
 
-        // Init a JsonWriter, the 'pretty-print' makes data easier to read and understand.
-        var writer = new JsonWriter();
+        JsonWriter writer = new JsonWriter();
         writer.PrettyPrint = true;
 
-        // Convert the saved data to JSON text.
         result.ToJson(writer);
 
-        // Write the JSON text to disk.
         File.WriteAllText(outputPath, writer.ToString());
 
-        // Notify where the saved game is.
         Debug.LogFormat("Wrote saved game to {0}", outputPath);
-        
-        // Tell the system to gc to free up some memory.
+
         result = null;
         System.GC.Collect();
     }
@@ -121,19 +98,17 @@ public static class SaveManager
     public static bool LoadGame(string fileName)
     {
         // File location.
-        var dataPath = Path.Combine(Application.persistentDataPath, fileName);
+        string dataPath = Path.Combine(Application.persistentDataPath, fileName);
 
-        // If file does not exists...
-        if(File.Exists(dataPath) == false)
+        if(!File.Exists(dataPath))
         {
-            // Notify user and return.
             Debug.LogErrorFormat("No file exists at {0}", dataPath);
             return false;
         }
 
         // Read the data as JSON and map it into objects (deserialization).
-        var text = File.ReadAllText(dataPath);
-        var data = JsonMapper.ToObject(text);
+        string text = File.ReadAllText(dataPath);
+        JsonData data = JsonMapper.ToObject(text);
 
         // Ensure that we successfully read the data, and that it's an object.
         if(data == null || data.IsObject == false)
@@ -145,13 +120,12 @@ public static class SaveManager
         // We need to know what scenes to load.
         if(!data.ContainsKey("scenes"))
         {
-            // Output warning if there is no scene key.
-            Debug.LogWarningFormat("Data at {0} does not contain any scenes; not loading any!",dataPath);
+            Debug.LogWarningFormat("Data at {0} does not contain any scenes; not loading any!", dataPath);
             return false;
         }
 
         // Get the list of scenes.
-        var scenes = data[SCENES_KEY];
+        JsonData scenes = data[ScenesKey];
         int sceneCount = scenes.Count;
 
         // If no scenes are saved...
@@ -162,32 +136,29 @@ public static class SaveManager
         }
 
         // Load each of the specified scene using the "dictionary".
-        for (int i = 0; i < sceneCount; i++)
+        for(int i = 0; i < sceneCount; i++)
         {
-            var scene = (string)scenes[i];
+            string scene = (string)scenes[i];
 
-            // If this is the first scene we're loading...
             if(i == 0)
             {
-                // Load it and replace every other active scenes.
-                SceneManager.LoadScene(scene, LoadSceneMode.Single);
+                SceneManager.LoadScene(scene, LoadSceneMode.Single); // Load it and replace every other active scenes.
             }
             else
-            {
-                // Otherwise, load that scene on top of the existing ones.
-                SceneManager.LoadScene(scene, LoadSceneMode.Additive);
+            {                
+                SceneManager.LoadScene(scene, LoadSceneMode.Additive); // Otherwise, load that scene on top of the existing ones.
             }
         }
 
-        // Find the active scene, and set it
-        if(data.ContainsKey(ACTIVE_SCENE_KEY))
+        // Find the active scene, and set it as current displayed scene.
+        if(data.ContainsKey(ActiveSceneKey))
         {
-            var activeSceneName = (string)data[ACTIVE_SCENE_KEY];
-            var activeScene = SceneManager.GetSceneByName(activeSceneName);
+            string activeSceneName = (string)data[ActiveSceneKey];
+            Scene activeScene = SceneManager.GetSceneByName(activeSceneName);
 
-            if(activeScene.IsValid() == false) // Check if the scene is a valid scene...
+            if(!activeScene.IsValid()) // Check if the scene is a valid scene...
             {
-                Debug.LogErrorFormat( "Data at {0} specifies an active scene that doesn't exist. Stopping loading here.", dataPath);
+                Debug.LogErrorFormat("Data at {0} specifies an active scene that doesn't exist. Stopping loading here.", dataPath);
                 return false;
             }
 
@@ -201,9 +172,9 @@ public static class SaveManager
         }
 
         // Find all objects in the scene and load them.
-        if (data.ContainsKey(OBJECTS_KEY))
+        if(data.ContainsKey(ObjectsKey))
         {
-            var objects = data[OBJECTS_KEY];
+            JsonData objects = data[ObjectsKey];
 
             // We can't update the state of the objects right away because
             // Unity will not complete loading the scene until some time in
@@ -215,7 +186,8 @@ public static class SaveManager
             // loading code, and store that in LoadObjectsAfterSceneLoad.
             // This delegate is added to the SceneManager's sceneLoaded
             // event, which makes it run after the scene has finished loading.
-            LoadObjectsAfterSceneLoad = (scene, loadSceneMode) => {
+            LoadObjectsAfterSceneLoad = (scene, loadSceneMode) =>
+            {
                 // Find all ISaveable objects, and build a dictionary that maps their Save IDs to the object (so that we can quickly look them up).
                 var allLoadableObjects = Object.FindObjectsOfType<MonoBehaviour>().OfType<ISaveable>().ToDictionary(o => o.SaveID, o => o);
 
@@ -228,7 +200,7 @@ public static class SaveManager
                     // Get the saved data.
                     var objectData = objects[i];
                     // Get the Save ID from that data
-                    var saveID = (string)objectData[SAVEID_KEY];
+                    var saveID = (string)objectData[SaveIDKey];
 
                     // Attempt to find the object in the scene(s) with that specific Save ID.
                     if(allLoadableObjects.ContainsKey(saveID))
