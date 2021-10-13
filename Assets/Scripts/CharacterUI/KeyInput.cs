@@ -27,13 +27,13 @@ public class KeyInput : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.I))
         {
             inventoryUI.SetActive(!inventoryUI.activeSelf);
-            tooltip.SetActive(!tooltip.activeSelf);
+            //tooltip.SetActive(!tooltip.activeSelf);
         }
 
         if(Input.GetKeyDown(KeyCode.E))
         {
             equipUI.SetActive(!equipUI.activeSelf);
-            tooltip.SetActive(!tooltip.activeSelf);
+            //tooltip.SetActive(!tooltip.activeSelf);
         }
     }
 }

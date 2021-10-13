@@ -52,7 +52,7 @@ public class ItemSaveManager : MonoBehaviour
             }
             else
             {
-                saveData.SavedSlots[i] = new ItemObjSaveData(id: itemSlot.Item.Id, amount: itemSlot.Amount);
+                saveData.SavedSlots[i] = new ItemObjSaveData(id: itemSlot.Item.ID, amount: itemSlot.Amount);
             }
         }
 

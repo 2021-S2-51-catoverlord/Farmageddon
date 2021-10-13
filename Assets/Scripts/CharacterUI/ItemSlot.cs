@@ -58,7 +58,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 
     public virtual bool CanAddStack(Item item, int amt = 1)
     {
-        return Item != null && Item.ID == item.ID && amount + amt <= item.maxStacks;
+        return Item != null && Item.ID == item.ID && amount + amt <= item.MaxStacks;
     }
 
     /// Event methods----------------------------------------------------------------------

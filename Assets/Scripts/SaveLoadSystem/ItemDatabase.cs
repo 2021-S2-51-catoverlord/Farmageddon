@@ -18,7 +18,7 @@ public class ItemDatabase : ScriptableObject
     {
         foreach(Item item in itemRepository)
         {
-            if(item.Id == itemID) // Check if item ID is found in the database.
+            if(item.ID == itemID) // Check if item ID is found in the database.
             {
                 return item;
             }
