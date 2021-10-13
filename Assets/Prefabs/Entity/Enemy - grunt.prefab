@@ -47,12 +47,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a6677ff997b69145882a4ee2aed9bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4.5
+  Speed: 0
+  HealthPoints: 0
+  EntityAnimator: {fileID: 0}
+  EntityRigidbody: {fileID: 0}
+  IsJumping: 0
+  IsAttacking: 0
+  IsAlive: 0
+  AttackTime: 0
+  AttackCounter: 0
   damage: 0
-  debugToggle: 0
-  MaxSearch: 10
+  baseSearch: 10
   visionArc: 360
-  searchRange: 5
+  searchBoost: 5
+  maxMovement: 0
+  damageDelt: 5
+  attackCooldownInSeconds: 5
 --- !u!70 &-7336805335053091673
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -66,7 +76,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.51852995}
+  m_Offset: {x: 0, y: 0.5}
   m_Size: {x: 0.4, y: 0.76294005}
   m_Direction: 0
 --- !u!50 &5458254897228809212
@@ -101,7 +111,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 7ef6005c98e15a14ca6f207a75f354c6, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 2
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0

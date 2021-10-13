@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemPickUp : MonoBehaviour
@@ -7,10 +9,8 @@ public class ItemPickUp : MonoBehaviour
 
     private void Start()
     {
-        if(inventory == null) // If inventory has not been assigned yet...
+        if (inventory == null) // If inventory has not been assigned yet...
         {
-            // Find the Inventory and get the reference of its script.
-            //inventory = GameObject.Find("CharacterUI").GetComponentInChildren<Inventory>();
             inventory = Resources.FindObjectsOfTypeAll<Inventory>()[0];
         }
     }

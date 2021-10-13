@@ -1,3 +1,7 @@
+/*
+ * This class contains the interface for inventory.
+ */
+
 public interface IItemContainer
 {
     int ItemCount(string itemID);

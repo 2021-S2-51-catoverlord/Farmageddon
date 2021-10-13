@@ -8,8 +8,6 @@ public class MonsterController : EntityController
     [SerializeField]
     private int damage;
     [SerializeField]
-    private bool debugToggle;
-    [SerializeField]
     private float baseSearch = 10f; // base range of the monster
     [SerializeField]
     [Range(0f, 360f)]
@@ -20,6 +18,12 @@ public class MonsterController : EntityController
     [SerializeField]
     [Range(5, 100)]
     private int maxMovement;
+    [SerializeField]
+    private int damageDelt;
+    [SerializeField]
+    private float attackCooldownInSeconds = 1;
+    private float timeStamp = -1; //timeStamp starts negative so we can initially set the timeStamp
+
 
     private MonsterBehaviour monsterState = MonsterBehaviour.Wandering;
     private int wanderMovement = 0;
@@ -46,7 +50,7 @@ public class MonsterController : EntityController
         {
             playerSeen = true;
             monsterState = MonsterBehaviour.Attacking;
-            baseSearch = baseSearch * searchBoost;
+            baseSearch *= searchBoost;
         }
         else if(playerSeen && !playerInSight) //player has been seen but is no longer in vision range
         {
@@ -62,39 +66,26 @@ public class MonsterController : EntityController
         {
             case MonsterBehaviour.Attacking:
                 combatTarget();
-                if(debugToggle)
-                {
-                    Debug.Log(monsterState);
-                }
                 break;
             case MonsterBehaviour.Searching:
                 //wander();
-                this.direction = Vector2.zero;
-                if(debugToggle)
-                {
-                    Debug.Log(monsterState);
-                }
+                this.Direction = Vector2.zero;
                 break;
             case MonsterBehaviour.Wandering:
-                if(debugToggle)
-                {
-                    Debug.Log(monsterState);
-                }
                 //wander();
                 break;
         }
 
         base.Update();
-
     }
 
     //returns true if a straight line can be drawn between this object and the target, givin the target is within the visible arc
     private bool checkVisibility()
     {
-        //find direction of target
+        //find Direction of target
         Vector3 directionToTarget = target.position - transform.position;
 
-        //find degrees from forward direction
+        //find degrees from forward Direction
         float degreesToTarget = Vector3.Angle(transform.forward, directionToTarget);
 
         float distanceToTarget = directionToTarget.magnitude;
@@ -103,44 +94,26 @@ public class MonsterController : EntityController
 
         float rayDistance = Mathf.Min(baseSearch, distanceToTarget);
 
-        //create a ray that goes from current location to direction
+        //create a ray that goes from current location to Direction
         Ray2D ray = new Ray2D(transform.position, directionToTarget);
 
         //store info on the hit
         RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget, baseSearch);
 
         //fire raycast, does it hit anything?
-        if(debugToggle)
-        {
-            Debug.DrawRay(transform.position, directionToTarget);
-        }
-
         if(hit)
         {
-            if(debugToggle)
-            {
-                Debug.Log("raycast hit");
-                //Debug.Log(hit.transform.position.ToString());
-                Debug.Log(hit.transform.gameObject.ToString());
-            }
+
             if(hit.collider.transform == target)
             {
                 //then we can see the target
                 playerInSight = true;
-                if(debugToggle)
-                {
-                    Debug.Log("player in sight");
-                }
             }
             else
             {
                 playerInSight = false;
             }
         }
-
-
-
-
 
         return playerInSight;
     }
@@ -154,19 +127,19 @@ public class MonsterController : EntityController
         // value of AI's Y value relative to the Target, positive is above the target, negative is below the target
         float RelativeY = Mathf.Floor(this.transform.position.y - target.transform.position.y);
 
-        this.direction = Vector2.zero;
+        this.Direction = Vector2.zero;
 
         if(RelativeX != 0) //check if AI is on same x level as target
         {
             if(RelativeX < 0) // check if the AI is on the left or right of the target. 
             {
                 // target is to the left of the target, move right
-                this.direction += Vector2.right;
+                this.Direction += Vector2.right;
             }
             else
             {
                 //target is to the right of the target, move left
-                this.direction += Vector2.left;
+                this.Direction += Vector2.left;
             }
         }
         else if(RelativeY != 0) // check if target is on the same Y level
@@ -174,13 +147,45 @@ public class MonsterController : EntityController
             if(RelativeY < 0)  // check if AI is above or below the target
             {
                 //AI is below target, move up
-                this.direction += Vector2.up;
+                this.Direction += Vector2.up;
             }
             else
             {
                 // AI is above target, move down
-                this.direction += Vector2.down;
+                this.Direction += Vector2.down;
             }
+        }
+        else
+        {
+            if(IsAttacking)
+            {
+                AttackCounter -= Time.deltaTime;
+                if(AttackCounter <= 0)
+                {
+                    StopAttack();
+                    AttackCounter = 5f;
+                }
+            }
+            else
+            {
+                attack();
+            }
+        }
+    }
+
+    private void attack()
+    {
+        
+        if(timeStamp <= -1)
+        {
+            timeStamp = Time.time;
+        }
+
+        if(Time.time >= timeStamp)
+        {
+            base.Attack();
+            timeStamp = Time.time + attackCooldownInSeconds;
+            Player.TakeDamage(damageDelt);
         }
     }
 
@@ -195,29 +200,18 @@ public class MonsterController : EntityController
         switch(wanderdirection)
         {
             case 1:
-                this.direction = Vector2.up;
+                this.Direction = Vector2.up;
                 wanderMovement++;
                 break;
             case 2:
-                this.direction = Vector2.down;
+                this.Direction = Vector2.down;
                 break;
             case 3:
-                this.direction = Vector2.right;
+                this.Direction = Vector2.right;
                 break;
             case 4:
-                this.direction = Vector2.left;
+                this.Direction = Vector2.left;
                 break;
         }
-
     }
-
-    private void OnCollisionStay(Collision collisionInfo)
-    {
-        Debug.Log("Collision");
-        if(collisionInfo.gameObject == targetObj)
-        {
-            Player.TakeDamage(damage);
-        }
-    }
-
 }

@@ -2,44 +2,41 @@ using UnityEngine;
 
 public abstract class EntityController : MonoBehaviour
 {
-    protected static int MAX_HP = 100;
+    protected static int MaxHP;
 
-    [SerializeField]
-    protected float speed; // Speed of movement.
+    [Range(1f, 30f)] public float Speed; // Speed of movement.
 
-    protected Vector2 direction; // Vector.
-    private string entityName;
-    private int healthPoints;
-    private Animator entityAnimator;
-    private Rigidbody2D entityRigidbody;
-    private bool isJumping;
-    private bool isAttacking;
-    private bool isAlive;
+    protected Vector2 Direction; // Vector.
+    //private string entityName;
+    //private int healthPoints;
+    //private Animator entityAnimator;
+    //private Rigidbody2D entityRigidbody;
+    //private bool isJumping;
+    //private bool isAttacking;
+    //private bool isAlive;
 
     // Get and set methods for entity's attributes.
-    public string EntityName { get; set; }
-    public int HealthPoints { get; set; }
-    public Animator EntityAnimator { get; set; }
-    public Rigidbody2D EntityRigidbody { get; set; }
-    public bool IsMoving => direction.x != 0 || direction.y != 0;
-    public bool IsJumping { get; set; }
-    public bool IsAttacking { get; set; }
-    public bool IsAlive { get; set; }
+    protected string EntityName;
+    public int HealthPoints;
+    public Animator EntityAnimator;
+    public Rigidbody2D EntityRigidbody;
+    public bool IsMoving => Direction.x != 0 || Direction.y != 0;
+    public bool IsJumping;
+    public bool IsAttacking;
+    public bool IsAlive;
+    public float AttackTime;
+    public float AttackCounter;
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        // Get the instance of the Rigidbody2D the GameObject is linked to and save it locally.
         EntityRigidbody = GetComponent<Rigidbody2D>();
-
-        // Get the instance of the Animator the GameObject is linked to and save it locally.
         EntityAnimator = GetComponent<Animator>();
 
-        // Initialise entity's hp.
-        HealthPoints = EntityController.MAX_HP;
-
-        // Set the entity to be alive.
+        MaxHP = 100;
+        HealthPoints = MaxHP;
         IsAlive = true;
+        Speed = (Speed > 0f ? Speed : 2f);
     }
 
     // Update is called once per frame
@@ -48,70 +45,64 @@ public abstract class EntityController : MonoBehaviour
         HandleAnimLayers();
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         Move();
     }
 
     /// <summary>
-    /// Moves the character based on the speed and direction.
+    /// Moves the entity based on the computed vector and magnitude.
     /// </summary>
     public void Move()
     {
-        // Move the sprite on the scene based on the calculated vector and magnitude.
-        EntityRigidbody.velocity = direction.normalized * speed;
+        EntityRigidbody.velocity = Direction.normalized * Speed;
     }
 
     /// <summary>
-    /// Method to determine which animation state based
-    /// on the entity's change in movement.
+    /// Method to determine which animation state to 
+    /// activate, based on the entity's movements.
     /// </summary>
     public void HandleAnimLayers()
     {
-        // If the character is moving...
-        if(IsMoving)
+        if(IsMoving) // If the character is moving...
         {
             // Change the main layer to the walking layer.
             ActivateAnimLayer("Walk Layer");
 
-            // Specify the direction so that the sprite can face the appropriate direction.
-            EntityAnimator.SetFloat("x", direction.x);
-            EntityAnimator.SetFloat("y", direction.y);
+            // Specify the Direction so that the sprite can face the appropriate Direction.
+            EntityAnimator.SetFloat("x", Direction.x);
+            EntityAnimator.SetFloat("y", Direction.y);
         }
         else if(IsJumping)
         {
-            // Change the main layer to the jumping layer.
             ActivateAnimLayer("Jump Layer");
         }
         else if(IsAttacking)
         {
-            // Change the main layer to the attacking layer.
             ActivateAnimLayer("Attack Layer");
         }
         else if(!IsAlive)
         {
             ActivateAnimLayer("Death Layer");
         }
-        else // Otherwise...
+        else
         {
             // Set the idle layer to be the main layer.
             EntityAnimator.SetLayerWeight(1, 0);
             ActivateAnimLayer("Idle Layer");
         }
+        
     }
 
     /// <summary>
-    /// Method to disable all animation layers and activate the one the  
-    /// entity is currently in (using the layer's name).
+    /// Method to activate the appropriate layer of animation.
     /// </summary>
     /// <param name="layerName"></param>
     public void ActivateAnimLayer(string layerName)
     {
-        // For each animation layer of the EntityController...
         for(int i = 0; i < EntityAnimator.layerCount; i++)
         {
-            // Disable all the layers.
-            EntityAnimator.SetLayerWeight(i, 0);
+            EntityAnimator.SetLayerWeight(i, 0); // Disable all layers.
         }
 
         // Activate the specific layer using the passed in name.
@@ -119,49 +110,42 @@ public abstract class EntityController : MonoBehaviour
     }
 
     /// <summary>
-    /// Method to decrease entity's hp.
+    /// Method to decrease the health of the entity.
     /// </summary>
     /// <param name="damage"></param>
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
-        // If current health points is greater than 0...
         if(HealthPoints > 0)
         {
             // Decrement hp.
             HealthPoints -= damage;
-
-            // Ensure HP is not a negative.
-            HealthPoints = HealthPoints < 0 ? 0 : HealthPoints;
+            HealthPoints = (HealthPoints < 0 ? 0 : HealthPoints);
         }
 
-        // If current health points is 0 or less....
         if(HealthPoints <= 0)
         {
-            // Ensure entity stops moving when it is dead.
-            direction = Vector2.zero;
-            EntityRigidbody.velocity = direction;
-
-            // Trigger the death layer.
-            EntityAnimator.SetTrigger("Die");
-            IsAlive = false;
+            Die();
         }
     }
 
     /// <summary>
-    /// Method to increase entity's hp.
+    /// Method to perform healing.
     /// </summary>
     /// <param name="healing"></param>
     public void Heal(int healing)
     {
-        // If current health points is less than the maximum (100)...
-        if(HealthPoints < EntityController.MAX_HP)
+        // If current health points is less than the maximum allowed..
+        if(HealthPoints < MaxHP)
         {
-            // Increment hp.
-            HealthPoints += healing;
-
-            // Ensure HP is not over the maximum.
-            HealthPoints = HealthPoints > EntityController.MAX_HP ? EntityController.MAX_HP : HealthPoints;
+            HealthPoints += healing; // Heal.
+            HealthPoints = HealthPoints > MaxHP ? MaxHP : HealthPoints; // Ensure HP is not over the maximum.
         }
+    }
+
+    public void Jump()
+    {
+        IsJumping = true;
+        EntityAnimator.SetBool("Jump", IsJumping);
     }
 
     public void StopJump()
@@ -170,9 +154,25 @@ public abstract class EntityController : MonoBehaviour
         EntityAnimator.SetBool("Jump", IsJumping);
     }
 
+    public void Attack()
+    {
+        IsAttacking = true;
+        EntityAnimator.SetBool("Attack", IsAttacking);
+    }
+
     public void StopAttack()
     {
         IsAttacking = false;
         EntityAnimator.SetBool("Attack", IsAttacking);
+    }
+
+    public void Die()
+    {
+        // Ensure entity stops moving when it is dead.
+        Direction = Vector2.zero;
+        EntityRigidbody.velocity = Direction;
+
+        IsAlive = false;
+        EntityAnimator.SetBool("Die", !IsAlive);
     }
 }
