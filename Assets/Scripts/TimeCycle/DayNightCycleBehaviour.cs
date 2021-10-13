@@ -74,6 +74,8 @@ public class DayNightCycleBehaviour : MonoBehaviour
 
     public bool isDay;
     public bool isNight;
+    [SerializeField]
+    private GameObject[] spawningZones;
 
  // Start is called before the first frame update
 void Start()
@@ -117,6 +119,7 @@ void Start()
         if (initTime != 0)
         {
             localTimeElapsed += initTime;
+            time += initTime;
         } else
         {
             localTimeElapsed = 0;
@@ -196,10 +199,20 @@ void Start()
         {
             isNight = false;
             isDay = true;
+            for (int i = 0; i < spawningZones.Length; i++)
+            {
+                spawningZones[i].SetActive(false);
+            }
+
         } else if (time == 0.75)
         {
             isNight = true;
             isDay = false;
+            for (int i = 0; i < spawningZones.Length; i++)
+            {
+                spawningZones[i].SetActive(true);
+            }
+
         }
 
         timelight.color = gradient.Evaluate(timeRatio);
