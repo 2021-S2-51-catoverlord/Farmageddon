@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: f602f100f59204d4a8fe3081b39e5e6a
   itemName: Rock
-  icon: {fileID: -9048614555976885207, guid: 0eab9d4e84ca89d4786acacf5df8c596, type: 3}
+  icon: {fileID: -4025520303491736529, guid: adb71463e9aac10489a05876974ccd1a, type: 3}
   itemDescription: Common rock found anywhere
   price: 1
-  MaxStacks: 10
+  maxStacks: 1
   materialCat: 3
