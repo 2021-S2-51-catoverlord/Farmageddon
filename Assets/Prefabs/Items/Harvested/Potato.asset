@@ -15,7 +15,8 @@ MonoBehaviour:
   id: b0c194f779bed2b48a8ee6d9a3218efa
   itemName: Potato
   icon: {fileID: -5654957157512210657, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
-  price: 0
-  MaxStacks: 64
-  IsConsumable: 1
-  healHeath: 25
+  itemDescription: Potato
+  price: 27
+  maxStacks: 10
+  isConsumable: 1
+  healHeath: 10

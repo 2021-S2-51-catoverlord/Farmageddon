@@ -15,7 +15,8 @@ MonoBehaviour:
   id: a01d85bf246dad84eb818560908c88e5
   itemName: Corn
   icon: {fileID: -6222532815778751212, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
-  price: 0
-  MaxStacks: 64
-  IsConsumable: 1
-  healHeath: 25
+  itemDescription: Corn
+  price: 78
+  maxStacks: 10
+  isConsumable: 1
+  healHeath: 10

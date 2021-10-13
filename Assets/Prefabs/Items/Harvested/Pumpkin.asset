@@ -15,7 +15,8 @@ MonoBehaviour:
   id: 724ae2a5a29bd15458e1f850e7900867
   itemName: Pumpkin
   icon: {fileID: -3824459963188315723, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
-  price: 0
-  MaxStacks: 64
-  IsConsumable: 1
-  healHeath: 25
+  itemDescription: Pumpkin
+  price: 47
+  maxStacks: 10
+  isConsumable: 1
+  healHeath: 10
