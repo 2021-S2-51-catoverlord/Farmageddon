@@ -182,42 +182,21 @@ public class PlayerController : EntityController
             staminaBar.SetCurrentValue(StaminaPoints);
 
             // Create a 10 ms delay.
-            yield return regenTick; 
+            yield return _regenTick; 
         }
     }
 
     public void IncreaseHealth(int level)
     {
-        MAX_HP += (int)(HealthPoints * 0.03) * (int)((100 - level) * 0.03);
-        HealthPoints = MAX_HP;
-        healthBar.SetMaxValue(EntityController.MAX_HP);
+        MaxHP += (int)(HealthPoints * 0.03) * (int)((100 - level) * 0.03);
+        HealthPoints = MaxHP;
+        healthBar.SetMaxValue(MaxHP);
     }
 
     public void IncreaseStamina(int level)
     {
-        MAX_STAMINA += (int)(HealthPoints * 0.01) * (int)((100 - level) * 0.01);
-        StaminaPoints = MAX_STAMINA;
-        staminaBar.SetMaxValue(PlayerController.MAX_STAMINA);
+        MaxStamina += (int)(HealthPoints * 0.01) * (int)((100 - level) * 0.01);
+        StaminaPoints = MaxStamina;
+        staminaBar.SetMaxValue(MaxStamina);
     }
-
-    public void IncreaseHealth(int level)
-    {
-        MAX_HP += (int)(HealthPoints * 1.3) * (int)((100 - level) * 1.3);
-        HealthPoints = MAX_HP;
-    }
-
-    public void IncreaseStamina(int level)
-    {
-        MAX_STAMINA += (int)(HealthPoints * 1.1) * (int)((100 - level) * 1.1);
-        StaminaPoints = MAX_STAMINA;
-    }
-
-    private void Jump()
-    {
-        // Set the entity's state to jumping.
-        IsJumping = true;
-
-        // Set Attack in animator parameter to true.
-        EntityAnimator.SetBool("Jump", IsJumping);
-    }    
 }
