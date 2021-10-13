@@ -18,5 +18,5 @@ MonoBehaviour:
   itemDescription: Test Food
   price: 20
   MaxStacks: 1
-  IsConsumable: 1
+  isConsumable: 1
   healHeath: 20

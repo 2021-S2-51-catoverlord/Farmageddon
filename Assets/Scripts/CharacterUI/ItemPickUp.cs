@@ -9,7 +9,7 @@ public class ItemPickUp : MonoBehaviour
 
     private void Start()
     {
-        if (inventory == null) // If inventory has not been assigned yet...
+        if(inventory == null) // If inventory has not been assigned yet...
         {
             inventory = Resources.FindObjectsOfTypeAll<Inventory>()[0];
         }
