@@ -4,31 +4,21 @@ using UnityEngine;
 
 public class PlayerController : EntityController
 {
-    protected static int MAX_STAMINA = 30;
+    protected static int MaxStamina = 30;
 
-    [SerializeField]
-    protected StatBarController healthBar;
+    [SerializeField] protected StatBarController healthBar;
+    [SerializeField] protected StatBarController staminaBar;
+    [SerializeField] [Range(1, 30)] public int Damage;
 
-    [SerializeField]
-    protected StatBarController staminaBar;
-
-    [SerializeField]
-    public int Damage;
-
-    private int staminaPoints;
-    private int experiencePoints;
-    private Coroutine regen;
-    private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
+    private Coroutine _regen;
+    private readonly WaitForSeconds _regenTick = new WaitForSeconds(0.1f);
+    public bool isInventoryActive; //Implementation for locking clicking status.
 
     // Get and set methods.
     public int StaminaPoints { get; set; }
     public int ExperiencePoints { get; set; }
 
     // Start is called before the first frame update
-
-    //Implementation for locking clicking status
-    public bool isInventoryActive;
-
     protected override void Start()
     {
         if(healthBar == null || staminaBar == null)
@@ -40,85 +30,71 @@ public class PlayerController : EntityController
         base.Start();
 
         InitStats();
-
-        // Get the instance of the Animator the GameObject is linked to and save it locally.
-        //base.animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     protected override void Update()
     {
-        GetInput();
+        if(IsAlive)
+        {
+            GetInput();
+        }
 
         healthBar.SetCurrentValue(HealthPoints);
-
-        // Call the parent's Update method which will call the parent's Move method. 
-        base.Update();
+         
+        base.Update(); // Call the parent's Update method which will call the parent's Move method.
     }
 
     /// <summary>
-    /// Initialise the player's statistics (name, hp, stamina, exp) and 
-    /// stats bar (health and stamina bar).
+    /// Initialise the player's statistics (name, stamina, exp, speed, damage) 
+    /// and stats bar (health and stamina bar).
     /// </summary>
     private void InitStats()
     {
         // Initialise entity name, stamina, and exp.
         EntityName = "Player";
-        StaminaPoints = PlayerController.MAX_STAMINA;
+        StaminaPoints = MaxStamina;
         ExperiencePoints = 0;
-        Damage = 5;
+        Speed = (Speed < 6f ? 6f : Speed);
+        Damage = (Damage < 5 ? 5 : Damage);
 
         // Initilise the sliders' max values.
-        healthBar.SetMaxValue(EntityController.MAX_HP);
-        staminaBar.SetMaxValue(PlayerController.MAX_STAMINA);
+        healthBar.SetMaxValue(MaxHP);
+        staminaBar.SetMaxValue(MaxStamina);
     }
 
     /// <summary>
-    /// Get input from user to compute a direction for the player's 
-    /// character's movement.
+    /// Poll input from user to compute a Direction for the player's character's movement.
     /// </summary>
     private void GetInput()
     {
-        // Reset the vector at every loop/call.
-        this.direction = Vector2.zero;
-        this.IsJumping = false;
-        this.IsAttacking = false;
+        // Reset the vector and action bools at every loop/call.
+        Direction = Vector2.zero;
+        IsJumping = false;
+        IsAttacking = false;
 
-        /// Code for single direction.
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        /// Code for single Direction.
+        if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
-            // Move up.
-            this.direction += Vector2.up;
+            Direction += Vector2.up;
         }
-        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        else if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            // Move left.
-            this.direction += Vector2.left;
+            Direction += Vector2.left;
         }
-        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        else if(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
-            // Move down.
-            this.direction += Vector2.down;
+            Direction += Vector2.down;
         }
-        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        else if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            // Move right.
-            this.direction += Vector2.right;
+            Direction += Vector2.right;
         }
 
         // Input for jump.
         if(Input.GetKey(KeyCode.Space))
         {
             Jump();
-        }
-
-        if(IsAttacking)
-        {
-            AttackCounter -= Time.deltaTime;
-            if(AttackCounter <= 0)
-            {
-                StopAttack();
-            }
         }
 
         // Input for attack (left mouse-click)
@@ -128,20 +104,42 @@ public class PlayerController : EntityController
         }
 
         // Test health bar.
-        if (Input.GetKeyDown(KeyCode.Z))
+        if(Input.GetKeyDown(KeyCode.Z))
         {
-            TakeDamage(3);
+            TakeDamage(5);
         }
-        else if (Input.GetKeyDown(KeyCode.X))
+        else if(Input.GetKeyDown(KeyCode.X))
         {
             Heal(3);
         }
 
         // Test stamina bar.
-        if (Input.GetKeyDown(KeyCode.C))
+        if(Input.GetKeyDown(KeyCode.C))
         {
             UseStamina(2);
         }
+    }
+
+    /// <summary>
+    /// Method to hide player after their death, reset statistics,
+    /// and lastly shift player to appear by their house. This method
+    /// is called at the end of the death animation.
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator RespawnPlayer()
+    {
+        SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>(); 
+        playerRenderer.enabled = false; // Hide Player.
+
+        yield return new WaitForSeconds(5f);
+
+        transform.position = new Vector3(8f, -17f, -1f); // Set respawn position to the house.
+        Start(); // Resets statistics (hp, stamina, exp, speed, damage, isalive...).
+        EntityAnimator.SetFloat("y", -0.5f); // Make player face down when respawn.
+        EntityAnimator.SetBool("Die", !IsAlive); // Exit death animation state.
+        playerRenderer.enabled = true; // Make player visible again.
+
+        Debug.Log("Player Respawned");
     }
 
     /// <summary>
@@ -150,31 +148,24 @@ public class PlayerController : EntityController
     /// <param name="amount"></param>
     public void UseStamina(int amount)
     {
-        // If there is still some stamina...
-        if (StaminaPoints > 0)
+        if(StaminaPoints > 0)
         {
-            // Decrement stamina.
             StaminaPoints -= amount;
-
-            // Ensure stamina is not a negative.
-            StaminaPoints = StaminaPoints < 0 ? 0 : StaminaPoints;
+            StaminaPoints = (StaminaPoints < 0 ? 0 : StaminaPoints); // Ensure stamina is not a negative.
         }
-        else // Otherwise...
+        else
         {
             Debug.Log("Not enough stamina!!");
         }
 
         // If stamina is already regenerating...
-        if(regen != null)
+        if(_regen != null)
         {
-            // Resets (Does not allow player to regenerate and use stamina at the same time).
-            StopCoroutine(regen);
+            StopCoroutine(_regen); // Resets (Disallow player to regenerate while usiong stamina).
         }
 
         // Starts the coroutine of regenerating.
-        regen = StartCoroutine(RegenStamina());
-
-        // Update the stamina bar slider.
+        _regen = StartCoroutine(RegenStamina());
         staminaBar.SetCurrentValue(StaminaPoints);
     }
 
@@ -184,29 +175,13 @@ public class PlayerController : EntityController
     /// <returns></returns>
     private IEnumerator RegenStamina()
     {
-        // Create a 1-second delay.
         yield return new WaitForSeconds(1.5f);
 
-        // While current stamina is less than the max stamina...
-        while(StaminaPoints < PlayerController.MAX_STAMINA)
+        while(StaminaPoints < MaxStamina)
         {
-            // Increment stamina.
-            StaminaPoints += 1;
-
-            // Update the stamina bar slider.
+            StaminaPoints++;
             staminaBar.SetCurrentValue(StaminaPoints);
-
-            // Create a 10 ms delay.
-            yield return regenTick; 
+            yield return _regenTick;
         }
     }
-
-    private void Jump()
-    {
-        // Set the entity's state to jumping.
-        IsJumping = true;
-
-        // Set Attack in animator parameter to true.
-        EntityAnimator.SetBool("Jump", IsJumping);
-    }    
 }

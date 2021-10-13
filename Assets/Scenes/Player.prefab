@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1488692012342286625}
   - component: {fileID: 1488692012342286630}
   - component: {fileID: 8358179201673399064}
-  - component: {fileID: 5611423481403725892}
   - component: {fileID: 2717505476219970867}
+  - component: {fileID: 5611423481403725892}
   - component: {fileID: 3898320272486664180}
   m_Layer: 0
   m_Name: Player
@@ -121,10 +121,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a33699c0985ae4585f2036d910308b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  Speed: 6
+  HealthPoints: 0
+  EntityAnimator: {fileID: 0}
+  EntityRigidbody: {fileID: 0}
+  IsJumping: 0
+  IsAttacking: 0
+  IsAlive: 0
+  AttackTime: 0
+  AttackCounter: 0
   healthBar: {fileID: 0}
   staminaBar: {fileID: 0}
+  Damage: 5
   isInventoryActive: 0
+--- !u!70 &2717505476219970867
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488692012342286631}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.5}
+  m_Size: {x: 0.4, y: 1}
+  m_Direction: 0
 --- !u!50 &5611423481403725892
 Rigidbody2D:
   serializedVersion: 4
@@ -146,22 +171,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!70 &2717505476219970867
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1488692012342286631}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.4}
-  m_Size: {x: 0.4, y: 1}
-  m_Direction: 0
 --- !u!66 &3898320272486664180
 CompositeCollider2D:
   m_ObjectHideFlags: 0
@@ -183,7 +192,7 @@ CompositeCollider2D:
   m_CompositePaths:
     m_Paths: []
   m_VertexDistance: 0.0005
-  m_OffsetDistance: 0.00005
+  m_OffsetDistance: 0
 --- !u!1 &3898320271742005494
 GameObject:
   m_ObjectHideFlags: 0

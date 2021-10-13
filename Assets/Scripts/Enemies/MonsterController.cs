@@ -26,7 +26,7 @@ public class MonsterController : EntityController
     [SerializeField]
     private float attackCooldownInSeconds = 1;
     private float timeStamp = -1; //timeStamp starts negative so we can initially set the timeStamp
-     
+
 
     private MonsterBehaviour monsterState = MonsterBehaviour.Wandering;
     private int wanderMovement = 0;
@@ -41,7 +41,7 @@ public class MonsterController : EntityController
         targetObj = GameObject.FindWithTag("Player");
         target = targetObj.transform;
         Player = targetObj.GetComponent(typeof(PlayerController)) as PlayerController;
-        
+
         base.Start();
     }
 
@@ -49,13 +49,13 @@ public class MonsterController : EntityController
     {
         playerInSight = checkVisibility(); //check if player is in range of monster
 
-        if (playerInSight && !playerSeen) //player seen for the first time, change state to attacking and increase the vision range
+        if(playerInSight && !playerSeen) //player seen for the first time, change state to attacking and increase the vision range
         {
             playerSeen = true;
             monsterState = MonsterBehaviour.Attacking;
-            baseSearch = baseSearch * searchBoost;
+            baseSearch *= searchBoost;
         }
-        else if (playerSeen && !playerInSight) //player has been seen but is no longer in vision range
+        else if(playerSeen && !playerInSight) //player has been seen but is no longer in vision range
         {
             monsterState = MonsterBehaviour.Searching;
 
@@ -64,35 +64,31 @@ public class MonsterController : EntityController
         {
             monsterState = MonsterBehaviour.Attacking;
         }
-      
-        switch (monsterState)
+
+        switch(monsterState)
         {
             case MonsterBehaviour.Attacking:
                 combatTarget();
-                
                 break;
             case MonsterBehaviour.Searching:
                 //wander();
-                this.direction = Vector2.zero;
-                
+                this.Direction = Vector2.zero;
                 break;
             case MonsterBehaviour.Wandering:
-               
                 //wander();
                 break;
         }
 
         base.Update();
-
     }
 
     //returns true if a straight line can be drawn between this object and the target, givin the target is within the visible arc
     private bool checkVisibility()
     {
-        //find direction of target
+        //find Direction of target
         Vector3 directionToTarget = target.position - transform.position;
 
-        //find degrees from forward direction
+        //find degrees from forward Direction
         float degreesToTarget = Vector3.Angle(transform.forward, directionToTarget);
 
         float distanceToTarget = directionToTarget.magnitude;
@@ -101,21 +97,20 @@ public class MonsterController : EntityController
 
         float rayDistance = Mathf.Min(baseSearch, distanceToTarget);
 
-        //create a ray that goes from current location to direction
+        //create a ray that goes from current location to Direction
         Ray2D ray = new Ray2D(transform.position, directionToTarget);
 
         //store info on the hit
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget,baseSearch);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget, baseSearch);
 
         //fire raycast, does it hit anything?
-        if (hit)
+        if(hit)
         {
-            
-            if (hit.collider.transform == target)
+
+            if(hit.collider.transform == target)
             {
                 //then we can see the target
                 playerInSight = true;
-               
             }
             else
             {
@@ -135,96 +130,91 @@ public class MonsterController : EntityController
         // value of AI's Y value relative to the Target, positive is above the target, negative is below the target
         float RelativeY = Mathf.Floor(this.transform.position.y - target.transform.position.y);
 
-        this.direction = Vector2.zero;
+        this.Direction = Vector2.zero;
 
-        if (RelativeX != 0) //check if AI is on same x level as target
+        if(RelativeX != 0) //check if AI is on same x level as target
         {
-            if (RelativeX < 0) // check if the AI is on the left or right of the target. 
+            if(RelativeX < 0) // check if the AI is on the left or right of the target. 
             {
                 // target is to the left of the target, move right
-                this.direction += Vector2.right;
+                this.Direction += Vector2.right;
             }
             else
             {
                 //target is to the right of the target, move left
-                this.direction += Vector2.left;
+                this.Direction += Vector2.left;
             }
         }
-        else if (RelativeY != 0) // check if target is on the same Y level
+        else if(RelativeY != 0) // check if target is on the same Y level
         {
-            if (RelativeY < 0)  // check if AI is above or below the target
+            if(RelativeY < 0)  // check if AI is above or below the target
             {
                 //AI is below target, move up
-                this.direction += Vector2.up;
+                this.Direction += Vector2.up;
             }
             else
             {
                 // AI is above target, move down
-                this.direction += Vector2.down;
+                this.Direction += Vector2.down;
             }
         }
         else
         {
-            if (IsAttacking)
+            if(IsAttacking)
             {
                 AttackCounter -= Time.deltaTime;
-                if (AttackCounter <= 0)
+                if(AttackCounter <= 0)
                 {
-                    base.StopAttack();
+                    StopAttack();
+                    AttackCounter = 5f;
                 }
             }
             else
             {
                 attack();
             }
-            
         }
     }
+
     private void attack()
     {
-        base.Attack();
-        if (timeStamp == -1)
+        
+        if(timeStamp <= -1)
         {
             timeStamp = Time.time;
         }
 
-
-        if (Time.time >= timeStamp)
+        if(Time.time >= timeStamp)
         {
-
+            base.Attack();
             timeStamp = Time.time + attackCooldownInSeconds;
             Player.TakeDamage(damageDelt);
-        }       
-
+        }
     }
-  
+
     //generates random movement for the AI
     private void wander()
     {
-        if (wanderMovement == maxMovement || wanderMovement == 0 )
+        if(wanderMovement == maxMovement || wanderMovement == 0)
         {
             wanderdirection = Random.Range(1, 4);
             wanderMovement = 0;
         }
-        switch (wanderdirection)
+        switch(wanderdirection)
         {
             case 1:
-                this.direction = Vector2.up;
+                this.Direction = Vector2.up;
                 wanderMovement++;
                 break;
             case 2:
-                this.direction = Vector2.down;
+                this.Direction = Vector2.down;
                 break;
             case 3:
-                this.direction = Vector2.right;
+                this.Direction = Vector2.right;
                 break;
             case 4:
-                this.direction = Vector2.left;
+                this.Direction = Vector2.left;
                 break;
         }
-
     }
-
-
-
 }
