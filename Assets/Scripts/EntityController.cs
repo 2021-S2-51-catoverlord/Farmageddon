@@ -154,7 +154,7 @@ public abstract class EntityController : MonoBehaviour
         EntityAnimator.SetBool("Jump", IsJumping);
     }
 
-    public void Attack()
+    public virtual void Attack()
     {
         IsAttacking = true;
         EntityAnimator.SetBool("Attack", IsAttacking);

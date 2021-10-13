@@ -44,7 +44,7 @@ public class MonsterController : EntityController
 
     protected override void Update()
     {
-        playerInSight = checkVisibility(); //check if player is in range of monster
+        playerInSight = CheckVisibility(); //check if player is in range of monster
 
         if(playerInSight && !playerSeen) //player seen for the first time, change state to attacking and increase the vision range
         {
@@ -55,7 +55,6 @@ public class MonsterController : EntityController
         else if(playerSeen && !playerInSight) //player has been seen but is no longer in vision range
         {
             monsterState = MonsterBehaviour.Searching;
-
         }
         else if(playerSeen && playerInSight) //player is seen and has been seen before
         {
@@ -65,7 +64,7 @@ public class MonsterController : EntityController
         switch(monsterState)
         {
             case MonsterBehaviour.Attacking:
-                combatTarget();
+                CombatTarget();
                 break;
             case MonsterBehaviour.Searching:
                 //wander();
@@ -80,7 +79,7 @@ public class MonsterController : EntityController
     }
 
     //returns true if a straight line can be drawn between this object and the target, givin the target is within the visible arc
-    private bool checkVisibility()
+    private bool CheckVisibility()
     {
         //find Direction of target
         Vector3 directionToTarget = target.position - transform.position;
@@ -119,27 +118,27 @@ public class MonsterController : EntityController
     }
 
     // handles combat if AI is in Attacking behaviour
-    private void combatTarget()
+    private void CombatTarget()
     {
         // value of AI's X value relative to the Target, positive is right of the target, negative is left of the target
-        float RelativeX = Mathf.Floor(this.transform.position.x - target.transform.position.x);
+        float RelativeX = Mathf.Floor(transform.position.x - target.transform.position.x);
 
         // value of AI's Y value relative to the Target, positive is above the target, negative is below the target
-        float RelativeY = Mathf.Floor(this.transform.position.y - target.transform.position.y);
+        float RelativeY = Mathf.Floor(transform.position.y - target.transform.position.y);
 
-        this.Direction = Vector2.zero;
+        Direction = Vector2.zero;
 
         if(RelativeX != 0) //check if AI is on same x level as target
         {
             if(RelativeX < 0) // check if the AI is on the left or right of the target. 
             {
                 // target is to the left of the target, move right
-                this.Direction += Vector2.right;
+                Direction += Vector2.right;
             }
             else
             {
                 //target is to the right of the target, move left
-                this.Direction += Vector2.left;
+                Direction += Vector2.left;
             }
         }
         else if(RelativeY != 0) // check if target is on the same Y level
@@ -147,12 +146,12 @@ public class MonsterController : EntityController
             if(RelativeY < 0)  // check if AI is above or below the target
             {
                 //AI is below target, move up
-                this.Direction += Vector2.up;
+                Direction += Vector2.up;
             }
             else
             {
                 // AI is above target, move down
-                this.Direction += Vector2.down;
+                Direction += Vector2.down;
             }
         }
         else
@@ -168,12 +167,12 @@ public class MonsterController : EntityController
             }
             else
             {
-                attack();
+                Attack();
             }
         }
     }
 
-    private void attack()
+    public override void Attack()
     {
         
         if(timeStamp <= -1)
@@ -190,7 +189,7 @@ public class MonsterController : EntityController
     }
 
     //generates random movement for the AI
-    private void wander()
+    private void Wander()
     {
         if(wanderMovement == maxMovement || wanderMovement == 0)
         {
@@ -200,17 +199,17 @@ public class MonsterController : EntityController
         switch(wanderdirection)
         {
             case 1:
-                this.Direction = Vector2.up;
+                Direction = Vector2.up;
                 wanderMovement++;
                 break;
             case 2:
-                this.Direction = Vector2.down;
+                Direction = Vector2.down;
                 break;
             case 3:
-                this.Direction = Vector2.right;
+                Direction = Vector2.right;
                 break;
             case 4:
-                this.Direction = Vector2.left;
+                Direction = Vector2.left;
                 break;
         }
     }
