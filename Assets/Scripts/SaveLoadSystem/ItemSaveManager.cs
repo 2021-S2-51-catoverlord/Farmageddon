@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class ItemSaveManager : MonoBehaviour
 {
-    private const string InventoryFilename = "Inventory";
-    private const string EquipmentFilename = "Equipment";
+    protected const string InventoryFilename = "Inventory";
+    protected const string EquipmentFilename = "Equipment";
 
     [SerializeField] public UIManager UIManager;
     [SerializeField] public ItemDatabase ItemDatabase;

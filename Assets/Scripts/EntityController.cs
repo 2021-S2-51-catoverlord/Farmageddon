@@ -2,11 +2,23 @@ using UnityEngine;
 
 public abstract class EntityController : MonoBehaviour
 {
-    protected static int MaxHP;
-
     [Range(1f, 30f)] public float Speed; // Speed of movement.
+    protected Vector2 Direction; // Velocity (Vectored speed).
+    public Animator EntityAnimator;
+    public Rigidbody2D EntityRigidbody;
 
-    protected Vector2 Direction; // Vector.
+    // Animator's variables.
+    public bool IsMoving => Direction.x != 0 || Direction.y != 0;
+    public bool IsAlive;
+    public bool IsJumping;
+    public bool IsAttacking;
+    public float AttackCounter;
+
+    // Entity's base attributes.
+    public string EntityName;
+    public int MaxHP;
+    public int HealthPoints;
+
     //private string entityName;
     //private int healthPoints;
     //private Animator entityAnimator;
@@ -14,18 +26,6 @@ public abstract class EntityController : MonoBehaviour
     //private bool isJumping;
     //private bool isAttacking;
     //private bool isAlive;
-
-    // Get and set methods for entity's attributes.
-    protected string EntityName;
-    public int HealthPoints;
-    public Animator EntityAnimator;
-    public Rigidbody2D EntityRigidbody;
-    public bool IsMoving => Direction.x != 0 || Direction.y != 0;
-    public bool IsJumping;
-    public bool IsAttacking;
-    public bool IsAlive;
-    public float AttackTime;
-    public float AttackCounter;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -66,7 +66,6 @@ public abstract class EntityController : MonoBehaviour
     {
         if(IsMoving) // If the character is moving...
         {
-            // Change the main layer to the walking layer.
             ActivateAnimLayer("Walk Layer");
 
             // Specify the Direction so that the sprite can face the appropriate Direction.
@@ -85,9 +84,8 @@ public abstract class EntityController : MonoBehaviour
         {
             ActivateAnimLayer("Death Layer");
         }
-        else
+        else // Default layer.
         {
-            // Set the idle layer to be the main layer.
             EntityAnimator.SetLayerWeight(1, 0);
             ActivateAnimLayer("Idle Layer");
         }

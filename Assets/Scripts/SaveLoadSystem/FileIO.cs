@@ -38,8 +38,19 @@ public static class FileIO
     /// <returns>Deserialized object</returns>
     public static T ReadBinFromFile<T>(string fullPath)
     {
-        using Stream inStream = File.Open(fullPath, FileMode.Open);
-        var binaryFormatter = new BinaryFormatter();
-        return (T)binaryFormatter.Deserialize(inStream);
+        T loadedData = default;
+
+        try
+        {
+            using Stream inStream = File.Open(fullPath, FileMode.Open);
+            var binaryFormatter = new BinaryFormatter();
+            loadedData = (T)binaryFormatter.Deserialize(inStream);
+        }
+        catch(Exception e)
+        {
+            Debug.Log(e.StackTrace);
+        }
+
+        return loadedData;
     }
 }

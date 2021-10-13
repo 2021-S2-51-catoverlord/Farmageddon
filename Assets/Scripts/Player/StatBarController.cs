@@ -4,7 +4,7 @@
  * 
  * Methods:
  * - SetMaxValue: Sets the max value of the health/stamina bars.
- * - SetCurrentValue: Sets the current slider value for the health/stamina bars.
+ * - SetCurrentValue: Sets the current Slider value for the health/stamina bars.
  */
 
 using UnityEngine;
@@ -12,18 +12,26 @@ using UnityEngine.UI;
 
 public class StatBarController : MonoBehaviour
 {
-    public Slider slider;
+    public Slider Slider;
+
+    public void Awake()
+    {
+        if(Slider == null)
+        {
+            Slider = GetComponent<Slider>();
+        }
+    }
 
     //Set max value.
     public void SetMaxValue(int maxValue)
     {
-        slider.maxValue = maxValue;
-        slider.value = maxValue;
+        Slider.maxValue = maxValue;
+        Slider.value = maxValue;
     }
 
     //Set current value.
     public void SetCurrentValue(int currentValue)
     {
-        slider.value = currentValue;
+        Slider.value = currentValue;
     }
 }

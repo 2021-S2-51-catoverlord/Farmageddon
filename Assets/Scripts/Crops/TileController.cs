@@ -187,7 +187,7 @@ namespace Gameplay
 
         private void GetInput()
 		{
-			if (Input.GetMouseButtonDown(0) && !player.isInventoryActive)
+			if (Input.GetMouseButtonDown(0) && !player.IsInventoryActive)
 			{	// For the time being, we use the first inventory slot as the player's equipped item
 				if(inventory.itemSlots[0].Item != null)
                 {

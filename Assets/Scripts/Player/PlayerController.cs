@@ -3,27 +3,27 @@ using UnityEngine;
 
 public class PlayerController : EntityController
 {
-    protected static int MaxStamina = 30;
+    [SerializeField] protected StatBarController HealthBar;
+    [SerializeField] protected StatBarController StaminaBar;
+    [SerializeField] [Range(1, 500)] public int Damage;
 
-    [SerializeField] protected StatBarController healthBar;
-    [SerializeField] protected StatBarController staminaBar;
-    [SerializeField] [Range(1, 30)] public int Damage;
+    // Player attributes.
+    public int MaxStamina;
+    public int StaminaPoints;
+    public int ExperiencePoints;
+
+    public bool IsInventoryActive; // Implementation for locking clicking status.
 
     private Coroutine _regen;
     private readonly WaitForSeconds _regenTick = new WaitForSeconds(0.1f);
-    public bool isInventoryActive; //Implementation for locking clicking status.
-
-    // Get and set methods.
-    public int StaminaPoints { get; set; }
-    public int ExperiencePoints { get; set; }
 
     // Start is called before the first frame update
     protected override void Start()
     {
-        if(healthBar == null || staminaBar == null)
+        if(HealthBar == null || StaminaBar == null)
         {
-            healthBar = GameObject.Find("Health Bar").GetComponent<StatBarController>();
-            staminaBar = GameObject.Find("Stamina Bar").GetComponent<StatBarController>();
+            HealthBar = GameObject.Find("Health Bar").GetComponent<StatBarController>();
+            StaminaBar = GameObject.Find("Stamina Bar").GetComponent<StatBarController>();
         }
 
         base.Start();
@@ -39,8 +39,8 @@ public class PlayerController : EntityController
             GetInput();
         }
 
-        healthBar.SetCurrentValue(HealthPoints);
-         
+        HealthBar.SetCurrentValue(HealthPoints);
+
         base.Update(); // Call the parent's Update method which will call the parent's Move method.
     }
 
@@ -52,14 +52,15 @@ public class PlayerController : EntityController
     {
         // Initialise entity name, stamina, and exp.
         EntityName = "Player";
+        MaxStamina = 30;
         StaminaPoints = MaxStamina;
         ExperiencePoints = 0;
         Speed = (Speed < 6f ? 6f : Speed);
-        Damage = (Damage < 5 ? 5 : Damage);
+        Damage = (Damage < 10 ? 10 : Damage);
 
         // Initilise the sliders' max values.
-        healthBar.SetMaxValue(MaxHP);
-        staminaBar.SetMaxValue(MaxStamina);
+        HealthBar.SetMaxValue(MaxHP);
+        StaminaBar.SetMaxValue(MaxStamina);
     }
 
     /// <summary>
@@ -97,7 +98,7 @@ public class PlayerController : EntityController
         }
 
         // Input for attack (left mouse-click)
-        if(!isInventoryActive && Input.GetMouseButton(0))
+        if(!IsInventoryActive && Input.GetMouseButton(0))
         {
             Attack();
         }
@@ -127,7 +128,7 @@ public class PlayerController : EntityController
     /// <returns></returns>
     public IEnumerator RespawnPlayer()
     {
-        SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>(); 
+        SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
         playerRenderer.enabled = false; // Hide Player.
 
         yield return new WaitForSeconds(5f);
@@ -157,15 +158,15 @@ public class PlayerController : EntityController
             Debug.Log("Not enough stamina!!");
         }
 
-        // If stamina is already regenerating...
-        if(_regen != null)
+
+        if(_regen != null) // If stamina is already regenerating...
         {
             StopCoroutine(_regen); // Resets (Disallow player to regenerate while usiong stamina).
         }
 
-        // Starts the coroutine of regenerating.
+        // Starts the co-routine of regenerating stamina.
         _regen = StartCoroutine(RegenStamina());
-        staminaBar.SetCurrentValue(StaminaPoints);
+        StaminaBar.SetCurrentValue(StaminaPoints);
     }
 
     /// <summary>
@@ -179,10 +180,9 @@ public class PlayerController : EntityController
         while(StaminaPoints < MaxStamina)
         {
             StaminaPoints++;
-            staminaBar.SetCurrentValue(StaminaPoints);
+            StaminaBar.SetCurrentValue(StaminaPoints);
 
-            // Create a 10 ms delay.
-            yield return _regenTick; 
+            yield return _regenTick; // Create a 10 ms delay. 
         }
     }
 
@@ -190,13 +190,13 @@ public class PlayerController : EntityController
     {
         MaxHP += (int)(HealthPoints * 0.03) * (int)((100 - level) * 0.03);
         HealthPoints = MaxHP;
-        healthBar.SetMaxValue(MaxHP);
+        HealthBar.SetMaxValue(MaxHP);
     }
 
     public void IncreaseStamina(int level)
     {
         MaxStamina += (int)(HealthPoints * 0.01) * (int)((100 - level) * 0.01);
         StaminaPoints = MaxStamina;
-        staminaBar.SetMaxValue(MaxStamina);
+        StaminaBar.SetMaxValue(MaxStamina);
     }
 }

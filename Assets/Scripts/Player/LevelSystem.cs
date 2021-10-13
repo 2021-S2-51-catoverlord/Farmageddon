@@ -22,10 +22,15 @@ public class LevelSystem : MonoBehaviour
     public Slider levelUpSlider;
     public Text currentLevel;
     public Text experienceTxt;
-    GameObject player;
+    public PlayerController player;
 
     private void Start()
     {
+        if(player == null)
+        {
+            player = GameObject.Find("Player").GetComponent<PlayerController>();
+        }
+
         level = 1;
         experienceToNextLevel = 32;
 
@@ -38,7 +43,7 @@ public class LevelSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if(Input.GetKeyDown(KeyCode.P))
         {
             GainEXP(10);
             levelUpSlider.value = experience;
@@ -62,9 +67,9 @@ public class LevelSystem : MonoBehaviour
 
         experienceToNextLevel = (int)(experienceToNextLevel * 1.8);
         levelUpSlider.maxValue = experienceToNextLevel;
-        player = GameObject.Find("Player");
-        player.GetComponent<PlayerController>().IncreaseHealth(level);
-        player.GetComponent<PlayerController>().IncreaseStamina(level);
+
+        player.IncreaseHealth(level);
+        player.IncreaseStamina(level);
     }
 
     public void GainEXP(int exp)

@@ -20,7 +20,6 @@ public static class ItemSaveIO
     public static void SaveItems(ItemSlotSaveData items, string fileName)
     {
         string fullPath = BaseSavePath + fileName + FileExtension;
-        //Debug.Log(fullPath);
         FileIO.WriteBinToFile(fullPath, items);
     }
 

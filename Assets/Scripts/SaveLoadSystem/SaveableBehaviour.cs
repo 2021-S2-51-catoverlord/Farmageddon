@@ -1,7 +1,7 @@
 using LitJson;
 using UnityEngine;
 
-public abstract class SaveableBehaviour : MonoBehaviour, ISaveable, ISerializationCallbackReceiver
+public abstract class SaveableBehaviour : MonoBehaviour, ISaveableJson, ISerializationCallbackReceiver
 {
     [HideInInspector]
     [SerializeField]
@@ -20,7 +20,7 @@ public abstract class SaveableBehaviour : MonoBehaviour, ISaveable, ISerializati
         }
     }
 
-    // Abstract attributes/methods from ISaveable, subclasses must have their own implementation.
+    // Abstract attributes/methods from ISaveableJson, subclasses must have their own implementation.
     public abstract JsonData SavedData { get; }
     public abstract void LoadFromData(JsonData data);
 

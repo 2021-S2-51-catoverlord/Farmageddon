@@ -24,15 +24,15 @@ public static class SaveManager
     {
         JsonData result = new JsonData();
 
-        // Find all MonoBehaviours objects that implements ISaveable.
-        IEnumerable<ISaveable> allSaveableObjects = Object.FindObjectsOfType<MonoBehaviour>().OfType<ISaveable>();
+        // Find all MonoBehaviours objects that implements ISaveableJson.
+        IEnumerable<ISaveableJson> allSaveableObjects = Object.FindObjectsOfType<MonoBehaviour>().OfType<ISaveableJson>();
 
         if(allSaveableObjects.Count() > 0)
         {
             JsonData savedObjects = new JsonData();
 
             // Iterate over every object we want to save
-            foreach(ISaveable saveableObject in allSaveableObjects)
+            foreach(ISaveableJson saveableObject in allSaveableObjects)
             {
                 JsonData data = saveableObject.SavedData;
 
@@ -188,8 +188,8 @@ public static class SaveManager
             // event, which makes it run after the scene has finished loading.
             LoadObjectsAfterSceneLoad = (scene, loadSceneMode) =>
             {
-                // Find all ISaveable objects, and build a dictionary that maps their Save IDs to the object (so that we can quickly look them up).
-                var allLoadableObjects = Object.FindObjectsOfType<MonoBehaviour>().OfType<ISaveable>().ToDictionary(o => o.SaveID, o => o);
+                // Find all ISaveableJson objects, and build a dictionary that maps their Save IDs to the object (so that we can quickly look them up).
+                var allLoadableObjects = Object.FindObjectsOfType<MonoBehaviour>().OfType<ISaveableJson>().ToDictionary(o => o.SaveID, o => o);
 
                 // Get the collection of objects we need to load.
                 var objectsCount = objects.Count;
