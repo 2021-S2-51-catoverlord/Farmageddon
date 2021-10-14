@@ -4,34 +4,44 @@ using UnityEngine;
 
 public class Tree : MonoBehaviour
 {
-    public static Tree instance;
-    public GameObject logPrefab;
-    public int health;
-    public Animator anim;
+    public bool IsPlayerIn = false;
+    public int Health = 3;
 
-    void Awake()
+    public GameObject PreMT;
+
+    void Start()
     {
-        if (instance != null && instance != this)
+
+    }
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0) && IsPlayerIn == true)
         {
-            Destroy(this.gameObject);
-            return;
+            Health--;
+
+            if (Health == 0)
+            {
+                Instantiate(PreMT, this.transform.position, this.transform.rotation);
+                Destroy(this.gameObject);
+            }
         }
-        instance = this;
-        DontDestroyOnLoad(this.gameObject);
-    }
-    public void Shake()
-    {
-     
     }
 
-    public void TakeDamage()
-    {
-        Shake();
-        health--;
-        if (health <= 0)
+      private void OnTriggerEnter2D(Collider2D collision)
         {
-            Instantiate(logPrefab, transform.position, transform.rotation);
-            Destroy(gameObject);
+
+            if (collision.tag == "Player")
+            {
+                IsPlayerIn = true;
+            }
+        }
+    
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+            if (collision.tag == "Player")
+        {
+            IsPlayerIn = false;
         }
     }
 }

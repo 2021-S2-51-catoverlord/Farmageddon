@@ -15,6 +15,7 @@ public class ItemPickUp : MonoBehaviour
     [SerializeField] Item item;
     [SerializeField] Inventory inventory;
 
+
     private void Start()
     {
         if (inventory == null) // If inventory has not been assigned yet...
@@ -32,6 +33,7 @@ public class ItemPickUp : MonoBehaviour
         // If the player collided with the object...
         if (target.gameObject.tag == "Player")
         {
+          
             PickUp();
         }
     }
