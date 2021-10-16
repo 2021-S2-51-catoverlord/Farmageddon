@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
+using Utils;
 
 
 /*
@@ -11,7 +14,9 @@ using UnityEngine.Tilemaps;
 */
 namespace Gameplay
 {
-    public delegate void PlantPlantedHandler(string ID);
+	public delegate void PlantPlantedHandler(string ID);
+
+	public class CropEvent : UnityEvent<CropTile> { }
 
 	public class TileController : MonoBehaviour
 	{
@@ -33,23 +38,36 @@ namespace Gameplay
 
 		public Item[] crops;
 
-		public DayNightCycleBehaviour timeCycle;
+		public static DayNightCycleBehaviour timeCycle;
 
-
-        public event PlantPlantedHandler OnStageGrow;
+		public event PlantPlantedHandler OnStageGrow;
 
 		public static TileController instance;
 
-        private void Start()
+		public static CropEvent c_cropDeath = new CropEvent();
+
+
+		public List<string> springCrops = new List<string> { "tomato", "beetroot", "corn", "strawberry"};
+		public List<string> summerCrops = new List<string> { "tomato", "melon", "corn", "strawberry"};
+		public List<string> autumnCrops = new List<string> { "corn", "pumpkin", "beetroot"};
+		public List<string> winterCrops = new List<string> { "pumpkin", "potato", "corn"};
+
+		public Color wiltedCrop = Color.blue;
+
+
+		private void Start()
         {
+
 			player = GameObject.Find("Player").GetComponent<PlayerController>(); // Finds the player controller and saves its reference.
 			tilemap = GameObject.Find("Farmland").GetComponent<Tilemap>(); // Temporary fix: Need to find out which actual tilemap to find.
 			crop_tilemap = GameObject.Find("Crops").GetComponent<Tilemap>(); // Temporary fix: Need to find out which actual tilemap to find.
 			inventory = Resources.FindObjectsOfTypeAll<Inventory>()[0]; // Finds the first occurence of Inventory GameObj and saves its script.
 			timeCycle = GameObject.Find("Time Light").GetComponent<DayNightCycleBehaviour>(); // Temporary fix: Just a guess.
+
+			timeCycle.t_dayChange.AddListener(DayChanged);
 		}
 
-        private void Awake()
+		private void Awake()
 		{
 			if (!instance)
 			{
@@ -60,36 +78,6 @@ namespace Gameplay
 				Destroy(gameObject);
 			}
 		}
-
-        private void ReadTilemapToTileData(Tilemap tilemap, int layer)
-        {
-            foreach(Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
-            {
-                Vector3Int localPlace = new Vector3Int(pos.x, pos.y, pos.z);
-
-                if(!tilemap.HasTile(localPlace)) continue;
-
-                var worldLocation = tilemap.CellToWorld(localPlace);
-                var layeredWorldPosition = new Vector3(worldLocation.x, worldLocation.y, layer);
-
-                TileBase tileBase = tilemap.GetTile(localPlace);
-                IGameTile tileFromLibrary = GetTileByAssetName(tileBase.name);
-
-                IGameTile tile = new GameTile
-                {
-                    LocalPlace = localPlace,
-                    WorldLocation = layeredWorldPosition,
-                    TileBase = tileBase,
-                    TilemapMember = tilemap,
-                    Description = tileFromLibrary.Description,
-                    TileData = tileFromLibrary.TileData,
-                    Cost = 1
-                };
-
-                tiles.Add(layeredWorldPosition, tile);
-            }
-        }
-
 
 		public void PlaceTile(Vector3 pos, string assetName)
 		{
@@ -103,22 +91,22 @@ namespace Gameplay
 			newTile.WorldLocation = layeredWorldPosition;
 			newTile.TilemapMember = crop_tilemap;
 
-            // if a tile already exists there, just replace it.
-            bool tileExistsInPos = tiles.ContainsKey(layeredWorldPosition);
-            if(tileExistsInPos)
-            {
-                tiles[layeredWorldPosition] = newTile;
-            }
-            else
-            {
-                tiles.Add(layeredWorldPosition, newTile);
-            }
+			// if a tile already exists there, just replace it.
+			bool tileExistsInPos = tiles.ContainsKey(layeredWorldPosition);
+			if (tileExistsInPos)
+			{
+				tiles[layeredWorldPosition] = newTile;
+			}
+			else
+			{
+				tiles.Add(layeredWorldPosition, newTile);
+			}
 
-            bool isACrop = newTile.GetType() == typeof(CropTile);
-            if(isACrop)
-            {
-                (newTile as CropTile).StartGrowing();
-            }
+			bool isACrop = newTile.GetType() == typeof(CropTile);
+			if (isACrop)
+			{
+				(newTile as CropTile).StartGrowing();
+			}
 
 			SetGameTile(newTile);
 		}
@@ -146,37 +134,95 @@ namespace Gameplay
 			crop_tilemap.SetTile(tilemapPos, null);
 		}
 
-
 		// Starts a coroutine and returns to the caller after it's time is passed
-		public void Grow(int timeToGrow, int stages, string ID)
+		public void Grow(int timeToGrow, int stages, string ID, IGameTile tile)
 		{
-			if(timeCycle.season == Season.WINTING)
-            {
-				timeToGrow *= 2;
-            } else if (timeCycle.season == Season.SPRIMMER){
-				timeToGrow = (int)Math.Ceiling(timeToGrow * 0.5f);
-            }
+			bool inSeason = false;
+
+			switch (timeCycle.season)
+			{
+				case Season.SPRIMMER:
+					foreach (string item in TileController.instance.springCrops)
+					{
+						if (tile.Description.Contains(item))
+						{
+							inSeason = true;
+						}
+					}
+					if (inSeason)
+					{
+						timeToGrow = (int)((double)timeToGrow * 0.5);
+					}
+
+					break;
+				case Season.SUMTUMN:
+					foreach (string item in TileController.instance.summerCrops)
+					{
+						if (tile.Description.Contains(item))
+						{
+							inSeason = true;
+						}
+					}
+					if (inSeason)
+					{
+						timeToGrow = (int)((double)timeToGrow * 0.5);
+					}
+					break;
+				case Season.AUNTER:
+					foreach (string item in TileController.instance.autumnCrops)
+					{
+						if (tile.Description.Contains(item))
+						{
+							inSeason = true;
+						}
+					}
+					if (inSeason)
+					{
+						timeToGrow = (int)((double)timeToGrow * 0.5);
+					}
+					break;
+				case Season.WINTING:
+					foreach (string item in TileController.instance.winterCrops)
+					{
+						if (tile.Description.Contains(item))
+						{
+							inSeason = true;
+						}
+					}
+					if (inSeason)
+					{
+						timeToGrow = (int)((double)timeToGrow * 0.5);
+					}
+					else
+					{
+						timeToGrow = (int)((double)timeToGrow * 2);
+
+						TileController.instance.crop_tilemap.SetTileFlags(Vector3Int.RoundToInt(tile.WorldLocation), TileFlags.None);
+						TileController.instance.crop_tilemap.SetColor(Vector3Int.RoundToInt(tile.WorldLocation), Color.blue);
+					}
+					break;
+			}
 			StartCoroutine(StartGrowing(timeToGrow, stages, ID));
 		}
 
-        private IEnumerator StartGrowing(int timeToGrow, int stages, string ID)
-        {
-            for(int stage = 0; stage < stages; stage++)
-            {
-                yield return new WaitForSeconds(timeToGrow);
-                OnStageGrow?.Invoke(ID);
-            }
-        }
+		private IEnumerator StartGrowing(int timeToGrow, int stages, string ID)
+		{
+			for (int stage = 0; stage < stages; stage++)
+			{
+				yield return new WaitForSeconds(timeToGrow);
+				OnStageGrow?.Invoke(ID);
+			}
+		}
 
 		private void SetGameTile(IGameTile gameTile)
 		{
 			crop_tilemap.SetTile(gameTile.LocalPlace, gameTile.TileBase);
 		}
 
-        public static IGameTile GetTileByAssetName(string assetName)
-        {
-            return TileLibrary.instance.GetClonedTile(assetName);
-        }
+		public static IGameTile GetTileByAssetName(string assetName)
+		{
+			return TileLibrary.instance.GetClonedTile(assetName);
+		}
 
 
 		private void Update()
@@ -184,10 +230,9 @@ namespace Gameplay
 			GetInput();
 		}
 
-
         private void GetInput()
 		{
-			if (Input.GetMouseButtonDown(0) && !player.IsInventoryActive)
+			if (Input.GetMouseButtonDown(0) && !player.isInventoryActive)
 			{	// For the time being, we use the first inventory slot as the player's equipped item
 				if(inventory.itemSlots[0].Item != null)
                 {
@@ -209,7 +254,7 @@ namespace Gameplay
                         }
 
 						var wpos = player.GetComponent<CapsuleCollider2D>().transform.position;
-						wpos.y += 1.0f;
+						wpos.y += 0.5f;
 
 						// get tile pos
 						var tilePos = tilemap.WorldToCell(wpos);
@@ -239,6 +284,8 @@ namespace Gameplay
 									case "tomato_6": GiveSeeds(6); GiveCrops(6); break;
 									case "melon_6": GiveSeeds(7); GiveCrops(7); break;
 								}
+
+								tiles.Remove(tiles.FirstOrDefault(x => x.Value == tile).Key);
                             }
 						}
 					}
@@ -268,6 +315,8 @@ namespace Gameplay
 								case "tomato_6": GiveSeeds(6); GiveCrops(6); break;
 								case "melon_6": GiveSeeds(7); GiveCrops(7); break;
 							}
+
+							tiles.Remove(tiles.FirstOrDefault(x => x.Value == tile).Key);
 						}
 					}
 				}
@@ -282,9 +331,59 @@ namespace Gameplay
 			inventory.AddItem(seeds[i].GetItemCopy(), seedNo);
 			
 		}
+
 		private void GiveCrops(int i)
         {
 			inventory.AddItem(crops[i].GetItemCopy());
 		}
+
+		private void DayChanged()
+        {
+			bool isSeasonal = false;
+
+			if (timeCycle.season == Season.WINTING)
+            {
+				List<KeyValuePair<Vector3, IGameTile>> existingTiles = tiles.ToList();
+				foreach (KeyValuePair<Vector3, IGameTile> t in existingTiles)
+				{
+					foreach (string item in winterCrops)
+					{
+                        if (t.Value.Description.Contains(item))
+						{
+							isSeasonal = true;
+						}
+					}
+
+					if (!isSeasonal)
+					{
+						IGameTile tile;
+						int i = UnityEngine.Random.Range(0, 20);
+						if (i == 0)
+						{
+							tiles.TryGetValue(t.Key, out tile);
+
+							Debug.Log("Plant at Coords " + t.Value.LocalPlace + " should be dead");
+							Debug.Log("Invoking Crop Death");
+							CropTile cropTile = tile as CropTile;
+							cropTile.isDead = true;
+
+							c_cropDeath.Invoke(tile as CropTile);
+
+							PlaceTile(t.Key);
+							tiles.Remove(t.Key);
+
+						} else
+						{
+							tiles.TryGetValue(t.Key, out tile);
+							crop_tilemap.SetTileFlags(Vector3Int.RoundToInt(tile.WorldLocation), TileFlags.None);
+							crop_tilemap.SetColor(Vector3Int.RoundToInt(tile.WorldLocation), Color.blue);
+						}
+
+					}
+				}
+			}
+			
+		}
+
 	}
 }

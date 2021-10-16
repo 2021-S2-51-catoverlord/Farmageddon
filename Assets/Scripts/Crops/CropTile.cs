@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 namespace Gameplay
@@ -14,31 +15,118 @@ namespace Gameplay
         public int GrowthTime;
         public GrowthStage[] GrowthStageTiles;
         public bool isGrown;
-        public GameObject timeCycle;
         public DayNightCycleBehaviour time;
+        public bool isDead = false;
 
         private int currStageIndex = 0;
 
+
         public void Start()
         {
-            timeCycle = GameObject.Find("Time Light");
-            time = timeCycle.GetComponent<DayNightCycleBehaviour>();
+            time = GameObject.Find("Time Light").GetComponent<DayNightCycleBehaviour>();
+
+            Debug.Log("Setting Listener for Crop Death");
+            TileController.c_cropDeath.AddListener(OnCropDeath);
         }
 
         public void StartGrowing()
         {
-            Debug.Log("Growth Started");
-            TileController.instance.Grow(GrowthTime, GrowthStageTiles.Length, ID);
+            TileController.instance.Grow(GrowthTime, GrowthStageTiles.Length, ID, this);
             TileController.instance.OnStageGrow += OnGrowEvent;
         }
 
+        public void OnWilt()
+        {
+
+        }
+
+        public void OnCropDeath(CropTile tile)
+        {
+            TilemapMember.SetTile(tile.LocalPlace, null);
+            TileBase = null;
+            Description = null;
+            currStageIndex = GrowthStageTiles.Length;
+        }
 
         private void OnGrowEvent(string plantID)
         {
-            if(plantID != ID) return;
+            DayNightCycleBehaviour time = TileController.timeCycle;
+            bool inSeason = false;
+            switch (time.season)
+            {
+                case Season.SPRIMMER:
+                    foreach (string item in TileController.instance.springCrops)
+                    {
+                        if (Description.Contains(item))
+                        {
+                            inSeason = true;
+                        }
+                    }
+                    if (inSeason)
+                    {
+                        GrowthTime = (int)((double)GrowthTime * 0.5);
+                    }
+
+                    break;
+                case Season.SUMTUMN:
+                    foreach (string item in TileController.instance.summerCrops)
+                    {
+                        if (Description.Contains(item))
+                        {
+                            inSeason = true;
+                        }
+                    }
+                    if (inSeason)
+                    {
+                        GrowthTime = (int)((double)GrowthTime * 0.5);
+                    }
+                    break;
+                case Season.AUNTER:
+                    foreach (string item in TileController.instance.autumnCrops)
+                    {
+                        if (Description.Contains(item))
+                        {
+                            inSeason = true;
+                        }
+                    }
+                    if (inSeason)
+                    {
+                        GrowthTime = (int)((double)GrowthTime * 0.5);
+                    }
+                    break;
+                case Season.WINTING:
+                    foreach (string item in TileController.instance.winterCrops)
+                    {
+                        if (Description.Contains(item))
+                        {
+                            inSeason = true;
+                        }
+                    }
+                    if (inSeason)
+                    {
+                        GrowthTime = (int)((double)GrowthTime * 0.5);
+
+                    } else
+                    {
+                        GrowthTime = (int)((double)GrowthTime * 2);
+
+                        IGameTile tile;
+
+                        if (!isDead)
+                        {
+                            TileController.instance.tiles.TryGetValue(LocalPlace, out tile);
+                            TileController.instance.crop_tilemap.SetTileFlags(Vector3Int.RoundToInt(tile.WorldLocation), TileFlags.None);
+                            TileController.instance.crop_tilemap.SetColor(Vector3Int.RoundToInt(tile.WorldLocation), Color.blue);
+                        }
+
+                    }
+                    break;
+            }
+
+            if (plantID != ID || isDead) return;
 
             // Unsubscribe
-            if(currStageIndex >= GrowthStageTiles.Length)
+            if (currStageIndex >= GrowthStageTiles.Length)
             {
                 TileController.instance.OnStageGrow -= OnGrowEvent;
                 isGrown = true;
