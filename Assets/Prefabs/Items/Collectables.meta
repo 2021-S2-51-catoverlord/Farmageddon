@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Prefabs/Items/Collectables.meta
 guid: a3a835d68e7b3bf4baeff00a2f8f2279
+=======
+guid: d44c5e73d6c15214a9d0301ed3ac4667
+>>>>>>> Audio:Assets/Prefabs/Audio.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
