@@ -3,23 +3,18 @@ using UnityEngine;
 
 public class PlayerSaveManager : MonoBehaviour
 {
-    //public static readonly string BaseSavePath = Application.persistentDataPath + "/";
-    //public static readonly string FileExtension = ".dat";
-    //protected const string PlayerFilename = "Player";
-    public static readonly string PlayerFullPath = Application.persistentDataPath + "/" + "Player" + ".dat";
-
     [SerializeField] public PlayerController PlayerStats;
-    [SerializeField] public LevelSystem PlayerLevel;
-    //[SerializeField] public MoneySystem PlayerMoney;
+
+    protected string PlayerFullPath;
 
     private void Awake()
     {
-        if(PlayerStats == null || PlayerLevel == null)
+        if(PlayerStats == null)
         {
-            PlayerStats = GetComponent<PlayerController>();
-            PlayerLevel = GameObject.FindObjectOfType<LevelSystem>();
-            //PlayerMoney = GameObject.FindObjectOfType<MoneySystem>();
+            PlayerStats = GameObject.Find("Player").GetComponent<PlayerController>();
         }
+
+        PlayerFullPath = Application.persistentDataPath + "/Player.dat";
     }
 
     /// <summary>
@@ -27,9 +22,13 @@ public class PlayerSaveManager : MonoBehaviour
     /// </summary>
     public void SavePlayerData()
     {
-        var saveData = new PlayerSaveData(PlayerStats, PlayerLevel);
-        //string fullPath = BaseSavePath + PlayerFilename + FileExtension;
+        PlayerSaveData saveData = GetSaveData();
         FileIO.WriteBinToFile(PlayerFullPath, saveData);
+    }
+
+    private PlayerSaveData GetSaveData()
+    {
+        return new PlayerSaveData(PlayerStats);
     }
 
     /// <summary>
@@ -49,6 +48,11 @@ public class PlayerSaveManager : MonoBehaviour
         if(loadedData != null)
         {
             DeserializeAndLoad(loadedData);
+            Debug.Log("Player data loaded!.");
+        }
+        else
+        {
+            Debug.Log("Player data unavailable.");
         }
     }
 
@@ -69,15 +73,12 @@ public class PlayerSaveManager : MonoBehaviour
         PlayerStats.HealthPoints = loadedData.HealthPoints;
         PlayerStats.MaxStamina = loadedData.MaxStamina;
         PlayerStats.StaminaPoints = loadedData.StaminaPoints;
+        PlayerStats.Level.experience = loadedData.ExperiencePoints;
+        PlayerStats.Level.experienceToNextLevel = loadedData.ExperienceToNextLevel;
+        PlayerStats.Level.level = loadedData.Level;
+        PlayerStats.Level.UpdateUI();
 
-        //PlayerStats.ExperiencePoints = loadedData.ExperiencePoints;
-        //PlayerStats.ExperienceToNextLevel = loadedData.ExperienceToNextLevel;
-        //PlayerStats.Level = loadedData.Level;
-
-        PlayerLevel.experience = loadedData.ExperiencePoints;
-        PlayerLevel.experienceToNextLevel = loadedData.ExperienceToNextLevel;
-        PlayerLevel.level = loadedData.Level;
-
-        //PlayerMoney.currentBalance = loadedData.CurrencyBalance;
+        PlayerStats.Money.CurrentBalance = loadedData.CurrencyBalance;
+        PlayerStats.Money.UpdateUI();
     }   
 }

@@ -34,9 +34,9 @@ public class PauseMenu : MonoBehaviour
         }
 
         // Register listeners (and assign actions to perform upon button press).
-        SaveButton.onClick.AddListener(UIManager.SaveInventoryData);
+        SaveButton.onClick.AddListener(UIManager.SaveData);
 
-        LoadButton.onClick.AddListener(UIManager.LoadInventoryData);
+        LoadButton.onClick.AddListener(UIManager.LoadData);
     }
 
     void Update()

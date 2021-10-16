@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 [Serializable]
 public class PlayerSaveData
@@ -22,7 +21,7 @@ public class PlayerSaveData
     /// </summary>
     /// <param name="player"></param>
     /// <param name="level"></param>
-    public PlayerSaveData(PlayerController player, LevelSystem level)
+    public PlayerSaveData(PlayerController player)
     {
         EntityName = player.EntityName;
         Speed = player.Speed;
@@ -37,14 +36,10 @@ public class PlayerSaveData
         MaxStamina = player.MaxStamina;
         StaminaPoints = player.StaminaPoints;
 
-        //ExperiencePoints = player.ExperiencePoints;
-        //ExperienceToNextLevel = player.ExperienceToNextLevel;
-        //Level = player.Level;
+        ExperiencePoints = player.Level.experience;
+        ExperienceToNextLevel = player.Level.experienceToNextLevel;
+        Level = player.Level.level;
 
-        ExperiencePoints = level.experience;
-        ExperienceToNextLevel = level.experienceToNextLevel;
-        Level = level.level;
-
-        //CurrencyBalance = moneyModal.currentBalance;
+        CurrencyBalance = player.Money.CurrentBalance;
     }
 }

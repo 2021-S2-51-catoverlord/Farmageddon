@@ -26,7 +26,7 @@ public class MoneySystem : MonoBehaviour
     public void Start()
     {
         CurrentBalance = 0;
-        GoldBalText.text = "$ " + CurrentBalance.ToString();
+        UpdateUI();
     }
 
     //public void OnValidate()
@@ -50,8 +50,8 @@ public class MoneySystem : MonoBehaviour
     //adding money into player's wallet
     public void AddMoney(int amount)
     {
-        CurrentBalance += amount;
-        GoldBalText.text = "$ " + CurrentBalance.ToString();
+        CurrentBalance += amount; 
+        UpdateUI();
     }
 
     //subtract money from player's wallet
@@ -64,7 +64,12 @@ public class MoneySystem : MonoBehaviour
         else
         {
             CurrentBalance -= amount;
-            GoldBalText.text = "$ " + CurrentBalance.ToString();
+            UpdateUI();
         }
+    }
+
+    public void UpdateUI()
+    {
+        GoldBalText.text = "$ " + CurrentBalance.ToString();
     }
 }

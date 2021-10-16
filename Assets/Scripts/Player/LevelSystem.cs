@@ -76,4 +76,13 @@ public class LevelSystem : MonoBehaviour
     {
         experience += exp;
     }
+
+    public void UpdateUI()
+    {
+        levelUpSlider.maxValue = experienceToNextLevel;
+        levelUpSlider.value = experience;
+
+        currentLevel.text = level.ToString();
+        experienceTxt.text = experience.ToString() + "/" + experienceToNextLevel.ToString();
+    }
 }

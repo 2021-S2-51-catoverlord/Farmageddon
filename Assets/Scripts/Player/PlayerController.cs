@@ -198,7 +198,7 @@ public class PlayerController : EntityController
 
     public void IncreaseStamina(int level)
     {
-        MaxStamina += (int)(HealthPoints * 0.01) * (int)((100 - level) * 0.01);
+        MaxStamina += (int)(StaminaPoints * 0.05) * (int)((100 - level) * 0.05);
         StaminaPoints = MaxStamina;
         StaminaBar.SetMaxValue(MaxStamina);
     }

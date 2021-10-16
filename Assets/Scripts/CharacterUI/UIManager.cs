@@ -23,7 +23,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class UIManager : MonoBehaviour, ISaveable
 {
     [SerializeField] public Inventory inventory;
     [SerializeField] public EquipUI equipUI;
@@ -76,8 +76,6 @@ public class UIManager : MonoBehaviour
             if(food.isConsumable)
             {
                 player.Heal(food.healHeath); // Perform healing.
-                // Tells the health bar to update according to the player's current hp.
-                GameObject.Find("Health Bar").GetComponent<StatBarController>().SetCurrentValue(player.HealthPoints);
                 inventory.RemoveItem(food);
                 food.Destroy();
             }
@@ -216,17 +214,23 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void SaveInventoryData()
+    public void SaveData()
     {
         saveManager.SaveInventory();
         saveManager.SaveEquipment();
         Debug.Log("Inventory and Equipments saved to: " + Application.persistentDataPath);
+
+        player.GetComponent<PlayerSaveManager>().SavePlayerData();
+        Debug.Log("Player data saved to: " + Application.persistentDataPath);
     }
 
-    public void LoadInventoryData()
+    public void LoadData()
     {
         saveManager.LoadInventory();
         saveManager.LoadEquipment();
         Debug.Log("Inventory and Equipments loaded from: " + Application.persistentDataPath);
+
+        player.GetComponent<PlayerSaveManager>().LoadPlayerData();
+        Debug.Log("Player data loaded from: " + Application.persistentDataPath);
     }
 }
