@@ -149,5 +149,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1de87877b889ad344ad3e1e205dea339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Singleton: 1
+  AudioSrc: {fileID: 4666724588410307047}
+  IsSingleton: 1
   BGMusicPlaylist: []

@@ -111,7 +111,7 @@ namespace Gameplay
 				(newTile as CropTile).StartGrowing();
 			}
 
-			SetGameTile(newTile);
+            SetGameTile(newTile);
 		}
 
 		public void PlaceTile(Vector3 pos)
@@ -154,7 +154,7 @@ namespace Gameplay
 					}
 					if (inSeason)
 					{
-						timeToGrow = (int)((double)timeToGrow * 0.5);
+						timeToGrow = (int)(timeToGrow * 0.5);
 					}
 
 					break;
@@ -239,60 +239,60 @@ namespace Gameplay
 			{	// For the time being, we use the first inventory slot as the player's equipped item
 				if(inventory.itemSlots[0].Item != null)
                 {
-					if (inventory.itemSlots[0].Item is Seed){
-						Seed seed = (Seed)inventory.itemSlots[0].Item;
-						string seedname = "";
+                    if(inventory.itemSlots[0].Item is Seed seed)
+                    {
+                        string seedname = "";
 
-                        switch (seed.itemName)
+                        switch(seed.itemName)
                         {
-							case "Beetroot Seeds": seedname = "beetroot"; break;
-							case "Carrot Seeds": seedname = "carrot"; break;
-							case "Corn Seeds": seedname = "corn"; break;
-							case "Potato Seeds": seedname = "potato"; break;
-							case "Pumpkin Seeds": seedname = "pumpkin"; break;
-							case "Strawberry Seeds": seedname = "strawberry"; break;
-							case "Tomato Seeds": seedname = "tomato"; break;
-							case "Watermelon Seeds": seedname = "melon"; break;
-							case "": seedname = "potato"; break;
+                            case "Beetroot Seeds": seedname = "beetroot"; break;
+                            case "Carrot Seeds": seedname = "carrot"; break;
+                            case "Corn Seeds": seedname = "corn"; break;
+                            case "Potato Seeds": seedname = "potato"; break;
+                            case "Pumpkin Seeds": seedname = "pumpkin"; break;
+                            case "Strawberry Seeds": seedname = "strawberry"; break;
+                            case "Tomato Seeds": seedname = "tomato"; break;
+                            case "Watermelon Seeds": seedname = "melon"; break;
+                            case "": seedname = "potato"; break;
                         }
 
-						var wpos = player.GetComponent<CapsuleCollider2D>().transform.position;
-						wpos.y += 0.5f;
+                        var wpos = player.GetComponent<CapsuleCollider2D>().transform.position;
+                        wpos.y += 0.5f;
 
-						// get tile pos
-						var tilePos = tilemap.WorldToCell(wpos);
+                        // get tile pos
+                        var tilePos = tilemap.WorldToCell(wpos);
 
-						if (tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == false)
-						{
-							// Set new tile to location
-							PlaceTile(tilePos, seedname);
-							inventory.RemoveItem(seed);
-						}
-						else if (tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == true && instance.tiles.TryGetValue(tilePos, out lastTile))
-						{
-							IGameTile tile;
-							instance.tiles.TryGetValue(tilePos, out tile);
-							if (tile.Description.Contains("Grown"))
+                        if(tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == false)
+                        {
+                            // Set new tile to location
+                            PlaceTile(tilePos, seedname);
+                            inventory.RemoveItem(seed);
+                        }
+                        else if(tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == true && instance.tiles.TryGetValue(tilePos, out lastTile))
+                        {
+                            instance.tiles.TryGetValue(tilePos, out IGameTile tile);
+                            if(tile.Description.Contains("Grown"))
                             {
-								PlaceTile(wpos);
-								Debug.Log(tile.TileBase.name);
-                                switch (tile.TileBase.name)
-								{
-									case "beet_6": GiveSeeds(0); GiveCrops(0); break;
-									case "carrot_5": GiveSeeds(1); GiveCrops(1); break;
-									case "corn_6": GiveSeeds(2); GiveCrops(2); break;
-									case "potato_6": GiveSeeds(3); GiveCrops(3); break;
-									case "pumpkin_6": GiveSeeds(4); GiveCrops(4); break;
-									case "strawberry_6": GiveSeeds(5); GiveCrops(5); break;
-									case "tomato_6": GiveSeeds(6); GiveCrops(6); break;
-									case "melon_6": GiveSeeds(7); GiveCrops(7); break;
-								}
+                                PlaceTile(wpos);
+                                Debug.Log(tile.TileBase.name);
+                                switch(tile.TileBase.name)
+                                {
+                                    case "beet_6": GiveSeeds(0); GiveCrops(0); break;
+                                    case "carrot_5": GiveSeeds(1); GiveCrops(1); break;
+                                    case "corn_6": GiveSeeds(2); GiveCrops(2); break;
+                                    case "potato_6": GiveSeeds(3); GiveCrops(3); break;
+                                    case "pumpkin_6": GiveSeeds(4); GiveCrops(4); break;
+                                    case "strawberry_6": GiveSeeds(5); GiveCrops(5); break;
+                                    case "tomato_6": GiveSeeds(6); GiveCrops(6); break;
+                                    case "melon_6": GiveSeeds(7); GiveCrops(7); break;
+                                }
 
-								tiles.Remove(tiles.FirstOrDefault(x => x.Value == tile).Key);
+                                tiles.Remove(tiles.FirstOrDefault(x => x.Value == tile).Key);
                             }
-						}
-					}
-				} else
+                        }
+                    }
+                }
+                else
 				{
 					var wpos = player.GetComponent<CapsuleCollider2D>().transform.position;
 					wpos.y += 1.0f;
@@ -301,9 +301,8 @@ namespace Gameplay
 					var tilePos = tilemap.WorldToCell(wpos);
 					if (tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == true && instance.tiles.TryGetValue(tilePos, out lastTile))
 					{
-						IGameTile tile;
-						instance.tiles.TryGetValue(tilePos, out tile);
-						if (tile.Description.Contains("Grown"))
+                        instance.tiles.TryGetValue(tilePos, out IGameTile tile);
+                        if (tile.Description.Contains("Grown"))
 						{
 							PlaceTile(wpos);
 							Debug.Log(tile.TileBase.name);
@@ -332,8 +331,7 @@ namespace Gameplay
 			Debug.Log("Should be this many seeds: " + seedNo);
 
 			inventory.AddItem(seeds[i].GetItemCopy(), seedNo);
-			
-		}
+        }
 
 		private void GiveCrops(int i)
         {
