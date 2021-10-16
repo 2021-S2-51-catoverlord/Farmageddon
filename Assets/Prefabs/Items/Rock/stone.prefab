@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5422294012143455332}
   - component: {fileID: 7456772686466523434}
   - component: {fileID: 349306389353087307}
+  - component: {fileID: 1073865335319817184}
   m_Layer: 5
   m_Name: stone
   m_TagString: Rock
@@ -125,3 +126,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: f602f100f59204d4a8fe3081b39e5e6a, type: 2}
   inventory: {fileID: 0}
+--- !u!114 &1073865335319817184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414957629273079542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71325aad998074e9ab4b071d04b79644, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsIns: 0
+  InsTime: 10
+  PreRock: {fileID: 2550616281322416463, guid: 156a869f3586f4cd8a0dbaee9751fe78, type: 3}
+  stone: {fileID: 7968109494509675569, guid: e09cafbfb9e92480fb2606010d339b5b, type: 3}
