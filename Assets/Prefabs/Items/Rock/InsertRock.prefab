@@ -28,7 +28,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2433575364394410499}
+  - {fileID: 1671701465614825902}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -47,8 +47,8 @@ MonoBehaviour:
   IsIns: 0
   InsTime: 15
   PreRock: {fileID: 2550616281322416463, guid: 156a869f3586f4cd8a0dbaee9751fe78, type: 3}
-  stone: {fileID: 1414957629273079542, guid: d420d6cf7a325433f860245940375f6e, type: 3}
---- !u!1001 &770886440730483504
+  stone: {fileID: 3451610077428809323}
+--- !u!1001 &4342707422629036189
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -58,7 +58,7 @@ PrefabInstance:
     - target: {fileID: 1414957629273079542, guid: d420d6cf7a325433f860245940375f6e,
         type: 3}
       propertyPath: m_Name
-      value: Rock
+      value: Rock (1)
       objectReference: {fileID: 0}
     - target: {fileID: 3132102651474950451, guid: d420d6cf7a325433f860245940375f6e,
         type: 3}
@@ -117,9 +117,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d420d6cf7a325433f860245940375f6e, type: 3}
---- !u!4 &2433575364394410499 stripped
+--- !u!1 &3451610077428809323 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1414957629273079542, guid: d420d6cf7a325433f860245940375f6e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4342707422629036189}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1671701465614825902 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3132102651474950451, guid: d420d6cf7a325433f860245940375f6e,
     type: 3}
-  m_PrefabInstance: {fileID: 770886440730483504}
+  m_PrefabInstance: {fileID: 4342707422629036189}
   m_PrefabAsset: {fileID: 0}

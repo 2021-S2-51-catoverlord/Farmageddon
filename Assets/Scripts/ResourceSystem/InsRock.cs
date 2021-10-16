@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class InsRock : MonoBehaviour
 {
-
     public bool IsIns = false; //check availibility
     public float InsTime = 15; //倒计时，木头变成树的时间
 
@@ -36,7 +35,7 @@ public class InsRock : MonoBehaviour
 
                 //当为0的话，实例化树生效
                 Instantiate(PreRock, transform.position, transform.rotation);
-                //
+               
                 Destroy(gameObject);
             }
         }
