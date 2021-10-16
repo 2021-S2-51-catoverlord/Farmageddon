@@ -3,14 +3,12 @@ using UnityEngine;
 
 public class MusicController : MonoBehaviour
 {
-    private static MusicController instance;
-    protected AudioSource audioSrc;
-    private Coroutine autoplay;
-
+    [SerializeField] public AudioSource AudioSrc;
     public bool IsSingleton;
     public Object[] BGMusicPlaylist; // Allows a user's customisation of a music playlist for different scenes.
 
-    public AudioSource AudioSrc { get; set; }
+    private static MusicController instance;
+    private Coroutine autoplay;
 
     private void Awake()
     {
@@ -22,7 +20,6 @@ public class MusicController : MonoBehaviour
     public void Start()
     {
         CheckAudioListener();
-        AudioSrc = GetComponent<AudioSource>();
         AudioSrc.loop = false;
         AudioSrc.Play();
     }
@@ -88,11 +85,13 @@ public class MusicController : MonoBehaviour
             BGMusicPlaylist = Resources.LoadAll("Music", typeof(AudioClip));
         }
 
-        if(AudioSrc != null)
+        if(AudioSrc == null)
         {
-            // Initialise the first file as the clip to be played.
-            AudioSrc.clip = BGMusicPlaylist[0] as AudioClip;
+            AudioSrc = GetComponent<AudioSource>();
         }
+
+        // Initialise the first file as the clip to be played.
+        AudioSrc.clip = BGMusicPlaylist[0] as AudioClip;
     }
 
     /// <summary>
