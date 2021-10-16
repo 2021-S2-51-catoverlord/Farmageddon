@@ -141,7 +141,7 @@ void Start()
         if (initDay != 0 && initDay <= monthLength)
         { 
             dayCount += initDay - 1;
-            totalDayCount += initDay;
+            TotalDayCount += initDay;
         } else
         {
             dayCount = initDay % monthLength;
@@ -168,6 +168,8 @@ void Start()
     }
 
     List<float> uniqueTime = new List<float>();
+
+    public int TotalDayCount { get => totalDayCount; set => totalDayCount = value; }
 
     // Update is called once per frame
     void Update()
@@ -214,7 +216,7 @@ void Start()
     void dayIncrease()
     {
         dayCount++;
-        totalDayCount++;
+        TotalDayCount++;
         seasonalDayCount++;
 
         uniqueTime.Clear();
@@ -241,10 +243,10 @@ void Start()
 
         evalSeasonGradient();
 
-        if (totalDayCount >= yearLength)
+        if (TotalDayCount >= yearLength)
         {
             yearLength++;
-            totalDayCount = 0;
+            TotalDayCount = 0;
         }
     }
 
