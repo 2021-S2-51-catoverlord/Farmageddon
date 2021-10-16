@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: 352647812648205467, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
   itemDescription: Potato Seeds
   price: 8
-  maxStacks: 10
+  MaxStacks: 50
   growthTime: 7

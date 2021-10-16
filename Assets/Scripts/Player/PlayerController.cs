@@ -138,8 +138,6 @@ public class PlayerController : EntityController
         EntityAnimator.SetFloat("y", -0.5f); // Make player face down when respawn.
         EntityAnimator.SetBool("Die", !IsAlive); // Exit death animation state.
         playerRenderer.enabled = true; // Make player visible again.
-
-        Debug.Log("Player Respawned");
     }
 
     /// <summary>

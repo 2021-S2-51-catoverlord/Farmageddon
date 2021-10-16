@@ -14,28 +14,33 @@ public class KeyInput : MonoBehaviour
     [SerializeField] GameObject inventoryUI;
     [SerializeField] GameObject equipUI;
     [SerializeField] GameObject tooltip;
+    [SerializeField] PlayerController player;
 
-    private void Awake()
+    public void Awake()
     {
-        if(inventoryUI == null || equipUI == null || tooltip ==null)
+        if(inventoryUI == null || equipUI == null || tooltip == null || player == null)
         {
-            inventoryUI = GameObject.Find("Inventory");
-            equipUI = GameObject.Find("EquipSlots");
-            tooltip = GameObject.Find("Tooltip");
+            inventoryUI = Resources.FindObjectsOfTypeAll<Inventory>()[0].gameObject;
+            equipUI = Resources.FindObjectsOfTypeAll<EquipUI>()[0].gameObject;
+            tooltip = Resources.FindObjectsOfTypeAll<ItemToolTip>()[0].gameObject;
+            player = GameObject.Find("Player").GetComponent<PlayerController>();
         }
+        
     }
-    private void Start()
+
+    public void Start()
     {
         inventoryUI.SetActive(false);
         equipUI.SetActive(false);        
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         if(Input.GetKeyDown(KeyCode.I))
         {
             inventoryUI.SetActive(!inventoryUI.activeSelf);
+            player.IsInventoryActive = inventoryUI.activeSelf;
         }
 
         if(Input.GetKeyDown(KeyCode.E))

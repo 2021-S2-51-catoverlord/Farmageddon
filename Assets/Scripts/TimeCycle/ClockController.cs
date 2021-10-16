@@ -44,7 +44,6 @@ public class ClockController : MonoBehaviour
         seasonChange();
     }
 
-
     void timeChange()
     {
         int minutes = (int)time.relativeTime;
@@ -56,7 +55,7 @@ public class ClockController : MonoBehaviour
             hours -= 12;
         }
 
-        if (time.relativeTime >= 1440 / 2)
+        if(time.relativeTime >= 1440 / 2)
         {
             amtext.text = "PM";
         }
@@ -67,12 +66,13 @@ public class ClockController : MonoBehaviour
 
         timetext.text = hours.ToString("00") + ":" + minutes.ToString("00");
     }
+
     void lightChange()
     {
-        switch (time.season)
+        switch(time.season)
         {
             case Season.SPRIMMER:
-                if (time.isDay)
+                if(time.isDay)
                 {
                     currWindowSprite = springWindows[0];
                 }
@@ -82,7 +82,7 @@ public class ClockController : MonoBehaviour
                 }
                 break;
             case Season.SUMTUMN:
-                if (time.isDay)
+                if(time.isDay)
                 {
                     currWindowSprite = summerWindows[0];
                 }
@@ -92,7 +92,7 @@ public class ClockController : MonoBehaviour
                 }
                 break;
             case Season.AUNTER:
-                if (time.isDay)
+                if(time.isDay)
                 {
                     currWindowSprite = autumnWindows[0];
                 }
@@ -102,7 +102,7 @@ public class ClockController : MonoBehaviour
                 }
                 break;
             case Season.WINTING:
-                if (time.isDay)
+                if(time.isDay)
                 {
                     currWindowSprite = winterWindows[0];
                 }
@@ -112,7 +112,7 @@ public class ClockController : MonoBehaviour
                 }
                 break;
             default:
-                if (time.isDay)
+                if(time.isDay)
                 {
                     currWindowSprite = springWindows[0];
                 }
@@ -127,18 +127,20 @@ public class ClockController : MonoBehaviour
 
     void dayChange()
     {
-        daytext.text = (time.dayCount +1 ).ToString("00");
+        daytext.text = (time.dayCount + 1).ToString("00");
     }
+
     void monthChange()
     {
         monthtext.text = time.getMonth();
     }
+
     void seasonChange()
     {
-        switch (time.season)
+        switch(time.season)
         {
             case Season.SPRIMMER:
-                if (time.isDay)
+                if(time.isDay)
                 {
                     currWindowSprite = springWindows[0];
                 }
@@ -148,7 +150,7 @@ public class ClockController : MonoBehaviour
                 }
                 break;
             case Season.SUMTUMN:
-                if (time.isDay)
+                if(time.isDay)
                 {
                     currWindowSprite = summerWindows[0];
                 }
@@ -158,7 +160,7 @@ public class ClockController : MonoBehaviour
                 }
                 break;
             case Season.AUNTER:
-                if (time.isDay)
+                if(time.isDay)
                 {
                     currWindowSprite = autumnWindows[0];
                 }
@@ -168,7 +170,7 @@ public class ClockController : MonoBehaviour
                 }
                 break;
             case Season.WINTING:
-                if (time.isDay)
+                if(time.isDay)
                 {
                     currWindowSprite = winterWindows[0];
                 }
@@ -178,7 +180,7 @@ public class ClockController : MonoBehaviour
                 }
                 break;
             default:
-                if (time.isDay)
+                if(time.isDay)
                 {
                     currWindowSprite = springWindows[0];
                 }

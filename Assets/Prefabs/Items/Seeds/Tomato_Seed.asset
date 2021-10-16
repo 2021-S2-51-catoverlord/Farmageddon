@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: -5277911581303883326, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
   itemDescription: Tomato Seeds
   price: 188
-  maxStacks: 10
+  MaxStacks: 50
   growthTime: 10

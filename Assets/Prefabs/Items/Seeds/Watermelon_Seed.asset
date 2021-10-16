@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: 3945209669962335706, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
   itemDescription: Watermelon Seeds
   price: 100
-  maxStacks: 10
+  MaxStacks: 50
   growthTime: 15

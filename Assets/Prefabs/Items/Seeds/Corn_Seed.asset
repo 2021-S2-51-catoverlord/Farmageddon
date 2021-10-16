@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: 1087356255968352427, guid: 5ea50073a3d7a064f95a173d8e4e0477, type: 3}
   itemDescription: Corn Seeds
   price: 45
-  maxStacks: 10
+  MaxStacks: 50
   growthTime: 14

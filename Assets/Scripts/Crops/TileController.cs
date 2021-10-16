@@ -54,19 +54,6 @@ namespace Gameplay
 
 		public Color wiltedCrop = Color.blue;
 
-
-		private void Start()
-        {
-
-			player = GameObject.Find("Player").GetComponent<PlayerController>(); // Finds the player controller and saves its reference.
-			tilemap = GameObject.Find("Farmland").GetComponent<Tilemap>(); // Temporary fix: Need to find out which actual tilemap to find.
-			crop_tilemap = GameObject.Find("Crops").GetComponent<Tilemap>(); // Temporary fix: Need to find out which actual tilemap to find.
-			inventory = Resources.FindObjectsOfTypeAll<Inventory>()[0]; // Finds the first occurence of Inventory GameObj and saves its script.
-			timeCycle = GameObject.Find("Time Light").GetComponent<DayNightCycleBehaviour>(); // Temporary fix: Just a guess.
-
-			timeCycle.t_dayChange.AddListener(DayChanged);
-		}
-
 		private void Awake()
 		{
 			if (!instance)
@@ -77,9 +64,25 @@ namespace Gameplay
 			{
 				Destroy(gameObject);
 			}
+
+			InitReferences();
 		}
 
-		public void PlaceTile(Vector3 pos, string assetName)
+		/// <summary>
+		/// Finds the references of GameObjects and save it locally. Also registers listeners.
+		/// </summary>
+        private void InitReferences()
+        {
+			player = GameObject.Find("Player").GetComponent<PlayerController>(); // Finds the player controller and saves its reference.
+			tilemap = GameObject.Find("Farmland").GetComponent<Tilemap>(); // Temporary fix: Need to find out which actual tilemap to find.
+			crop_tilemap = GameObject.Find("Crops").GetComponent<Tilemap>(); // Temporary fix: Need to find out which actual tilemap to find.
+			inventory = Resources.FindObjectsOfTypeAll<Inventory>()[0]; // Finds the first occurence of Inventory GameObj and saves its script.
+			timeCycle = GameObject.Find("Time Light").GetComponent<DayNightCycleBehaviour>(); // Temporary fix: Just a guess.
+
+			timeCycle.t_dayChange.AddListener(DayChanged);
+		}
+
+        public void PlaceTile(Vector3 pos, string assetName)
 		{
 			Vector3Int tilemapPos = crop_tilemap.WorldToCell(pos);
 			Vector3 layeredWorldPosition = new Vector3(tilemapPos.x, tilemapPos.y);
@@ -232,7 +235,7 @@ namespace Gameplay
 
         private void GetInput()
 		{
-			if (Input.GetMouseButtonDown(0) && !player.isInventoryActive)
+			if (Input.GetMouseButtonDown(0) && !player.IsInventoryActive)
 			{	// For the time being, we use the first inventory slot as the player's equipped item
 				if(inventory.itemSlots[0].Item != null)
                 {
