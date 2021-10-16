@@ -10,7 +10,7 @@ public class MusicController : MonoBehaviour
     private static MusicController instance;
     private Coroutine autoplay;
 
-    private void Awake()
+    public void Awake()
     {
         ConfigSingleton();
 
