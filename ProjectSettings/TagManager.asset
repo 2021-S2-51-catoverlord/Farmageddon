@@ -8,7 +8,6 @@ TagManager:
   - Inventory
   - Limited Inventory
   - Tree
-  - Rock
   layers:
   - Default
   - TransparentFX
