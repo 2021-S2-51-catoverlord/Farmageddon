@@ -8,6 +8,7 @@ TagManager:
   - Inventory
   - Limited Inventory
   - Audio
+  - HUD
   layers:
   - Default
   - TransparentFX

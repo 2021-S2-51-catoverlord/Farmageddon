@@ -5,27 +5,33 @@ public class PlayerController : EntityController
 {
     [SerializeField] protected StatBarController HealthBar;
     [SerializeField] protected StatBarController StaminaBar;
+    [SerializeField] public LevelSystem Level; // Player's subsystems.
+    [SerializeField] public MoneySystem Money; // Player's subsystems.
     [SerializeField] [Range(1, 500)] public int Damage;
 
     // Player attributes.
     public int MaxStamina;
     public int StaminaPoints;
-    public int ExperiencePoints;
-
+    
     public bool IsInventoryActive; // Implementation for locking clicking status.
 
     private Coroutine _regen;
     private readonly WaitForSeconds _regenTick = new WaitForSeconds(0.1f);
 
-    // Start is called before the first frame update
-    protected override void Start()
+    public void Awake()
     {
-        if(HealthBar == null || StaminaBar == null)
+        if(HealthBar == null || StaminaBar == null || Level == null || Money == null)
         {
             HealthBar = GameObject.Find("Health Bar").GetComponent<StatBarController>();
             StaminaBar = GameObject.Find("Stamina Bar").GetComponent<StatBarController>();
+            Level = GameObject.Find("EXP Bar").GetComponent<LevelSystem>();
+            Money = GameObject.Find("Gold Bar").GetComponent<MoneySystem>();
         }
+    }
 
+    // Start is called before the first frame update
+    protected override void Start()
+    {
         base.Start();
 
         InitStats();
@@ -54,7 +60,6 @@ public class PlayerController : EntityController
         EntityName = "Player";
         MaxStamina = 30;
         StaminaPoints = MaxStamina;
-        ExperiencePoints = 0;
         Speed = (Speed < 6f ? 6f : Speed);
         Damage = (Damage < 10 ? 10 : Damage);
 

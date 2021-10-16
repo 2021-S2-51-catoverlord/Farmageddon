@@ -10,7 +10,7 @@ public class PlayerSaveManager : MonoBehaviour
 
     [SerializeField] public PlayerController PlayerStats;
     [SerializeField] public LevelSystem PlayerLevel;
-    //[SerializeField] public Money PlayerMoney;
+    //[SerializeField] public MoneySystem PlayerMoney;
 
     private void Awake()
     {
@@ -18,7 +18,7 @@ public class PlayerSaveManager : MonoBehaviour
         {
             PlayerStats = GetComponent<PlayerController>();
             PlayerLevel = GameObject.FindObjectOfType<LevelSystem>();
-            //PlayerMoney = GameObject.FindObjectOfType<Money>();
+            //PlayerMoney = GameObject.FindObjectOfType<MoneySystem>();
         }
     }
 

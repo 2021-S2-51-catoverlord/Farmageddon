@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] public EquipUI equipUI;
     [SerializeField] Image draggableItem;
     [SerializeField] DropArea dropArea;
+    [SerializeField] SellArea sellArea;
     [Space]
     [SerializeField] PlayerController player;
     [SerializeField] ItemSaveManager saveManager;
@@ -61,6 +62,7 @@ public class UIManager : MonoBehaviour
         inventory.OnDropEvent += Drop;
         equipUI.OnDropEvent += Drop;
         dropArea.OnDropEvent += DropOutside;
+        sellArea.OnDropEvent += DropSell;
     }
 
     private void InventoryRightClick(ItemSlot itemSlot)
@@ -139,6 +141,21 @@ public class UIManager : MonoBehaviour
             return;
         }
 
+        draggedSlot.Item.Destroy();
+        draggedSlot.Item = null;
+        draggedSlot.Amount = 0;
+    }
+
+    private void DropSell()
+    {
+        if(draggedSlot == null)
+        {
+            return;
+        }
+
+        // Update the MoneySystem model by adding (price x quantity) to its current balance.
+        StartCoroutine(sellArea.ToggleText());
+        player.Money.AddMoney(draggedSlot.Item.price * draggedSlot.Amount);
         draggedSlot.Item.Destroy();
         draggedSlot.Item = null;
         draggedSlot.Amount = 0;
