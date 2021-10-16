@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class EntityController : MonoBehaviour
@@ -17,7 +15,6 @@ public abstract class EntityController : MonoBehaviour
     private bool isJumping;
     private bool isAttacking;
     private bool isAlive;
-
 
     // Get and set methods for entity's attributes.
     public string EntityName { get; set; }
