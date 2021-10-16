@@ -203,9 +203,9 @@ public class PlayerController : EntityController
 
     public void IncreaseHealth(int level)
     {
-        MAX_HP += (int)(HealthPoints * 0.03) * (int)((100 - level) * 0.03);
-        HealthPoints = MAX_HP;
-        healthBar.SetMaxValue(EntityController.MAX_HP);
+        maxHP += (int)(HealthPoints * 0.03) * (int)((100 - level) * 0.03);
+        HealthPoints = maxHP;
+        healthBar.SetMaxValue(maxHP);
     }
 
     public void IncreaseStamina(int level)
