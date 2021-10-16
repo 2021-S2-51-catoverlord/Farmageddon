@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Prefabs/Items/Collectables/Lumber.prefab.meta
 guid: 5521da42b7df08f44b284c6b9c10b9ed
+=======
+guid: 14bdee56c3ed14d49b32cb5bf0b7ba8d
+>>>>>>> crafting:Assets/Prefabs/Items/Harvested/Potato.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

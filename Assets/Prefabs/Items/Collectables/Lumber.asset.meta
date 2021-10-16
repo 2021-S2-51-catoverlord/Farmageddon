@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Prefabs/Items/Collectables/Lumber.asset.meta
 guid: 69c94ab35871f7742aed1b3481281fb7
+=======
+guid: 5baa7897f62199c4f950ac3b5958bd9d
+>>>>>>> crafting:Assets/Prefabs/Items/Harvested/Beetroot.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000

@@ -16,6 +16,7 @@ public abstract class EntityController : MonoBehaviour
     private bool isAttacking;
     private bool isAlive;
 
+
     // Get and set methods for entity's attributes.
     public string EntityName { get; set; }
     public int HealthPoints { get; set; }
