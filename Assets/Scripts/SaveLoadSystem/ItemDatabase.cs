@@ -18,7 +18,7 @@ public class ItemDatabase : ScriptableObject
     {
         foreach(Item item in itemRepository)
         {
-            if(item.ID == itemID) // Check if item ID is found in the database.
+            if(item.ID == itemID) // Check if item's ID is found in the database.
             {
                 return item;
             }
@@ -26,6 +26,11 @@ public class ItemDatabase : ScriptableObject
         return null;
     }
 
+    /// <summary>
+    /// Get a cloned copy of the Item.
+    /// </summary>
+    /// <param name="itemID"></param>
+    /// <returns></returns>
     public Item GetItemCopy(string itemID)
     {
         Item item = GetItemReference(itemID);
@@ -33,18 +38,18 @@ public class ItemDatabase : ScriptableObject
     }
 
 #if UNITY_EDITOR
-    private void OnValidate()
+    public void OnValidate()
     {
         LoadItemAssets();
     }
 
-    private void OnEnable()
+    public void OnEnable()
     {
         //EditorApplication.projectChanged -= LoadItemAssets;
         EditorApplication.projectChanged += LoadItemAssets;
     }
 
-    private void OnDisable()
+    public void OnDisable()
     {
         EditorApplication.projectChanged -= LoadItemAssets;
     }

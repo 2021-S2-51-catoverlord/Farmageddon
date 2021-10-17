@@ -1,58 +1,53 @@
 using System.IO;
 using UnityEngine;
 
-public class PlayerSaveManager : MonoBehaviour
+public class PlayerSaveManager : MonoBehaviour, ISaveable
 {
-    [SerializeField] public PlayerController PlayerStats;
+    protected string PlayerDataPath;
+    public PlayerController Player;
 
-    protected string PlayerFullPath;
-
-    private void Awake()
+    public void Awake()
     {
-        if(PlayerStats == null)
-        {
-            PlayerStats = GameObject.Find("Player").GetComponent<PlayerController>();
-        }
+        PlayerDataPath = $"{Application.persistentDataPath}/Player.dat";
 
-        PlayerFullPath = Application.persistentDataPath + "/Player.dat";
+        if(Player == null)
+        {
+            Player = GetComponent<PlayerController>();
+        }
     }
 
     /// <summary>
     /// Method to save important player data to file.
     /// </summary>
-    public void SavePlayerData()
+    public void SaveData()
     {
-        PlayerSaveData saveData = GetSaveData();
-        FileIO.WriteBinToFile(PlayerFullPath, saveData);
-    }
+        FileIO.WriteBinToFile(PlayerDataPath, new PlayerSaveData(Player));
 
-    private PlayerSaveData GetSaveData()
-    {
-        return new PlayerSaveData(PlayerStats);
+        Debug.Log($"Player data saved to: {PlayerDataPath}");
     }
 
     /// <summary>
-    /// Method to save current items stored in the equipment inventory to file.
+    /// Method to load player data stored in the player file 
+    /// onto player and its associated classes.
     /// </summary>
-    public void LoadPlayerData()
+    public void LoadData()
     {
-        //string fullPath = BaseSavePath + PlayerFilename + FileExtension;
-
         PlayerSaveData loadedData = null;
 
-        if(File.Exists(PlayerFullPath))
+        if(File.Exists(PlayerDataPath))
         {
-            loadedData = FileIO.ReadBinFromFile<PlayerSaveData>(PlayerFullPath);
+            loadedData = FileIO.ReadBinFromFile<PlayerSaveData>(PlayerDataPath);
         }
 
         if(loadedData != null)
         {
-            DeserializeAndLoad(loadedData);
-            Debug.Log("Player data loaded!.");
+            ReconstructPlayerData(loadedData);
+
+            Debug.Log($"Player data loaded from: {PlayerDataPath}");
         }
         else
         {
-            Debug.Log("Player data unavailable.");
+            Debug.Log("Player's saved data is currently unavailable.");
         }
     }
 
@@ -61,24 +56,55 @@ public class PlayerSaveManager : MonoBehaviour
     /// it straight onto the relevant player stats classes.
     /// </summary>
     /// <param name="loadedData"></param>
-    private void DeserializeAndLoad(PlayerSaveData loadedData)
+    private void ReconstructPlayerData(PlayerSaveData loadedData)
     {
-        PlayerStats.EntityName =  loadedData.EntityName;
-        PlayerStats.Speed = loadedData.Speed;
-        PlayerStats.Damage = loadedData.Damage;
+        LoadStatsData(loadedData);
+        LoadPositionData(loadedData);
+        LoadHealthData(loadedData);
+        LoadStaminaData(loadedData);
+        LoadLevelData(loadedData);
+        LoadMoneyData(loadedData);
+        RefreshUI();
+    }
 
-        PlayerStats.GetComponent<Transform>().position = new Vector3(loadedData.PosX, loadedData.PosY, loadedData.PosZ);
-                                       
-        PlayerStats.MaxHP = loadedData.MaxHP;
-        PlayerStats.HealthPoints = loadedData.HealthPoints;
-        PlayerStats.MaxStamina = loadedData.MaxStamina;
-        PlayerStats.StaminaPoints = loadedData.StaminaPoints;
-        PlayerStats.Level.experience = loadedData.ExperiencePoints;
-        PlayerStats.Level.experienceToNextLevel = loadedData.ExperienceToNextLevel;
-        PlayerStats.Level.level = loadedData.Level;
-        PlayerStats.Level.UpdateUI();
+    private void LoadStatsData(PlayerSaveData loadedData)
+    {
+        Player.Speed = loadedData.Speed;
+        Player.Damage = loadedData.Damage;
+    }
 
-        PlayerStats.Money.CurrentBalance = loadedData.CurrencyBalance;
-        PlayerStats.Money.UpdateUI();
-    }   
+    private void LoadPositionData(PlayerSaveData loadedData)
+    {
+        Player.GetComponent<Transform>().position = new Vector3(loadedData.PosX, loadedData.PosY, loadedData.PosZ);
+    }
+
+    private void LoadHealthData(PlayerSaveData loadedData)
+    {
+        Player.MaxHP = loadedData.MaxHP;
+        Player.HealthPoints = loadedData.HealthPoints;
+    }
+
+    private void LoadStaminaData(PlayerSaveData loadedData)
+    {
+        Player.MaxStamina = loadedData.MaxStamina;
+        Player.StaminaPoints = loadedData.StaminaPoints;
+    }
+
+    private void LoadLevelData(PlayerSaveData loadedData)
+    {
+        Player.Level.experience = loadedData.ExperiencePoints;
+        Player.Level.experienceToNextLevel = loadedData.ExperienceToNextLevel;
+        Player.Level.level = loadedData.Level;
+    }
+
+    private void LoadMoneyData(PlayerSaveData loadedData)
+    {
+        Player.Money.CurrentBalance = loadedData.CurrencyBalance;
+    }
+
+    private void RefreshUI()
+    {
+        Player.Level.UpdateUI();
+        Player.Money.UpdateUI();
+    }
 }

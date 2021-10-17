@@ -1,9 +1,9 @@
-using System.Collections; 
+using System.Collections;
 using UnityEngine;
 
 public class MusicController : MonoBehaviour
 {
-    [SerializeField] public AudioSource AudioSrc;
+    public AudioSource AudioSrc;
     public bool IsSingleton;
     public Object[] BGMusicPlaylist; // Allows a user's customisation of a music playlist for different scenes.
 
@@ -42,11 +42,11 @@ public class MusicController : MonoBehaviour
         AudioListener[] audioListeners = FindObjectsOfType<AudioListener>();
 
         // Ignore the first AudioListener in the array.
-        if(audioListeners.Length > 1) 
+        if(audioListeners.Length > 1)
         {
             for(int i = 1; i < audioListeners.Length; i++)
-            {                
-                DestroyImmediate(audioListeners[i]); // Remove other audio listeners.
+            {
+                Destroy(audioListeners[i]); // Remove other audio listeners.
             }
         }
     }

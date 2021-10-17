@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 namespace Gameplay
@@ -52,81 +51,81 @@ namespace Gameplay
         {
             DayNightCycleBehaviour time = TileController.timeCycle;
             bool inSeason = false;
-            switch (time.season)
+            switch(time.season)
             {
                 case Season.SPRIMMER:
-                    foreach (string item in TileController.instance.springCrops)
+                    foreach(string item in TileController.instance.springCrops)
                     {
-                        if (Description.Contains(item))
+                        if(Description.Contains(item))
                         {
                             inSeason = true;
                         }
                     }
-                    if (inSeason)
+                    if(inSeason)
                     {
                         GrowthTime = (int)((double)GrowthTime * 0.5);
                     }
 
                     break;
                 case Season.SUMTUMN:
-                    foreach (string item in TileController.instance.summerCrops)
+                    foreach(string item in TileController.instance.summerCrops)
                     {
-                        if (Description.Contains(item))
+                        if(Description.Contains(item))
                         {
                             inSeason = true;
                         }
                     }
-                    if (inSeason)
+                    if(inSeason)
                     {
                         GrowthTime = (int)((double)GrowthTime * 0.5);
                     }
                     break;
                 case Season.AUNTER:
-                    foreach (string item in TileController.instance.autumnCrops)
+                    foreach(string item in TileController.instance.autumnCrops)
                     {
-                        if (Description.Contains(item))
+                        if(Description.Contains(item))
                         {
                             inSeason = true;
                         }
                     }
-                    if (inSeason)
+                    if(inSeason)
                     {
                         GrowthTime = (int)((double)GrowthTime * 0.5);
                     }
                     break;
                 case Season.WINTING:
-                    foreach (string item in TileController.instance.winterCrops)
+                    foreach(string item in TileController.instance.winterCrops)
                     {
-                        if (Description.Contains(item))
+                        if(Description.Contains(item))
                         {
                             inSeason = true;
                         }
                     }
-                    if (inSeason)
+                    if(inSeason)
                     {
                         GrowthTime = (int)((double)GrowthTime * 0.5);
 
-                    } else
+                    }
+                    else
                     {
                         GrowthTime = (int)((double)GrowthTime * 2);
 
                         IGameTile tile;
 
-                        if (!isDead)
+                        if(!isDead)
                         {
                             TileController.instance.tiles.TryGetValue(LocalPlace, out tile);
                             TileController.instance.crop_tilemap.SetTileFlags(Vector3Int.RoundToInt(tile.WorldLocation), TileFlags.None);
                             TileController.instance.crop_tilemap.SetColor(Vector3Int.RoundToInt(tile.WorldLocation), Color.blue);
                         }
-
                     }
                     break;
             }
 
-            if (plantID != ID || isDead) return;
+            if(plantID != ID || isDead) return;
 
             // Unsubscribe
-            if (currStageIndex >= GrowthStageTiles.Length)
+            if(currStageIndex >= GrowthStageTiles.Length)
             {
                 TileController.instance.OnStageGrow -= OnGrowEvent;
                 isGrown = true;
@@ -141,5 +140,4 @@ namespace Gameplay
             currStageIndex++;
         }
     }
-
 }

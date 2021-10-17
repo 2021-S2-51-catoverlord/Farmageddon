@@ -23,7 +23,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour, ISaveable
+public class UIManager : MonoBehaviour
 {
     [SerializeField] public Inventory inventory;
     [SerializeField] public EquipUI equipUI;
@@ -32,19 +32,15 @@ public class UIManager : MonoBehaviour, ISaveable
     [SerializeField] SellArea sellArea;
     [Space]
     [SerializeField] PlayerController player;
-    [SerializeField] ItemSaveManager saveManager;
 
     private ItemSlot draggedSlot;
 
     private void Awake()
     {
-        // Find the player gameobject and get reference to its script if it's not assigned yet.
         if(player == null)
+        {
             player = GameObject.Find("Player").GetComponent<PlayerController>();
-
-        // Find the item saver gameobject and get reference to its script if it's not assigned yet.
-        if(saveManager == null)
-            saveManager = GetComponent<ItemSaveManager>();
+        }
 
         //Right Click Events
         inventory.OnRightClickEvent += InventoryRightClick;
@@ -152,8 +148,8 @@ public class UIManager : MonoBehaviour, ISaveable
         }
 
         // Update the MoneySystem model by adding (price x quantity) to its current balance.
-        StartCoroutine(sellArea.ToggleText());
         player.Money.AddMoney(draggedSlot.Item.price * draggedSlot.Amount);
+        StartCoroutine(sellArea.ToggleText());
         draggedSlot.Item.Destroy();
         draggedSlot.Item = null;
         draggedSlot.Amount = 0;
@@ -214,23 +210,21 @@ public class UIManager : MonoBehaviour, ISaveable
         }
     }
 
-    public void SaveData()
-    {
-        saveManager.SaveInventory();
-        saveManager.SaveEquipment();
-        Debug.Log("Inventory and Equipments saved to: " + Application.persistentDataPath);
+    //public void SaveData()
+    //{
+    //    itemSaveManager.SaveInventories();
+    //    Debug.Log("Inventory and Equipments saved to: " + Application.persistentDataPath + "/Inventory.dat & Equipment.dat");
 
-        player.GetComponent<PlayerSaveManager>().SavePlayerData();
-        Debug.Log("Player data saved to: " + Application.persistentDataPath);
-    }
+    //    player.GetComponent<PlayerSaveManager>().SavePlayerData();
+    //    Debug.Log("Player data saved to: " + Application.persistentDataPath + "/Player.dat");
+    //}
 
-    public void LoadData()
-    {
-        saveManager.LoadInventory();
-        saveManager.LoadEquipment();
-        Debug.Log("Inventory and Equipments loaded from: " + Application.persistentDataPath);
+    //public void LoadData()
+    //{
+    //    itemSaveManager.LoadInventories();
+    //    Debug.Log("Inventory and Equipments loaded from: " + Application.persistentDataPath + "/Inventory.dat & Equipment.dat");
 
-        player.GetComponent<PlayerSaveManager>().LoadPlayerData();
-        Debug.Log("Player data loaded from: " + Application.persistentDataPath);
-    }
+    //    player.GetComponent<PlayerSaveManager>().LoadPlayerData();
+    //    Debug.Log("Player data loaded from: " + Application.persistentDataPath + "/Player.dat");
+    //}
 }

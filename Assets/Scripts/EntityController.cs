@@ -15,7 +15,6 @@ public abstract class EntityController : MonoBehaviour
     public float AttackCounter;
 
     // Entity's base attributes.
-    public string EntityName;
     public int MaxHP;
     public int HealthPoints;
 
@@ -30,13 +29,13 @@ public abstract class EntityController : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        EntityRigidbody = GetComponent<Rigidbody2D>();
-        EntityAnimator = GetComponent<Animator>();
+        if(EntityRigidbody == null || EntityAnimator == null)
+        {
+            EntityRigidbody = GetComponent<Rigidbody2D>();
+            EntityAnimator = GetComponent<Animator>();
+        }
 
-        MaxHP = 100;
-        HealthPoints = MaxHP;
-        IsAlive = true;
-        Speed = (Speed > 0f ? Speed : 2f);
+        InitStats();
     }
 
     // Update is called once per frame
@@ -48,6 +47,14 @@ public abstract class EntityController : MonoBehaviour
     protected void FixedUpdate()
     {
         Move();
+    }
+
+    protected virtual void InitStats()
+    {
+        MaxHP = 100;
+        HealthPoints = MaxHP;
+        IsAlive = true;
+        Speed = (Speed > 0f ? Speed : 2f);
     }
 
     /// <summary>
@@ -89,7 +96,6 @@ public abstract class EntityController : MonoBehaviour
             EntityAnimator.SetLayerWeight(1, 0);
             ActivateAnimLayer("Idle Layer");
         }
-        
     }
 
     /// <summary>
@@ -115,9 +121,8 @@ public abstract class EntityController : MonoBehaviour
     {
         if(HealthPoints > 0)
         {
-            // Decrement hp.
-            HealthPoints -= damage;
-            HealthPoints = (HealthPoints < 0 ? 0 : HealthPoints);
+            HealthPoints -= damage; // Decrement hp.
+            HealthPoints = (HealthPoints < 0 ? 0 : HealthPoints); // Ensure hp is not negative.
         }
 
         if(HealthPoints <= 0)

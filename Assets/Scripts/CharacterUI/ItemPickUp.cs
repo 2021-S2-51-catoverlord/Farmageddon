@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemPickUp : MonoBehaviour
@@ -7,7 +5,7 @@ public class ItemPickUp : MonoBehaviour
     [SerializeField] Item item;
     [SerializeField] Inventory inventory;
 
-    private void Start()
+    public void Start()
     {
         if(inventory == null) // If inventory has not been assigned yet...
         {
@@ -33,11 +31,7 @@ public class ItemPickUp : MonoBehaviour
     /// </summary>
     public void PickUp()
     {
-        // Adds the picked up item to the inventory.
-        bool itemPickedUp = inventory.AddItem(item.GetItemCopy());
-
-        // If the item has been successfully picked up...
-        if(itemPickedUp)
+        if(inventory.AddItem(item.GetItemCopy()))
         {
             // Make the game object disappear from the scene.
             Destroy(gameObject);

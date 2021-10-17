@@ -34,7 +34,6 @@ public class DayNightCycleBehaviour : MonoBehaviour
     public Color nightColor = new Color(0.25f, 0.25f, 0.6f);
     public int monthLength;
 
-
     [Header("Initial Variables")]
     public float initTime;
     public int initDay;
@@ -91,8 +90,8 @@ public class DayNightCycleBehaviour : MonoBehaviour
     [HideInInspector]
     public UnityEvent t_seasonChange = new UnityEvent();
 
- // Start is called before the first frame update
-void Start()
+    // Start is called before the first frame update
+    public void Start()
     {
         timelight = GetComponent<Light2D>();
 
@@ -130,48 +129,54 @@ void Start()
         seasonGradient.SetKeys(seasonKey, seasonalAlpha);
 
         yearLength = (Enum.GetNames(typeof(MonthName)).Length - 1) * monthLength;
-        if (initTime != 0)
+
+        if(initTime != 0)
         {
             localTimeElapsed += initTime;
-        } else
+        }
+        else
         {
             localTimeElapsed = 0;
         }
 
-        if (initDay != 0 && initDay <= monthLength)
-        { 
+        if(initDay != 0 && initDay <= monthLength)
+        {
             dayCount += initDay - 1;
             totalDayCount += initDay;
-        } else
+        }
+        else
         {
             dayCount = initDay % monthLength;
         }
+
         t_dayChange.Invoke();
         t_seasonChange.Invoke();
 
-        evalSeason();
+        EvalSeason();
 
-        evalSeasonGradient();
+        EvalSeasonGradient();
 
-        if (monthLength < 1)
+        if(monthLength < 1)
         {
             monthLength = 30;
         }
 
-        if ((float)Math.Round((double)(localTimeElapsed / gameDayLength), 2) < 0.25 || (float)Math.Round((double)(localTimeElapsed / gameDayLength), 2) >= 0.75)
+        if((float)Math.Round((double)(localTimeElapsed / gameDayLength), 2) < 0.25 || (float)Math.Round((double)(localTimeElapsed / gameDayLength), 2) >= 0.75)
         {
             isNight = true;
-        } else
+        }
+        else
         {
             isDay = true;
         }
+
         t_lightChange.Invoke();
     }
 
-    List<float> uniqueTime = new List<float>();
+    private List<float> uniqueTime = new List<float>();
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         localTimeElapsed += Time.deltaTime;
 
@@ -179,22 +184,22 @@ void Start()
 
         time = (float)Math.Round((double)timeRatio, 2);
 
-        relativeTime = (float)Math.Round((double)timeRatio*1440, 0);
+        relativeTime = (float)Math.Round((double)timeRatio * 1440, 0);
 
-        if (!uniqueTime.Contains(relativeTime))
+        if(!uniqueTime.Contains(relativeTime))
         {
             uniqueTime.Add(relativeTime);
             t_timeChange.Invoke();
         }
 
-
         //0 || 1 = midnight, 0.25 = sunrise, 0.5 = midday, 0.75 = sunset
-        if ( time >= 0.25 && time <= 0.75 && !isDay)
+        if(time >= 0.25 && time <= 0.75 && !isDay)
         {
             isNight = false;
             isDay = true;
             t_lightChange.Invoke();
-        } else if ((time < 0.25 || time > 0.75) && !isNight)
+        }
+        else if((time < 0.25 || time > 0.75) && !isNight)
         {
             isNight = true;
             isDay = false;
@@ -203,16 +208,14 @@ void Start()
 
         timelight.color = gradient.Evaluate(timeRatio);
 
-
-        if (localTimeElapsed >= gameDayLength)
+        if(localTimeElapsed >= gameDayLength)
         {
-            dayIncrease();
+            DayIncrease();
             t_dayChange.Invoke();
         }
-        
     }
 
-    void dayIncrease()
+    private void DayIncrease()
     {
         dayCount++;
         totalDayCount++;
@@ -220,14 +223,12 @@ void Start()
 
         uniqueTime.Clear();
 
-
         localTimeElapsed = 0;
 
-        if (dayCount == monthLength)
+        if(dayCount == monthLength)
         {
             int m = (int)month;
             m++;
-
 
             m = MonthIncrease(m);
 
@@ -237,120 +238,122 @@ void Start()
 
             dayCount = 0;
 
-            evalSeason();
+            EvalSeason();
         }
 
-        evalSeasonGradient();
+        EvalSeasonGradient();
 
-        if (totalDayCount >= yearLength)
+        if(totalDayCount >= yearLength)
         {
             yearLength++;
             totalDayCount = 0;
         }
     }
 
-    int MonthIncrease(int m)
+    private int MonthIncrease(int m)
     {
-
-        if ((int)month == 12)
-        {
-            return 1;
-        }
-        else
-        {
-            return m;
-        }
+        return (int)month == 12 ? 1 : m;
     }
 
-    void setSeasonGradient(Tilemap[] t, float g)
+    private void SetSeasonGradient(Tilemap[] t, float g)
     {
-        foreach (Tilemap tm in t)
+        foreach(Tilemap tm in t)
         {
             tm.color = seasonGradient.Evaluate(g);
         }
     }
 
-    void evalSeason()
+    private void EvalSeason()
     {
-        if ((int)month >= 1 && (int)month <= 3)
+        if((int)month >= 1 && (int)month <= 3)
         {
-            if ((int)month == 1)
+            if((int)month == 1)
             {
                 seasonalDayCount = 0;
             }
-            setSeason(Season.SPRIMMER);
-            t_seasonChange.Invoke();
+            SetSeason(Season.SPRIMMER);
         }
-        else if ((int)month >= 4 && (int)month <= 6)
+        else if((int)month >= 4 && (int)month <= 6)
         {
-            if ((int)month == 4)
+            if((int)month == 4)
             {
                 seasonalDayCount = 0;
             }
-            setSeason(Season.SUMTUMN);
-            t_seasonChange.Invoke();
+            SetSeason(Season.SUMTUMN);
         }
-        else if ((int)month >= 7 && (int)month <= 9)
+        else if((int)month >= 7 && (int)month <= 9)
         {
-            if ((int)month == 7)
+            if((int)month == 7)
             {
                 seasonalDayCount = 0;
             }
-            setSeason(Season.AUNTER);
-            t_seasonChange.Invoke();
+            SetSeason(Season.AUNTER);
         }
-        else if ((int)month >= 10 && (int)month <= 12)
+        else if((int)month >= 10 && (int)month <= 12)
         {
-            if ((int)month == 10)
+            if((int)month == 10)
             {
                 seasonalDayCount = 0;
             }
-            setSeason(Season.WINTING);
-            t_seasonChange.Invoke();
+            SetSeason(Season.WINTING);
         }
         else
         {
-            setSeason(Season.SPRIMMER);
-            t_seasonChange.Invoke();
+            SetSeason(Season.SPRIMMER);
         }
+
+        t_seasonChange.Invoke();
     }
 
-    void evalSeasonGradient()
+    private void EvalSeasonGradient()
     {
         float g = (float)seasonalDayCount / (3 * monthLength);
-        switch (season)
+        switch(season)
         {
             case Season.SPRIMMER:
-                setSeasonGradient(spring_tiles, g);
-                setSeasonGradient(summer_tiles, 0);
+                SetSeasonGradient(spring_tiles, g);
+                SetSeasonGradient(summer_tiles, 0);
                 break;
             case Season.SUMTUMN:
-                setSeasonGradient(summer_tiles, g);
-                setSeasonGradient(spring_tiles, 1 - g);
+                SetSeasonGradient(summer_tiles, g);
+                SetSeasonGradient(spring_tiles, 1 - g);
                 break;
             case Season.AUNTER:
-                setSeasonGradient(summer_tiles, 1 - g);
-                setSeasonGradient(spring_tiles, 0);
+                SetSeasonGradient(summer_tiles, 1 - g);
+                SetSeasonGradient(spring_tiles, 0);
                 break;
             case Season.WINTING:
-                setSeasonGradient(spring_tiles, 0);
-                setSeasonGradient(summer_tiles, 0);
+                SetSeasonGradient(spring_tiles, 0);
+                SetSeasonGradient(summer_tiles, 0);
                 break;
             case Season.UNDEFINED:
                 break;
         }
     }
 
-
-    void setSeason(Season s)
+    public void SetSeason(Season s)
     {
         season = s;
     }
 
-    public String getMonth()
+    public string GetMonth()
     {
-        String shortMon = month.ToString().Substring(0, 3);
-        return shortMon;
+        return month.ToString().Substring(0, 3);
     }
 
+    public void GetBackgroundValues(TimeSaveData timeModel)
+    {
+        timeModel.TotalDayCount = totalDayCount;
+        timeModel.SeasonalDayCount = seasonalDayCount;
+        timeModel.YearLength = yearLength;
+        timeModel.LocalTimeElapsed = localTimeElapsed;
+    }
+
+    public void SetBackgroundValues(TimeSaveData timeModel)
+    {
+        totalDayCount = timeModel.TotalDayCount;
+        seasonalDayCount = timeModel.SeasonalDayCount;
+        yearLength = timeModel.YearLength;
+        localTimeElapsed = timeModel.LocalTimeElapsed;
+    }
 }

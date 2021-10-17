@@ -42,7 +42,7 @@ public class TileLibrary : MonoBehaviour
         Tiles.Add("beetroot", new CropTile()
         {
             Description = "beetroot - Seeds",
-            TileBase = Resources.Load<TileBase>("Crops/beet_1"), 
+            TileBase = Resources.Load<TileBase>("Crops/beet_1"),
             TileData = Resources.Load<Tile>("Crops/beet_1"),
             GrowthStageTiles = new GrowthStage[]
             {

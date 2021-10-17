@@ -1520,13 +1520,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 0
-  EntityAnimator: {fileID: 0}
-  EntityRigidbody: {fileID: 0}
+  EntityAnimator: {fileID: 3901984750243660531}
+  EntityRigidbody: {fileID: 8021334143088886673}
   IsAlive: 0
   IsJumping: 0
   IsAttacking: 0
   AttackCounter: 0
-  EntityName: 
   MaxHP: 0
   HealthPoints: 0
   HealthBar: {fileID: 0}
@@ -1608,4 +1607,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 678c4a143b3ed4247a466887e8cf889a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerStats: {fileID: 5868314253497290957}
+  Player: {fileID: 5868314253497290957}

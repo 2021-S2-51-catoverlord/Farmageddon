@@ -7,7 +7,7 @@ using UnityEngine;
 /// Utility class to handle file I/O when saving/loading game data. 
 /// </summary>
 public static class FileIO
-{ 
+{
     /// <summary>
     /// Method to convert passed-in object to bytes and write it to 
     /// a file specified by the caller.
@@ -20,8 +20,7 @@ public static class FileIO
         try
         {
             using Stream outStream = File.Open(fullPath, FileMode.Create);
-            var binaryFormatter = new BinaryFormatter();
-            binaryFormatter.Serialize(outStream, objectToWrite);
+            new BinaryFormatter().Serialize(outStream, objectToWrite);
         }
         catch(Exception e)
         {
@@ -43,8 +42,7 @@ public static class FileIO
         try
         {
             using Stream inStream = File.Open(fullPath, FileMode.Open);
-            var binaryFormatter = new BinaryFormatter();
-            loadedData = (T)binaryFormatter.Deserialize(inStream);
+            loadedData = (T)new BinaryFormatter().Deserialize(inStream);
         }
         catch(Exception e)
         {

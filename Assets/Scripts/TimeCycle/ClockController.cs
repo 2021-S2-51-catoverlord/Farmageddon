@@ -27,24 +27,24 @@ public class ClockController : MonoBehaviour
     private Sprite currWindowSprite;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         time = FindObjectOfType<DayNightCycleBehaviour>();
 
-        time.t_timeChange.AddListener(timeChange);
-        time.t_lightChange.AddListener(lightChange);
-        time.t_monthChange.AddListener(monthChange);
-        time.t_dayChange.AddListener(dayChange);
-        time.t_seasonChange.AddListener(seasonChange);
+        time.t_timeChange.AddListener(TimeChange);
+        time.t_lightChange.AddListener(LightChange);
+        time.t_monthChange.AddListener(MonthChange);
+        time.t_dayChange.AddListener(DayChange);
+        time.t_seasonChange.AddListener(SeasonChange);
 
-        lightChange();
-        timeChange();
-        monthChange();
-        dayChange();
-        seasonChange();
+        LightChange();
+        TimeChange();
+        MonthChange();
+        DayChange();
+        SeasonChange();
     }
 
-    void timeChange()
+    private void TimeChange()
     {
         int minutes = (int)time.relativeTime;
         int hours = minutes / 60;
@@ -67,7 +67,7 @@ public class ClockController : MonoBehaviour
         timetext.text = hours.ToString("00") + ":" + minutes.ToString("00");
     }
 
-    void lightChange()
+    private void LightChange()
     {
         switch(time.season)
         {
@@ -125,17 +125,17 @@ public class ClockController : MonoBehaviour
         Window.sprite = currWindowSprite;
     }
 
-    void dayChange()
+    private void DayChange()
     {
         daytext.text = (time.dayCount + 1).ToString("00");
     }
 
-    void monthChange()
+    private void MonthChange()
     {
-        monthtext.text = time.getMonth();
+        monthtext.text = time.GetMonth();
     }
 
-    void seasonChange()
+    private void SeasonChange()
     {
         switch(time.season)
         {

@@ -1,13 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MoneySystem : MonoBehaviour
 {
-    public Text GoldBalText;
-    public PlayerController Player;
     public int CurrentBalance;
+    
+    public Text GoldBalText;
+    //public PlayerController Player;
 
     // use this for initialization
     public void Awake()
@@ -17,10 +16,10 @@ public class MoneySystem : MonoBehaviour
             GoldBalText = gameObject.GetComponentInChildren<Text>(); // Reference the attached GameObject child's Text component to this script.
         }
 
-        if(Player == null)
-        {
-            Player = GameObject.Find("Player").GetComponent<PlayerController>();
-        }
+        //if(Player == null)
+        //{
+        //    Player = GameObject.Find("Player").GetComponent<PlayerController>();
+        //}
     }
 
     public void Start()
@@ -28,11 +27,6 @@ public class MoneySystem : MonoBehaviour
         CurrentBalance = 0;
         UpdateUI();
     }
-
-    //public void OnValidate()
-    //{
-    //    GoldBalText.text = "$ " + CurrentBalance.ToString();
-    //}
 
     public void Update()
     {
@@ -50,7 +44,7 @@ public class MoneySystem : MonoBehaviour
     //adding money into player's wallet
     public void AddMoney(int amount)
     {
-        CurrentBalance += amount; 
+        CurrentBalance += amount;
         UpdateUI();
     }
 
@@ -59,7 +53,7 @@ public class MoneySystem : MonoBehaviour
     {
         if(CurrentBalance - amount < 0)
         {
-            Debug.Log("Insufficent gold!"); 
+            Debug.Log("Insufficent money!");
         }
         else
         {
@@ -70,6 +64,6 @@ public class MoneySystem : MonoBehaviour
 
     public void UpdateUI()
     {
-        GoldBalText.text = "$ " + CurrentBalance.ToString();
+        GoldBalText.text = $"$ {CurrentBalance}";
     }
 }

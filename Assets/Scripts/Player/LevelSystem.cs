@@ -8,6 +8,7 @@
  * - IncreaseLevel: Increases the player's level, calculate the next experience amount,
  *      increase health and stamina.
  * - GainEXP: increase experience points 
+ * - UpdateUI: Refreshes the slider and text according to the latest values.
  */
 
 using UnityEngine;
@@ -24,7 +25,7 @@ public class LevelSystem : MonoBehaviour
     public Text experienceTxt;
     public PlayerController player;
 
-    private void Start()
+    public void Start()
     {
         if(player == null)
         {
@@ -41,7 +42,7 @@ public class LevelSystem : MonoBehaviour
         experienceTxt.text = experience.ToString() + "/" + experienceToNextLevel.ToString();
     }
 
-    private void Update()
+    public void Update()
     {
         if(Input.GetKeyDown(KeyCode.P))
         {

@@ -98,9 +98,9 @@ public class Inventory : MonoBehaviour, IItemContainer
     /// <returns></returns>
     public bool AddItem(Item item, int quantity)
     {
-        for (int i = 0; i < itemSlots.Length; i++)
+        for(int i = 0; i < itemSlots.Length; i++)
         {
-            if (itemSlots[i].CanAddStack(item))
+            if(itemSlots[i].CanAddStack(item))
             {
                 itemSlots[i].Item = item;
                 itemSlots[i].Amount += quantity;
@@ -108,9 +108,9 @@ public class Inventory : MonoBehaviour, IItemContainer
             }
         }
 
-        for (int i = 0; i < itemSlots.Length; i++)
+        for(int i = 0; i < itemSlots.Length; i++)
         {
-            if (itemSlots[i].Item == null)
+            if(itemSlots[i].Item == null)
             {
                 itemSlots[i].Item = item;
                 itemSlots[i].Amount += quantity;
@@ -149,7 +149,7 @@ public class Inventory : MonoBehaviour, IItemContainer
         for(int i = 0; i < itemSlots.Length; i++)
         {
             Item item = itemSlots[i].Item;
-            if (item != null && item.ID == itemID)
+            if(item != null && item.ID == itemID)
             {
                 itemSlots[i].Amount--;
                 if(itemSlots[i].Amount == 0)
@@ -187,7 +187,7 @@ public class Inventory : MonoBehaviour, IItemContainer
         for(int i = 0; i < itemSlots.Length; i++)
         {
             Item item = itemSlots[i].Item;
-            if (item != null && item.ID == itemID)
+            if(item != null && item.ID == itemID)
             {
                 number += itemSlots[i].Amount;
             }

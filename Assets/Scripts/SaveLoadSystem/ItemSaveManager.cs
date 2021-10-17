@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ItemSaveManager : MonoBehaviour
+public class ItemSaveManager : MonoBehaviour, ISaveable
 {
     protected const string InventoryFilename = "Inventory";
     protected const string EquipmentFilename = "Equipment";
@@ -8,29 +8,41 @@ public class ItemSaveManager : MonoBehaviour
     [SerializeField] public UIManager UIManager;
     [SerializeField] public ItemDatabase ItemDatabase;
 
-    private void Awake()
+    public void Awake()
     {
         if(UIManager == null)
+        {
             UIManager = GetComponent<UIManager>();
+        }
 
         if(ItemDatabase == null)
+        {
             ItemDatabase = Resources.FindObjectsOfTypeAll<ItemDatabase>()[0];
+        }
     }
 
     /// <summary>
-    /// Method to save current items stored in the inventory to file.
+    /// Method to save current items stored in the inventory
+    /// and equipUI to file.
     /// </summary>
-    public void SaveInventory()
+    public void SaveData()
     {
-        SaveItems(itemSlots: UIManager.inventory.itemSlots, fileName: InventoryFilename);
+        SaveSlotData(itemSlots: UIManager.inventory.itemSlots, fileName: InventoryFilename);
+        SaveSlotData(itemSlots: UIManager.equipUI.equipSlots, fileName: EquipmentFilename);
+
+        Debug.Log("Inventory and Equipments saved to: " + Application.persistentDataPath + "/Inventory.dat & Equipment.dat");
     }
 
     /// <summary>
-    /// Method to save current items stored in the equipment inventory to file.
+    /// Method to load saved items for the inventory
+    /// and equipUI from a save file.
     /// </summary>
-    public void SaveEquipment()
+    public void LoadData()
     {
-        SaveItems(itemSlots: UIManager.equipUI.equipSlots, fileName: EquipmentFilename);
+        LoadInventory();
+        LoadEquipment();
+
+        Debug.Log("Inventory and Equipments loaded from: " + Application.persistentDataPath + "/Inventory.dat & Equipment.dat");
     }
 
     /// <summary>
@@ -38,7 +50,7 @@ public class ItemSaveManager : MonoBehaviour
     /// </summary>
     /// <param name="itemSlots"></param>
     /// <param name="fileName"></param>
-    private void SaveItems(ItemSlot[] itemSlots, string fileName)
+    private void SaveSlotData(ItemSlot[] itemSlots, string fileName)
     {
         var saveData = new ItemSlotSaveData(numItems: itemSlots.Length);
 
@@ -62,29 +74,29 @@ public class ItemSaveManager : MonoBehaviour
     /// <summary>
     /// Method to load inventory from file and restore gamestate.
     /// </summary>
-    public void LoadInventory()
+    private void LoadInventory()
     {
         ItemSlotSaveData savedSlots = ItemSaveIO.LoadItems(InventoryFilename);
 
-        if(savedSlots == null)
-            return;
-
-        UIManager.inventory.Clear();
-
-        for(int i = 0; i < savedSlots.SavedSlots.Length; i++)
+        if(savedSlots != null)
         {
-            ItemSlot itemSlot = UIManager.inventory.itemSlots[i];
-            ItemObjSaveData savedSlot = savedSlots.SavedSlots[i];
+            UIManager.inventory.Clear();
 
-            if(savedSlot == null) // Assign empty slots.
+            for(int i = 0; i < savedSlots.SavedSlots.Length; i++)
             {
-                itemSlot.Item = null;
-                itemSlot.Amount = 0;
-            }
-            else
-            {
-                itemSlot.Item = ItemDatabase.GetItemCopy(savedSlot.ItemID);
-                itemSlot.Amount = savedSlot.Amount;
+                ItemSlot itemSlot = UIManager.inventory.itemSlots[i];
+                ItemObjSaveData savedSlot = savedSlots.SavedSlots[i];
+
+                if(savedSlot == null) // Assign empty slots.
+                {
+                    itemSlot.Item = null;
+                    itemSlot.Amount = 0;
+                }
+                else
+                {
+                    itemSlot.Item = ItemDatabase.GetItemCopy(savedSlot.ItemID);
+                    itemSlot.Amount = savedSlot.Amount;
+                }
             }
         }
     }
@@ -92,29 +104,29 @@ public class ItemSaveManager : MonoBehaviour
     /// <summary>
     /// Method to load equipment from file and restore gamestate.
     /// </summary>
-    public void LoadEquipment()
+    private void LoadEquipment()
     {
         ItemSlotSaveData savedSlots = ItemSaveIO.LoadItems(EquipmentFilename);
 
-        if(savedSlots == null) // Skip if there is no saved data.
-            return;
-
-        UIManager.equipUI.Clear();
-
-        for(int i = 0; i < savedSlots.SavedSlots.Length; i++) // For each Item saved data.
+        if(savedSlots != null) // Skip if there is no saved data.
         {
-            EquipSlot equipSlot = UIManager.equipUI.equipSlots[i];
-            ItemObjSaveData savedSlot = savedSlots.SavedSlots[i];
+            UIManager.equipUI.Clear();
 
-            if(savedSlot == null) // Skip empty slots.
+            for(int i = 0; i < savedSlots.SavedSlots.Length; i++) // For each Item saved data.
             {
-                equipSlot.Item = null;
-                equipSlot.Amount = 0;
-            }
-            else
-            {
-                equipSlot.Item = ItemDatabase.GetItemCopy(savedSlot.ItemID);
-                equipSlot.Amount = savedSlot.Amount;
+                EquipSlot equipSlot = UIManager.equipUI.equipSlots[i];
+                ItemObjSaveData savedSlot = savedSlots.SavedSlots[i];
+
+                if(savedSlot == null) // Skip empty slots.
+                {
+                    equipSlot.Item = null;
+                    equipSlot.Amount = 0;
+                }
+                else
+                {
+                    equipSlot.Item = ItemDatabase.GetItemCopy(savedSlot.ItemID);
+                    equipSlot.Amount = savedSlot.Amount;
+                }
             }
         }
     }

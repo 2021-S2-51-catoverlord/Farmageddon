@@ -21,22 +21,21 @@ public class PauseMenu : MonoBehaviour
     public GameObject inventoryUI;
     public GameObject equipmentUI;
     public GameObject sellUI;
-    public UIManager UIManager;
+    public SaveManager saveManager;
     [Space]
     public Button SaveButton;
     public Button LoadButton;
 
     private void Awake()
     {
-        if(UIManager == null)
+        if(saveManager == null)
         {
-            UIManager = GameObject.Find("CharacterUI").GetComponent<UIManager>();
+            saveManager = GetComponent<SaveManager>();
         }
 
-        // Register listeners (and assign actions to perform upon button press).
-        SaveButton.onClick.AddListener(UIManager.SaveData);
-
-        LoadButton.onClick.AddListener(UIManager.LoadData);
+        // Register button listeners (and assign actions to perform upon button press).
+        SaveButton.onClick.AddListener(saveManager.SaveGame);
+        LoadButton.onClick.AddListener(saveManager.LoadGame);
     }
 
     void Update()
@@ -73,16 +72,12 @@ public class PauseMenu : MonoBehaviour
 
     public void SaveGame()
     {
-        // Tell save managers to save the game's current state.
-        //SaveManager.SaveGame("savedGame.json");
         Debug.Log("Game Saved");
     }
 
     public void LoadGame()
     {
-        // Tell save managers to load the game.
-        //SaveManager.LoadGame("savedGame.json");
-        Debug.Log("Game Loaded");
+        Debug.Log("Previous Save Loaded");
         Resume();
     }
 

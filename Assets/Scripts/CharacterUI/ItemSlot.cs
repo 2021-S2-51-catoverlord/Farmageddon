@@ -35,17 +35,17 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 
     protected virtual void OnValidate()
     {
-        if (image == null)
+        if(image == null)
         {
             image = GetComponent<Image>();
         }
 
-        if (tooltip == null)
+        if(tooltip == null)
         {
             tooltip = FindObjectOfType<ItemToolTip>();
         }
 
-        if (amtTxt == null)
+        if(amtTxt == null)
         {
             amtTxt = GetComponentInChildren<Text>();
         }
@@ -107,19 +107,19 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (item is Tool || item is Weapon || item is Equipment)
+        if(item is Tool || item is Weapon || item is Equipment)
         {
             tooltip.ShowTooltip((Equipment)Item);
         }
-        if (Item is Food)
+        if(Item is Food)
         {
             tooltip.ShowTooltip((Food)Item);
         }
-        if (Item is Seed)
+        if(Item is Seed)
         {
             tooltip.ShowTooltip((Seed)Item);
         }
-        if (Item is Mat)
+        if(Item is Mat)
         {
             tooltip.ShowTooltip((Mat)Item);
         }

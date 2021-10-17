@@ -12,7 +12,7 @@ public class PlayerController : EntityController
     // Player attributes.
     public int MaxStamina;
     public int StaminaPoints;
-    
+
     public bool IsInventoryActive; // Implementation for locking clicking status.
 
     private Coroutine _regen;
@@ -22,17 +22,29 @@ public class PlayerController : EntityController
     {
         if(HealthBar == null || StaminaBar == null || Level == null || Money == null)
         {
-            HealthBar = GameObject.Find("Health Bar").GetComponent<StatBarController>();
-            StaminaBar = GameObject.Find("Stamina Bar").GetComponent<StatBarController>();
-            Level = GameObject.Find("EXP Bar").GetComponent<LevelSystem>();
-            Money = GameObject.Find("Gold Bar").GetComponent<MoneySystem>();
+            SetObjectReference();
         }
+    }
+
+    private void SetObjectReference()
+    {
+        HealthBar = GameObject.Find("Health Bar").GetComponent<StatBarController>();
+        StaminaBar = GameObject.Find("Stamina Bar").GetComponent<StatBarController>();
+        Level = GameObject.Find("EXP Bar").GetComponent<LevelSystem>();
+        Money = GameObject.Find("Gold Bar").GetComponent<MoneySystem>();
     }
 
     // Start is called before the first frame update
     protected override void Start()
     {
-        base.Start();
+        if(EntityRigidbody == null || EntityAnimator == null)
+        {
+            base.Start();
+        }
+        else
+        {
+            base.InitStats();
+        }
 
         InitStats();
     }
@@ -54,14 +66,13 @@ public class PlayerController : EntityController
     /// Initialise the player's statistics (name, stamina, exp, speed, damage) 
     /// and stats bar (health and stamina bar).
     /// </summary>
-    private void InitStats()
+    protected override void InitStats()
     {
-        // Initialise entity name, stamina, and exp.
-        EntityName = "Player";
-        MaxStamina = 30;
-        StaminaPoints = MaxStamina;
+        // Initialise stamina, speed, and damage.
+        StaminaPoints = MaxStamina = 30;
+        //StaminaPoints = MaxStamina;
         Speed = (Speed < 6f ? 6f : Speed);
-        Damage = (Damage < 10 ? 10 : Damage);
+        Damage = (Damage < 20 ? 20 : Damage);
 
         // Initilise the sliders' max values.
         HealthBar.SetMaxValue(MaxHP);
@@ -108,6 +119,11 @@ public class PlayerController : EntityController
             Attack();
         }
 
+        DebugStatBar();
+    }
+
+    private void DebugStatBar()
+    {
         // Test health bar.
         if(Input.GetKeyDown(KeyCode.Z))
         {
@@ -119,7 +135,7 @@ public class PlayerController : EntityController
         }
 
         // Test stamina bar.
-        if(Input.GetKeyDown(KeyCode.C))
+        if(Input.GetKeyDown(KeyCode.LeftAlt))
         {
             UseStamina(2);
         }
@@ -138,11 +154,21 @@ public class PlayerController : EntityController
 
         yield return new WaitForSeconds(5f);
 
-        transform.position = new Vector3(8f, -17f, -1f); // Set respawn position to the house.
-        Start(); // Resets statistics (hp, stamina, exp, speed, damage, isalive...).
-        EntityAnimator.SetFloat("y", -0.5f); // Make player face down when respawn.
-        EntityAnimator.SetBool("Die", !IsAlive); // Exit death animation state.
+        ResetPlayerState();
         playerRenderer.enabled = true; // Make player visible again.
+    }
+
+    /// <summary>
+    /// Helper to exit death animation state and 
+    /// make player face downwards when respawned.
+    /// </summary>
+    private void ResetPlayerState()
+    {
+        transform.position = new Vector3(8f, -17f, -1f); // Set respawn position to the house.
+        base.InitStats();
+        InitStats(); // Resets statistics (hp, stamina, exp, speed, damage, isalive...).
+        EntityAnimator.SetFloat("y", -0.5f); // 
+        EntityAnimator.SetBool("Die", !IsAlive); // Exit death animation state.
     }
 
     /// <summary>
@@ -161,10 +187,14 @@ public class PlayerController : EntityController
             Debug.Log("Not enough stamina!!");
         }
 
+        ToggleRegen();
+    }
 
+    private void ToggleRegen()
+    {
         if(_regen != null) // If stamina is already regenerating...
         {
-            StopCoroutine(_regen); // Resets (Disallow player to regenerate while usiong stamina).
+            StopCoroutine(_regen); // Resets (Disallow player to regenerate while using stamina).
         }
 
         // Starts the co-routine of regenerating stamina.

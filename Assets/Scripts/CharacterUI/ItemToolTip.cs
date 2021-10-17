@@ -34,19 +34,19 @@ public class ItemToolTip : MonoBehaviour
     public void ShowTooltip(Item item)
     {
         itemNameText.text = item.itemName;
-        if (item is Food)
+        if(item is Food)
         {
             itemInfoText.text = GetFoodInfo((Food)item);
         }
-        if (item is Tool || item is Weapon || item is Equipment)
+        if(item is Tool || item is Weapon || item is Equipment)
         {
             itemInfoText.text = GetEquipmentInfo((Equipment)item);
         }
-        if (item is Seed)
+        if(item is Seed)
         {
             itemInfoText.text = GetItemInfo((Seed)item);
         }
-        if (item is Mat)
+        if(item is Mat)
         {
             itemInfoText.text = GetMaterialInfo((Mat)item);
         }
@@ -77,14 +77,14 @@ public class ItemToolTip : MonoBehaviour
     {
         GetItemInfo(equip);
 
-        if (equip.attack > 0)
+        if(equip.attack > 0)
         {
             sb.Append("Atk: ");
             sb.Append(equip.attack);
             sb.AppendLine();
         }
 
-        if (equip.defence > 0)
+        if(equip.defence > 0)
         {
             sb.Append("Def: ");
             sb.Append(equip.defence);

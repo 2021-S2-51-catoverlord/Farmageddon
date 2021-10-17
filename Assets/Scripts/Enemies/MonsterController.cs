@@ -174,7 +174,7 @@ public class MonsterController : EntityController
 
     public override void Attack()
     {
-        
+
         if(timeStamp <= -1)
         {
             timeStamp = Time.time;
