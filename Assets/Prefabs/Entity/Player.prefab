@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1483895023962336033}
   - component: {fileID: 1483895023962336034}
   - component: {fileID: 1483895023962336030}
+  - component: {fileID: 1525203471}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -117,9 +118,21 @@ MonoBehaviour:
   inventoryUI: {fileID: 0}
   equipmentUI: {fileID: 0}
   sellUI: {fileID: 0}
-  UIManager: {fileID: 0}
+  saveManager: {fileID: 1525203471}
   SaveButton: {fileID: 1483895024304937917}
   LoadButton: {fileID: 1483895024839678040}
+--- !u!114 &1525203471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1483895023962336035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc5ce1c5ebdd6ba4a9e51e882c6b727e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1483895024172964470
 GameObject:
   m_ObjectHideFlags: 0
