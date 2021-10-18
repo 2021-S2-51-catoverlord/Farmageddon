@@ -992,7 +992,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryUI: {fileID: 1483895024856900900}
   equipUI: {fileID: 1483895025421530796}
-  tooltip: {fileID: 0}
+  craftinUI: {fileID: 0}
 --- !u!1 &1483895024610924449
 GameObject:
   m_ObjectHideFlags: 0

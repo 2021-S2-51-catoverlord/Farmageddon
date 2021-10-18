@@ -57,6 +57,9 @@ public class DayNightCycleBehaviour : MonoBehaviour
     public bool isDay;
     public bool isNight;
 
+    [SerializeField]
+    private GameObject spawningZone;
+
     // Global light source
     private Light2D timelight;
 
@@ -195,11 +198,13 @@ void Start()
             isNight = false;
             isDay = true;
             t_lightChange.Invoke();
+            spawningZone.SetActive(false);
         } else if ((time < 0.25 || time > 0.75) && !isNight)
         {
             isNight = true;
             isDay = false;
             t_lightChange.Invoke();
+            spawningZone.SetActive(true);
         }
 
         timelight.color = gradient.Evaluate(timeRatio);
