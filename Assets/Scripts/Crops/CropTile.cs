@@ -17,7 +17,7 @@ namespace Gameplay
         public DayNightCycleBehaviour time;
         public bool isDead = false;
 
-        private int currStageIndex = 0;
+        public int currStageIndex = 0;
 
         public void Start()
         {

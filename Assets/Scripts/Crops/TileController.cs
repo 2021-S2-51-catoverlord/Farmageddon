@@ -73,6 +73,7 @@ namespace Gameplay
             timeCycle = GameObject.Find("Time Light").GetComponent<DayNightCycleBehaviour>();
         }
 
+        //For placing seed
         public void PlaceTile(Vector3 pos, string assetName)
         {
             Vector3Int tilemapPos = crop_tilemap.WorldToCell(pos);
@@ -105,6 +106,41 @@ namespace Gameplay
             SetGameTile(newTile);
         }
 
+        public void PlaceTile(Vector3 pos, string assetName, int growthStage)
+        {
+            Vector3Int tilemapPos = crop_tilemap.WorldToCell(pos);
+            Vector3 layeredWorldPosition = new Vector3(tilemapPos.x, tilemapPos.y);
+
+            Vector3Int localPlace = new Vector3Int(tilemapPos.x, tilemapPos.y, 0);
+
+            IGameTile newTile = TileLibrary.instance.GetClonedTile(assetName);
+            newTile.LocalPlace = localPlace;
+            newTile.WorldLocation = layeredWorldPosition;
+            newTile.TilemapMember = crop_tilemap;
+
+            // if a tile already exists there, just replace it.
+            bool tileExistsInPos = tiles.ContainsKey(layeredWorldPosition);
+            if (tileExistsInPos)
+            {
+                tiles[layeredWorldPosition] = newTile;
+            }
+            else
+            {
+                tiles.Add(layeredWorldPosition, newTile);
+            }
+
+            bool isACrop = newTile.GetType() == typeof(CropTile);
+            if (isACrop)
+            {
+                CropTile newCrop = (CropTile)newTile;
+                newCrop.currStageIndex = growthStage;
+                newCrop.StartGrowing();
+            }
+
+            SetGameTile(newTile);
+        }
+
+        //For removing tile
         public void PlaceTile(Vector3 pos)
         {
             Vector3Int tilemapPos = crop_tilemap.WorldToCell(pos);
@@ -300,7 +336,6 @@ namespace Gameplay
 
                 tiles.Remove(tiles.FirstOrDefault(x => x.Value == tile).Key);
 
-                IGameTile
             }
         }
 
