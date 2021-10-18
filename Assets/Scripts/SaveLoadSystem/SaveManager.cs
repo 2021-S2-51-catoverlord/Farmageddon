@@ -13,6 +13,11 @@ public class SaveManager : MonoBehaviour
         SaveableObjects = FindObjectsOfType<MonoBehaviour>().OfType<ISaveable>();
     }
 
+    /// <summary>
+    /// For each object (data managers) that implements the ISaveable 
+    /// interface, call the save data method that is attached to them and 
+    /// save it to a path specified in their class with an appropriate name.
+    /// </summary>
     public void SaveGame()
     {
         if(SaveableObjects.Count() > 0)
@@ -29,6 +34,11 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// For each object (data managers) that implements the ISaveable 
+    /// interface, the load data method that is attached to them and 
+    /// load it straight onto the classes they are responsible for.
+    /// </summary>
     public void LoadGame()
     {
         if(SaveableObjects.Count() > 0)
@@ -42,7 +52,7 @@ public class SaveManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("ERROR: No valid saves data found!");
+            Debug.Log("ERROR: No saveable objects found!");
         }
     }
 }
