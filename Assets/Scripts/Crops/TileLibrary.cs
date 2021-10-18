@@ -37,6 +37,27 @@ public class TileLibrary : MonoBehaviour
         return clonedTile;
     }
 
+    //public IGameTile GetClonedTile(string id)
+    //{
+    //    IGameTile originalTile = Tiles[id];
+    //    GameTile copy = new GameTile();
+
+    //    copy.ID = Guid.NewGuid().ToString();
+    //    //copy.LocalPlace.x = originalTile.LocalPlace.x;
+    //    //copy.LocalPlace.y = originalTile.LocalPlace.y;
+    //    copy.LocalPlace = new Vector3Int(originalTile.LocalPlace.x, originalTile.LocalPlace.y, originalTile.LocalPlace.z);
+    //    copy.WorldLocation = new Vector3(originalTile.WorldLocation.x, originalTile.WorldLocation.y, originalTile.WorldLocation.z);
+    //    copy.TileBase = originalTile.TileBase;
+    //    copy.TilemapMember = originalTile.TilemapMember;
+    //    copy.Description = originalTile.Description;
+    //    copy.Cost = originalTile.Cost;
+    //    copy.TileData = originalTile.TileData;
+
+    //    print(copy.Description);
+
+    //    return copy;
+    //}
+
     private void InitLibrary()
     {
         Tiles.Add("beetroot", new CropTile()

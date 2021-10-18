@@ -64,7 +64,7 @@ namespace Gameplay
             inventory = Resources.FindObjectsOfTypeAll<Inventory>()[0]; // Finds the first occurence of Inventory GameObj and saves its script.
             timeCycle = GameObject.Find("Time Light").GetComponent<DayNightCycleBehaviour>(); // Temporary fix: Just a guess.
 
-            timeCycle.t_dayChange.AddListener(DayChanged);
+            //timeCycle.t_dayChange.AddListener(DayChanged);
         }
 
         private void Awake()
@@ -197,7 +197,7 @@ namespace Gameplay
                     {
                         timeToGrow = (int)((double)timeToGrow * 2);
 
-                        TileController.instance.crop_tilemap.SetTileFlags(Vector3Int.RoundToInt(tile.WorldLocation), TileFlags.None);
+                        //TileController.instance.crop_tilemap.SetTileFlags(Vector3Int.RoundToInt(tile.WorldLocation), TileFlags.None);
                         TileController.instance.crop_tilemap.SetColor(Vector3Int.RoundToInt(tile.WorldLocation), Color.blue);
                     }
                     break;
@@ -345,15 +345,17 @@ namespace Gameplay
 
             if(timeCycle.season == Season.WINTING)
             {
-                List<KeyValuePair<Vector3, IGameTile>> existingTiles = tiles.ToList();
-                foreach(KeyValuePair<Vector3, IGameTile> t in existingTiles)
+                //List<KeyValuePair<Vector3, IGameTile>> existingTiles = tiles.ToList();
+
+
+                foreach(KeyValuePair<Vector3, IGameTile> t in tiles.ToList())
                 {
-                    foreach(string item in winterCrops)
+                    //foreach(string item in winterCrops)
+                    //{
+                    //}
+                    if(winterCrops.Contains(t.Value.Description))
                     {
-                        if(t.Value.Description.Contains(item))
-                        {
-                            isSeasonal = true;
-                        }
+                        isSeasonal = true;
                     }
 
                     if(!isSeasonal)
@@ -373,7 +375,6 @@ namespace Gameplay
 
                             PlaceTile(t.Key);
                             tiles.Remove(t.Key);
-
                         }
                         else
                         {

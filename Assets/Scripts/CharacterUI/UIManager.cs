@@ -209,22 +209,4 @@ public class UIManager : MonoBehaviour
             inventory.AddItem(equipment);
         }
     }
-
-    //public void SaveData()
-    //{
-    //    itemSaveManager.SaveInventories();
-    //    Debug.Log("Inventory and Equipments saved to: " + Application.persistentDataPath + "/Inventory.dat & Equipment.dat");
-
-    //    player.GetComponent<PlayerSaveManager>().SavePlayerData();
-    //    Debug.Log("Player data saved to: " + Application.persistentDataPath + "/Player.dat");
-    //}
-
-    //public void LoadData()
-    //{
-    //    itemSaveManager.LoadInventories();
-    //    Debug.Log("Inventory and Equipments loaded from: " + Application.persistentDataPath + "/Inventory.dat & Equipment.dat");
-
-    //    player.GetComponent<PlayerSaveManager>().LoadPlayerData();
-    //    Debug.Log("Player data loaded from: " + Application.persistentDataPath + "/Player.dat");
-    //}
 }

@@ -25,6 +25,7 @@ public class LevelSystem : MonoBehaviour
     public Text experienceTxt;
     public PlayerController player;
 
+
     public void Start()
     {
         if(player == null)

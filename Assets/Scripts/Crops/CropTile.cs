@@ -111,11 +111,12 @@ namespace Gameplay
                         if(!isDead)
                         {
                             TileController.instance.tiles.TryGetValue(LocalPlace, out IGameTile tile);
-                            TileController.instance.crop_tilemap.SetTileFlags(Vector3Int.RoundToInt(tile.WorldLocation), TileFlags.None);
+                            //TileController.instance.crop_tilemap.SetTileFlags(Vector3Int.RoundToInt(tile.WorldLocation), TileFlags.None);
                             TileController.instance.crop_tilemap.SetColor(Vector3Int.RoundToInt(tile.WorldLocation), Color.blue);
                         }
                     }
                     break;
+
             }
 
             if(plantID != ID || isDead) return;

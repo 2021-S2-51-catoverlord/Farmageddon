@@ -17,7 +17,7 @@ public class ItemSaveManager : MonoBehaviour, ISaveable
 
         if(ItemDatabase == null)
         {
-            ItemDatabase = Resources.FindObjectsOfTypeAll<ItemDatabase>()[0];
+            ItemDatabase = Resources.Load("Items/ItemRepository") as ItemDatabase;
         }
     }
 
