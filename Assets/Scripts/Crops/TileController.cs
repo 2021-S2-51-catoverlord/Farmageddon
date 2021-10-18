@@ -121,7 +121,7 @@ namespace Gameplay
 
             // if a tile already exists there, just replace it.
             bool tileExistsInPos = tiles.ContainsKey(layeredWorldPosition);
-            if(tileExistsInPos)
+            if (tileExistsInPos)
             {
                 tiles[layeredWorldPosition] = null;
             }
@@ -132,6 +132,40 @@ namespace Gameplay
 
 
             crop_tilemap.SetTile(tilemapPos, null);
+        }
+
+        public void PlaceTile(Vector3 pos, string assetName, int growthStage)
+        {
+            Vector3Int tilemapPos = crop_tilemap.WorldToCell(pos);
+            Vector3 layeredWorldPosition = new Vector3(tilemapPos.x, tilemapPos.y);
+
+            Vector3Int localPlace = new Vector3Int(tilemapPos.x, tilemapPos.y, 0);
+
+            IGameTile newTile = TileLibrary.instance.GetClonedTile(assetName);
+            newTile.LocalPlace = localPlace;
+            newTile.WorldLocation = layeredWorldPosition;
+            newTile.TilemapMember = crop_tilemap;
+
+            // if a tile already exists there, just replace it.
+            bool tileExistsInPos = tiles.ContainsKey(layeredWorldPosition);
+            if (tileExistsInPos)
+            {
+                tiles[layeredWorldPosition] = newTile;
+            }
+            else
+            {
+                tiles.Add(layeredWorldPosition, newTile);
+            }
+
+            bool isACrop = newTile.GetType() == typeof(CropTile);
+            if (isACrop)
+            {
+                CropTile crop = (newTile as CropTile);
+                crop.currStageIndex = growthStage;
+                crop.StartGrowing();
+            }
+
+            SetGameTile(newTile);
         }
 
         // Starts a coroutine and returns to the caller after it's time is passed
@@ -387,6 +421,26 @@ namespace Gameplay
                 }
             }
 
+        }
+
+        public void ClearAllFarmland()
+        {
+            List<KeyValuePair<Vector3, IGameTile>> existingTiles = tiles.ToList();
+            IGameTile tile;
+            foreach (KeyValuePair<Vector3, IGameTile> t in existingTiles)
+            {
+                tiles.TryGetValue(t.Key, out tile);
+
+                Debug.Log("Plant at Coords " + t.Value.LocalPlace + " should be dead");
+                Debug.Log("Invoking Crop Death");
+                CropTile cropTile = tile as CropTile;
+                cropTile.isDead = true;
+
+                c_cropDeath.Invoke(tile as CropTile);
+
+                PlaceTile(t.Key);
+                tiles.Remove(t.Key);
+            }
         }
 
     }

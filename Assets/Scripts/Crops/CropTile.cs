@@ -33,11 +33,6 @@ namespace Gameplay
             TileController.instance.OnStageGrow += OnGrowEvent;
         }
 
-        public void OnWilt()
-        {
-
-        }
-
         public void OnCropDeath(CropTile tile)
         {
             TilemapMember.SetTile(tile.LocalPlace, null);
