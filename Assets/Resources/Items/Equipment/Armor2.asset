@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 416f714611bdfae4d8c5a47fe839ae08, type: 3}
+  m_Name: Armor2
+  m_EditorClassIdentifier: 
+  id: bbbe1a01ec02be4468847efb3e33ed24
+  itemName: Armor2
+  icon: {fileID: -6152237611823640865, guid: 87420c2603905a4418686d4d8929da05, type: 3}
+  itemDescription: Test Armour 02
+  price: 50
+  MaxStacks: 1
+  equipType: 1
+  defence: 10
+  attack: 0

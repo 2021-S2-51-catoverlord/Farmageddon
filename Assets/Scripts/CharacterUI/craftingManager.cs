@@ -11,11 +11,11 @@ public class CraftingManager : MonoBehaviour
     [SerializeField]
     private static int MAXLOG = 25;
     private int logSize = 0;
-    private invLog[] invLog;
+    private InvLog[] invLog;
 
     private void Start()
     {
-        invLog = new invLog[MAXLOG];
+        invLog = new InvLog[MAXLOG];
         playerInv = Resources.FindObjectsOfTypeAll<Inventory>()[0];
     }
 
@@ -27,7 +27,7 @@ public class CraftingManager : MonoBehaviour
         {
             if (playerInv.itemSlots[i].Item != null)
             {
-                invLog[itemSlot] = new invLog();
+                invLog[itemSlot] = new InvLog();
 
                 invLog[itemSlot].Quantity = playerInv.itemSlots[i].Amount;           
                 invLog[itemSlot].Item = playerInv.itemSlots[i].Item;           
@@ -91,7 +91,7 @@ public class CraftingManager : MonoBehaviour
 }
 
 // small instance class to store a parsable log of the inventory
-public class invLog
+public class InvLog
 {
     private Item item;
     private int quantity;
