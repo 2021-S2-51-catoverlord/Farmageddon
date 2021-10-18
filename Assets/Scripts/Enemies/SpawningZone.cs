@@ -29,6 +29,7 @@ public class SpawningZone : MonoBehaviour
         CalcSpawnArea();
         this.gameObject.SetActive(false);
         spawnListLength = spawnList.Length - 1;
+        Debug.Log("spawner started");
     }
 
     // Update is called once per frame
@@ -42,7 +43,7 @@ public class SpawningZone : MonoBehaviour
 
     private bool spawnCheck()
     {
-        return Random.Range(1, 101) < spawnRate;
+        return Random.Range(1, 101) <= spawnRate;
     }
 
     private void CalcSpawnArea()
@@ -62,12 +63,17 @@ public class SpawningZone : MonoBehaviour
     public void TestConstruct(GameObject enemyPrefab, int spawnRate, Transform pointA, Transform pointB )
     {
         spawnList = new GameObject[1];
-        spawnList[0] = enemyPrefab;
         this.spawnRate = spawnRate;
         this.pointA = pointA;
         this.pointB = pointB;
         this.gameObject.SetActive(true);
+        spawnListLength = spawnList.Length - 1;
         CalcSpawnArea();
+    }
+
+    public void TestSpawning()
+    {
+        Instantiate(spawnList[0], GenerateEnemyPos(), Quaternion.identity);
     }
 
 }

@@ -8,6 +8,8 @@ TagManager:
   - Inventory
   - Limited Inventory
   - CraftingMenu
+  - Audio
+  - SpawningZone
   layers:
   - Default
   - TransparentFX

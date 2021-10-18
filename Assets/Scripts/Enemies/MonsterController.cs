@@ -139,10 +139,7 @@ public class MonsterController : EntityController
         //increase 
         enemyDamage = Mathf.FloorToInt(baseDmg * ((TimeController.TotalDayCount + scalingByDay) / scalingByDay));
 
-        this.maxHP = Mathf.FloorToInt(baseHP * ((TimeController.TotalDayCount + scalingByDay) / scalingByDay));
-
-        Debug.Log("dmg" + Mathf.FloorToInt(baseDmg * ((TimeController.TotalDayCount + scalingByDay) / scalingByDay)));
-        Debug.Log("HP" + Mathf.FloorToInt(baseHP * ((TimeController.TotalDayCount + scalingByDay) / scalingByDay)));
+        this.maxHP = Mathf.FloorToInt(baseHP * ((TimeController.TotalDayCount + scalingByDay) / scalingByDay));   
     }
     /**
      * AI action logic \/

@@ -78,7 +78,7 @@ MonoBehaviour:
   pointA: {fileID: 1244737321817397305}
   pointB: {fileID: 1244737320589118971}
   spawnList:
-  - {fileID: 0}
+  - {fileID: 1158607985526862429, guid: 7e33c409da8ccee4082ca30f009e629d, type: 3}
   spawnRate: 1
 --- !u!1 &1244737321817397304
 GameObject:
