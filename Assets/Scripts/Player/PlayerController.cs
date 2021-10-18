@@ -19,10 +19,24 @@ public class PlayerController : EntityController
     private int experiencePoints;
     private Coroutine regen;
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
+    private bool inField;
+    private BoxCollider2D attackCollider = null;
+    private float attackTime;
+    private float attackDuration = 1;
+    public enum LastDirect
+    {
+        up,
+        down,
+        left,
+        right
+    }
+    private LastDirect lastDirection;
 
     // Get and set methods.
     public int StaminaPoints { get; set; }
     public int ExperiencePoints { get; set; }
+    public bool InField { get => inField; set => inField = value; }
+    public LastDirect LastDirection { get => lastDirection;}
 
     // Start is called before the first frame update
 
@@ -66,7 +80,6 @@ public class PlayerController : EntityController
         EntityName = "Player";
         StaminaPoints = PlayerController.MAX_STAMINA;
         ExperiencePoints = 0;
-        Damage = 5;
 
         // Initilise the sliders' max values.
         healthBar.SetMaxValue(this.maxHP);
@@ -89,21 +102,25 @@ public class PlayerController : EntityController
         {
             // Move up.
             this.direction += Vector2.up;
+            lastDirection = LastDirect.up;
         }
         else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             // Move left.
             this.direction += Vector2.left;
+            lastDirection = LastDirect.left;
         }
         else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             // Move down.
             this.direction += Vector2.down;
+            lastDirection = LastDirect.down;
         }
         else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             // Move right.
             this.direction += Vector2.right;
+            lastDirection = LastDirect.right;
         }
 
         // Input for jump.
@@ -112,18 +129,10 @@ public class PlayerController : EntityController
             Jump();
         }
 
-        if(IsAttacking)
-        {
-            AttackCounter -= Time.deltaTime;
-            if(AttackCounter <= 0)
-            {
-                StopAttack();
-            }
-        }
-
         // Input for attack (left mouse-click)
-        if(!isInventoryActive && Input.GetMouseButton(0))
+        if(!isInventoryActive && Input.GetMouseButton(0) && !InField )
         {
+            PlayerAttack();
             Attack();
         }
 
@@ -222,5 +231,42 @@ public class PlayerController : EntityController
 
         // Set Attack in animator parameter to true.
         EntityAnimator.SetBool("Jump", IsJumping);
-    }    
+    }
+    public  void PlayerAttack()
+    {
+        //if player isnt attacking
+        if (attackCollider == null)
+        {
+            AttackTime = Time.time + attackDuration;
+            attackCollider = this.gameObject.AddComponent<BoxCollider2D>();
+            attackCollider.isTrigger = true;
+            //get players last movement direction
+            switch (lastDirection)
+            {
+                case LastDirect.up:
+                    attackCollider.offset = new Vector2((float)0.0, (float)1.36);
+                    attackCollider.size = new Vector2((float)1.29, (float)0.65);
+                    break;
+                case LastDirect.down:
+                    attackCollider.offset = new Vector2((float)0.0, (float)-.36);
+                    attackCollider.size = new Vector2((float)1.29, (float)0.65);
+                    break;
+                case LastDirect.left:
+                    attackCollider.offset = new Vector2((float)-.6, (float).5);
+                    attackCollider.size = new Vector2((float).65, (float)1.29);
+                    break;
+                case LastDirect.right:
+                    attackCollider.offset = new Vector2((float).6, (float).5);
+                    attackCollider.size = new Vector2((float).65, (float)1.29);
+                    break;
+                default:
+                    break;
+            }
+            Destroy(attackCollider, 5);
+        }
+
+        
+    }
+    
+
 }

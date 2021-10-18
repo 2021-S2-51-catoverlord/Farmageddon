@@ -14,7 +14,7 @@ public abstract class EntityController : MonoBehaviour
     private Rigidbody2D entityRigidbody;
     private bool isJumping;
     private bool isAttacking;
-    private bool isAlive;
+    private bool isAlive = true;
 
 
     // Get and set methods for entity's attributes.
@@ -41,8 +41,7 @@ public abstract class EntityController : MonoBehaviour
         // Initialise entity's hp.
         HealthPoints = this.maxHP;
 
-        // Set the entity to be alive.
-        IsAlive = true;
+
     }
 
     // Update is called once per frame
