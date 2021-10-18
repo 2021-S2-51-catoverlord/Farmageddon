@@ -19,7 +19,6 @@ namespace Gameplay
 
         private int currStageIndex = 0;
 
-
         public void Start()
         {
             time = GameObject.Find("Time Light").GetComponent<DayNightCycleBehaviour>();
@@ -104,17 +103,14 @@ namespace Gameplay
                     if(inSeason)
                     {
                         GrowthTime = (int)((double)GrowthTime * 0.5);
-
                     }
                     else
                     {
                         GrowthTime = (int)((double)GrowthTime * 2);
 
-                        IGameTile tile;
-
                         if(!isDead)
                         {
-                            TileController.instance.tiles.TryGetValue(LocalPlace, out tile);
+                            TileController.instance.tiles.TryGetValue(LocalPlace, out IGameTile tile);
                             TileController.instance.crop_tilemap.SetTileFlags(Vector3Int.RoundToInt(tile.WorldLocation), TileFlags.None);
                             TileController.instance.crop_tilemap.SetColor(Vector3Int.RoundToInt(tile.WorldLocation), Color.blue);
                         }

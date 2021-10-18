@@ -22,10 +22,8 @@ namespace Gameplay
 
         public PlayerController player;
 
-        public Tilemap tilemap;
-
+        public Tilemap farmland_tilemap;
         public Tilemap crop_tilemap;
-
         public Tile farmland_tile;
 
         public Inventory inventory;
@@ -33,17 +31,13 @@ namespace Gameplay
         private IGameTile lastTile;
 
         public Item[] seeds;
-
         public Item[] crops;
 
         public static DayNightCycleBehaviour timeCycle;
-
-        public event PlantPlantedHandler OnStageGrow;
-
         public static TileController instance;
 
+        public event PlantPlantedHandler OnStageGrow;
         public static CropEvent c_cropDeath = new CropEvent();
-
 
         public List<string> springCrops = new List<string> { "tomato", "beetroot", "corn", "strawberry" };
         public List<string> summerCrops = new List<string> { "tomato", "melon", "corn", "strawberry" };
@@ -64,6 +58,7 @@ namespace Gameplay
             }
 
             InitReferences();
+            timeCycle.t_dayChange.AddListener(DayChanged);
         }
 
         /// <summary>
@@ -71,13 +66,11 @@ namespace Gameplay
         /// </summary>
         private void InitReferences()
         {
-            player = GameObject.Find("Player").GetComponent<PlayerController>(); // Finds the player controller and saves its reference.
-            tilemap = GameObject.Find("Farmland").GetComponent<Tilemap>(); // Temporary fix: Need to find out which actual tilemap to find.
-            crop_tilemap = GameObject.Find("Crops").GetComponent<Tilemap>(); // Temporary fix: Need to find out which actual tilemap to find.
-            inventory = Resources.FindObjectsOfTypeAll<Inventory>()[0]; // Finds the first occurence of Inventory GameObj and saves its script.
-            timeCycle = GameObject.Find("Time Light").GetComponent<DayNightCycleBehaviour>(); // Temporary fix: Just a guess.
-
-            timeCycle.t_dayChange.AddListener(DayChanged);
+            player = GameObject.Find("Player").GetComponent<PlayerController>();
+            farmland_tilemap = GameObject.Find("Farmland").GetComponent<Tilemap>();
+            crop_tilemap = GameObject.Find("Crops").GetComponent<Tilemap>();
+            inventory = Resources.FindObjectsOfTypeAll<Inventory>()[0];
+            timeCycle = GameObject.Find("Time Light").GetComponent<DayNightCycleBehaviour>();
         }
 
         public void PlaceTile(Vector3 pos, string assetName)
@@ -106,7 +99,7 @@ namespace Gameplay
             bool isACrop = newTile.GetType() == typeof(CropTile);
             if(isACrop)
             {
-                (newTile as CropTile).StartGrowing();
+                ((CropTile)newTile).StartGrowing();
             }
 
             SetGameTile(newTile);
@@ -119,7 +112,6 @@ namespace Gameplay
 
             Vector3Int localPlace = new Vector3Int(tilemapPos.x, tilemapPos.y, 0);
 
-
             // if a tile already exists there, just replace it.
             bool tileExistsInPos = tiles.ContainsKey(layeredWorldPosition);
             if(tileExistsInPos)
@@ -130,7 +122,6 @@ namespace Gameplay
             {
                 tiles.Add(layeredWorldPosition, null);
             }
-
 
             crop_tilemap.SetTile(tilemapPos, null);
         }
@@ -143,7 +134,7 @@ namespace Gameplay
             switch(timeCycle.season)
             {
                 case Season.SPRIMMER:
-                    foreach(string item in TileController.instance.springCrops)
+                    foreach(string item in instance.springCrops)
                     {
                         if(tile.Description.Contains(item))
                         {
@@ -154,10 +145,9 @@ namespace Gameplay
                     {
                         timeToGrow = (int)(timeToGrow * 0.5);
                     }
-
                     break;
                 case Season.SUMTUMN:
-                    foreach(string item in TileController.instance.summerCrops)
+                    foreach(string item in instance.summerCrops)
                     {
                         if(tile.Description.Contains(item))
                         {
@@ -170,7 +160,7 @@ namespace Gameplay
                     }
                     break;
                 case Season.AUNTER:
-                    foreach(string item in TileController.instance.autumnCrops)
+                    foreach(string item in instance.autumnCrops)
                     {
                         if(tile.Description.Contains(item))
                         {
@@ -183,7 +173,7 @@ namespace Gameplay
                     }
                     break;
                 case Season.WINTING:
-                    foreach(string item in TileController.instance.winterCrops)
+                    foreach(string item in instance.winterCrops)
                     {
                         if(tile.Description.Contains(item))
                         {
@@ -196,10 +186,10 @@ namespace Gameplay
                     }
                     else
                     {
-                        timeToGrow = (int)((double)timeToGrow * 2);
+                        timeToGrow = (int)((double)timeToGrow * 2); // Crops take longer to grow if not in season.
 
-                        TileController.instance.crop_tilemap.SetTileFlags(Vector3Int.RoundToInt(tile.WorldLocation), TileFlags.None);
-                        TileController.instance.crop_tilemap.SetColor(Vector3Int.RoundToInt(tile.WorldLocation), Color.blue);
+                        instance.crop_tilemap.SetTileFlags(Vector3Int.RoundToInt(tile.WorldLocation), TileFlags.None);
+                        instance.crop_tilemap.SetColor(Vector3Int.RoundToInt(tile.WorldLocation), Color.blue); // Wilting colour.
                     }
                     break;
             }
@@ -258,15 +248,15 @@ namespace Gameplay
                         wpos.y += 0.5f;
 
                         // get tile pos
-                        var tilePos = tilemap.WorldToCell(wpos);
+                        var tilePos = farmland_tilemap.WorldToCell(wpos);
 
-                        if(tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == false)
+                        if(farmland_tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == false)
                         {
                             // Set new tile to location
                             PlaceTile(tilePos, seedname);
                             inventory.RemoveItem(seed);
                         }
-                        else if(tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == true && instance.tiles.TryGetValue(tilePos, out lastTile))
+                        else if(farmland_tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == true && instance.tiles.TryGetValue(tilePos, out lastTile))
                         {
                             instance.tiles.TryGetValue(tilePos, out IGameTile tile);
                             if(tile.Description.Contains("Grown"))
@@ -296,8 +286,8 @@ namespace Gameplay
                     wpos.y += 1.0f;
 
                     // get tile pos
-                    var tilePos = tilemap.WorldToCell(wpos);
-                    if(tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == true && instance.tiles.TryGetValue(tilePos, out lastTile))
+                    var tilePos = farmland_tilemap.WorldToCell(wpos);
+                    if(farmland_tilemap.GetTile(tilePos) == farmland_tile && crop_tilemap.HasTile(tilePos) == true && instance.tiles.TryGetValue(tilePos, out lastTile))
                     {
                         instance.tiles.TryGetValue(tilePos, out IGameTile tile);
                         if(tile.Description.Contains("Grown"))

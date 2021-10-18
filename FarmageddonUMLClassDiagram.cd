@@ -1,0 +1,553 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="AttackEvent">
+    <Position X="10.25" Y="27.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Enemies\AttackEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicController">
+    <Position X="42.25" Y="0.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAACAAACAAIAIgAQABQAAEIAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Audio\MusicController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DropArea" BaseTypeListCollapsed="true">
+    <Position X="25.75" Y="20.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\CharacterUI\DropArea.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EquipSlot">
+    <Position X="20" Y="25.25" Width="2" />
+    <InheritanceLine Type="ItemSlot" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="19.5" Y="28.986" />
+        <Point X="21" Y="28.986" />
+        <Point X="21" Y="27.127" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAABAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\CharacterUI\EquipSlot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EquipUI">
+    <Position X="19.75" Y="20.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>IAAACAAAABCAoBAAAAEAAAAAgAAAAAAEAAAAAABAAEA=</HashCode>
+      <FileName>Assets\Scripts\CharacterUI\EquipUI.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="equipSlots" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Inventory" BaseTypeListCollapsed="true">
+    <Position X="16.75" Y="20.25" Width="2.25" />
+    <AssociationLine Name="itemSlots" Type="ItemSlot" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="19" Y="24.935" />
+        <Point X="19.25" Y="24.935" />
+        <Point X="19.25" Y="26.5" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>IAAACQEAAACAgBFAAAEAAAAAgAAQAAAMAAAAAABAAEA=</HashCode>
+      <FileName>Assets\Scripts\CharacterUI\Inventory.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="itemSlots" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ItemPickUp">
+    <Position X="40" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAACAAAAAAAAQAAAAAAEAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\CharacterUI\ItemPickUp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ItemSlot">
+    <Position X="16.5" Y="26.5" Width="3" />
+    <AssociationLine Name="tooltip" Type="ItemToolTip" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="19.5" Y="30.563" />
+        <Point X="23.875" Y="30.563" />
+        <Point X="23.875" Y="27.473" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>IAAACAAACgCAgBgAAAVAEQGEEAAggCAAAAAUAQAAACA=</HashCode>
+      <FileName>Assets\Scripts\CharacterUI\ItemSlot.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="tooltip" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ItemToolTip">
+    <Position X="22.75" Y="24.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQgAAABAAACAAAAQAAAAAAAQAAAAAAIAAAACEQ=</HashCode>
+      <FileName>Assets\Scripts\CharacterUI\ItemToolTip.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KeyInput">
+    <Position X="25.75" Y="23" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAABABAACAAAIAAGA=</HashCode>
+      <FileName>Assets\Scripts\CharacterUI\KeyInput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SellArea" BaseTypeListCollapsed="true">
+    <Position X="22.75" Y="20.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAgAAAAAAAAAAAACAAAAAIAAAQAAIAAEA=</HashCode>
+      <FileName>Assets\Scripts\CharacterUI\SellArea.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="UIManager">
+    <Position X="20.75" Y="12.25" Width="3.25" />
+    <AssociationLine Name="inventory" Type="Inventory" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="22.188" Y="16.627" />
+        <Point X="22.188" Y="18.655" />
+        <Point X="17.75" Y="18.655" />
+        <Point X="17.75" Y="20.25" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="equipUI" Type="EquipUI" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="22.188" Y="16.627" />
+        <Point X="22.188" Y="18.643" />
+        <Point X="20.625" Y="18.643" />
+        <Point X="20.625" Y="20.25" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="dropArea" Type="DropArea" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="22.188" Y="16.627" />
+        <Point X="22.188" Y="18.672" />
+        <Point X="26.875" Y="18.672" />
+        <Point X="26.875" Y="20.25" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="sellArea" Type="SellArea" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="22.188" Y="16.627" />
+        <Point X="22.188" Y="18.694" />
+        <Point X="23.906" Y="18.694" />
+        <Point X="23.906" Y="20.25" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAIQAAICgQAAAAAEAAABABAjAAAACIIEAEA=</HashCode>
+      <FileName>Assets\Scripts\CharacterUI\UIManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="inventory" />
+      <Field Name="equipUI" />
+      <Field Name="dropArea" />
+      <Field Name="sellArea" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="TileLibrary">
+    <Position X="38.5" Y="29.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAEAAAABQAAIAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Crops\TileLibrary.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="timecycle" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MonsterController">
+    <Position X="10.25" Y="21" Width="2.25" />
+    <InheritanceLine Type="EntityController" ManuallyRouted="true">
+      <Path>
+        <Point X="7.875" Y="18.617" />
+        <Point X="7.875" Y="19.937" />
+        <Point X="11.375" Y="19.937" />
+        <Point X="11.375" Y="21" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AIUAQRAAACAAgAAoIAAAAAAwAIAggAAABAAAAQDAAQA=</HashCode>
+      <FileName>Assets\Scripts\Enemies\MonsterController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityController">
+    <Position X="6.75" Y="12.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ARQAAAAAQqoAAACgQCAgEAADAIAAAAEAAEgAwIAAAAA=</HashCode>
+      <FileName>Assets\Scripts\EntityController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Equipment">
+    <Position X="6.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAABAAAAAAAAAAAABAAACAAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Scripts\Items\Equipment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Food">
+    <Position X="9.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAABAAAAAAAAAAAAAAAABAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Items\Food.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Item">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAABBAAgACAAAEAAAAAAABAAAAAAwAAAAAAAgA=</HashCode>
+      <FileName>Assets\Scripts\Items\Item.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Mat">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Items\Mat.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Seed">
+    <Position X="2.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Items\Seed.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tool">
+    <Position X="5.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Assets\Scripts\Items\Tool.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Weapon">
+    <Position X="8" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Items\Weapon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MainMenu">
+    <Position X="41" Y="10" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\MainMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PauseMenu">
+    <Position X="40" Y="0.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>ABQAAQgAAAAQAAAgAAAAAIgAAAQAAAAACACAAAgAIEE=</HashCode>
+      <FileName>Assets\Scripts\PauseMenu.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="saveManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="HurtEnemy">
+    <Position X="5.5" Y="28.25" Width="2" />
+    <AssociationLine Name="Player" Type="PlayerController" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.5" Y="28.25" />
+        <Point X="6.5" Y="27.405" />
+        <Point X="3.875" Y="27.405" />
+        <Point X="3.875" Y="26.281" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAEAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Player\HurtEnemy.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Player" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="LevelSystem">
+    <Position X="0.5" Y="28.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQQAAAAACQAAAAAAAAEAAAAAAEAAAAFBABgAAAAAIA=</HashCode>
+      <FileName>Assets\Scripts\Player\LevelSystem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoneySystem">
+    <Position X="3" Y="28.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQQAAIABCAAAAAAAAAAAAAAAABAAAAAAAAAAACAAEA=</HashCode>
+      <FileName>Assets\Scripts\Player\MoneySystem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerController">
+    <Position X="2.75" Y="20.75" Width="2.25" />
+    <InheritanceLine Type="EntityController" ManuallyRouted="true">
+      <Path>
+        <Point X="7.875" Y="18.617" />
+        <Point X="7.875" Y="20.007" />
+        <Point X="3.875" Y="20.007" />
+        <Point X="3.875" Y="20.75" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="Level" Type="LevelSystem" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.875" Y="26.281" />
+        <Point X="3.875" Y="27.443" />
+        <Point X="1.375" Y="27.443" />
+        <Point X="1.375" Y="28.25" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Money" Type="MoneySystem" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.875" Y="26.281" />
+        <Point X="3.875" Y="28.076" />
+        <Point X="3.875" Y="28.076" />
+        <Point X="3.875" Y="28.25" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AQRQAACCBCAgAIAABAAAAAAQAABAAAARABoAAEAAAEE=</HashCode>
+      <FileName>Assets\Scripts\Player\PlayerController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Level" />
+      <Field Name="Money" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="StatBarController">
+    <Position X="40" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAIAAAAAAAAAAAAAAAAAAAAAABEA=</HashCode>
+      <FileName>Assets\Scripts\Player\StatBarController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileIO">
+    <Position X="29.5" Y="1.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\SaveLoadSystem\FileIO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ItemDatabase">
+    <Position X="31" Y="14" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAABACAAAAAAEAAAAAIAAAAAAIAAAAAAAAKAA=</HashCode>
+      <FileName>Assets\Scripts\SaveLoadSystem\ItemDatabase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ItemObjSaveData">
+    <Position X="31" Y="11.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\SaveLoadSystem\ItemSaveData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ItemSlotSaveData">
+    <Position X="31" Y="9.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\SaveLoadSystem\ItemSaveData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ItemSaveIO">
+    <Position X="31" Y="7.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAEAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\SaveLoadSystem\ItemSaveIO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ItemSaveManager" BaseTypeListCollapsed="true">
+    <Position X="31" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AACAIAAEAAIQgAAAAAAAAAAQAAAAAAEAAAABAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\SaveLoadSystem\ItemSaveManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="PlayerSaveData">
+    <Position X="28.5" Y="8" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAECCQAAAAAAABAAA0EIZAgKAAAABAAACBAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\SaveLoadSystem\PlayerSaveData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerSaveManager" BaseTypeListCollapsed="true">
+    <Position X="28.5" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAwAAAAAAEAIAAQIAAAAAAAAEAAAUgAAEM=</HashCode>
+      <FileName>Assets\Scripts\SaveLoadSystem\PlayerSaveManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SaveManager">
+    <Position X="32.5" Y="1" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Assets\Scripts\SaveLoadSystem\SaveManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeSaveData">
+    <Position X="33.5" Y="7.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAQACIQAAIAABIRAAAiAkAAABAAAoAAAAQACEAJAYA=</HashCode>
+      <FileName>Assets\Scripts\SaveLoadSystem\TimeSaveData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeSaveManager" BaseTypeListCollapsed="true">
+    <Position X="33.5" Y="3.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAACAAAQAAAAAAAAQAAYgAAABAQAAAAACAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\SaveLoadSystem\TimeSaveManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.494" Collapsed="true" />
+  </Class>
+  <Class Name="ClockController">
+    <Position X="42.25" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAGDAEAAIiAAAAAAAIEABAAAAAAgAQAEAAABCAAAACA=</HashCode>
+      <FileName>Assets\Scripts\TimeCycle\ClockController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DayNightCycleBehaviour">
+    <Position X="35" Y="21.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>ABQDkyWIADAKAQBAQAAAOQADokQEQABAQAYQAgQACAA=</HashCode>
+      <FileName>Assets\Scripts\TimeCycle\DayNightCycleBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gameplay.CropTile">
+    <Position X="42.25" Y="25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAEACAAgAAAAAAAAACAKBAAAAAEACAAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\Crops\CropTile.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="GrowthStageTiles" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Gameplay.CropEvent">
+    <Position X="40.25" Y="29.25" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Crops\TileController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gameplay.TileController">
+    <Position X="38.5" Y="21.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AUQAAEABAAAwACAAAAAABAAAigBAAECDAACQARpAQGA=</HashCode>
+      <FileName>Assets\Scripts\Crops\TileController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="c_cropDeath" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Gameplay.GameTile">
+    <Position X="42.25" Y="21.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>BgAIgAAAAAAggAAAAAAAABAAAAAAAAAAAAAAIBAAABA=</HashCode>
+      <FileName>Assets\Scripts\Crops\Tiles.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Utils.DataUtils">
+    <Position X="20.75" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Crops\DataUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Gameplay.GrowthStage">
+    <Position X="42.25" Y="28.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Assets\Scripts\Crops\CropTile.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="IItemContainer">
+    <Position X="16.75" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAgAAAAAAMAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\CharacterUI\IItemContainer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ISaveable">
+    <Position X="19" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\SaveLoadSystem\ISaveable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gameplay.IGameTile">
+    <Position X="15" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BgAIgAAAAAAggAAAAAAAABAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Crops\Tiles.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="MonsterBehaviour">
+    <Position X="22.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Enemies\MonsterBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="EquipmentType">
+    <Position X="15.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAACAAAAAQIAAAAAAAAAAAAAAAAgAQAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Items\Equipment.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="MaterialCategory">
+    <Position X="17.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAABAAAgAAAAAAAEAAAAgQAAAA=</HashCode>
+      <FileName>Assets\Scripts\Items\Mat.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ToolCategory">
+    <Position X="21" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgCAAAAAAAAAAAAAAAAAgAAIAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Items\Tool.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="WeaponCategory">
+    <Position X="24.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Items\Weapon.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Season">
+    <Position X="19.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAgAAAAACAAAAIAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Assets\Scripts\TimeCycle\DayNightCycleBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="MonthName">
+    <Position X="14" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABABAIAAgAAAAAgAACgAAQAQAAAAAAAABAAIEAAEAA=</HashCode>
+      <FileName>Assets\Scripts\TimeCycle\DayNightCycleBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="Gameplay.PlantPlantedHandler">
+    <Position X="23" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Crops\TileController.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
