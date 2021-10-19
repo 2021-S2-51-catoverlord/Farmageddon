@@ -72,6 +72,13 @@ public class LevelSystem : MonoBehaviour
         experience += exp;
     }
 
+    public void TestConstruct(int level, int experience, int expToNxtLvl)
+    {
+        this.level = level;
+        this.experience = experience;
+        this.experienceToNextLevel = expToNxtLvl;
+    }
+
     public bool LevelledUp()
     {
         if(experience >= experienceToNextLevel)
