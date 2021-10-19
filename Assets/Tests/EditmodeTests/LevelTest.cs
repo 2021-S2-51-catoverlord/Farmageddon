@@ -3,20 +3,18 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class LevelUpTest
+public class LevelTest
 {
     [UnityTest]
-    public IEnumerator LevelIncreaseTest()
+    public IEnumerator LevelUpTest()
     {
         var temp = new GameObject().AddComponent<LevelSystem>();
 
-        //temp.level = 1;
-        //temp.experience = 10;
-        //temp.experienceToNextLevel = 32;
-        temp.TestConstruct(1, 10, 32);
+        temp.level = 1;
+        temp.experience = 10;
+        temp.experienceToNextLevel = 32;
 
         temp.GainEXP(30);
-
 
         yield return null;
 
