@@ -28,8 +28,10 @@ public class SpawningZone : MonoBehaviour
     {
         CalcSpawnArea();
         this.gameObject.SetActive(false);
-        spawnListLength = spawnList.Length - 1;
-        Debug.Log("spawner started");
+        if (spawnList != null)
+        {
+            spawnListLength = spawnList.Length - 1;
+        }
     }
 
     // Update is called once per frame
@@ -60,20 +62,17 @@ public class SpawningZone : MonoBehaviour
         float newWidth = pointA.position.x + Random.Range(0, areaWidth);
         return new Vector3(newWidth, newHeight, -1);
     }
-    public void TestConstruct(GameObject enemyPrefab, int spawnRate, Transform pointA, Transform pointB )
+    public void TestConstruct( Transform pointA, Transform pointB )
     {
-        spawnList = new GameObject[1];
-        this.spawnRate = spawnRate;
         this.pointA = pointA;
         this.pointB = pointB;
         this.gameObject.SetActive(true);
-        spawnListLength = spawnList.Length - 1;
         CalcSpawnArea();
     }
 
-    public void TestSpawning()
+    public Vector3 TestBounds()
     {
-        Instantiate(spawnList[0], GenerateEnemyPos(), Quaternion.identity);
+        return GenerateEnemyPos();
     }
 
 }
