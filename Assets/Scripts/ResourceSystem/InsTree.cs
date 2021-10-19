@@ -33,6 +33,14 @@ public class InsTree : MonoBehaviour
 
                 IsIns = true;
 
+                float Pos_x = Random.Range(-40, 0);
+                float Pos_y = Random.Range(-17, -1);
+
+                Vector3 Pos = new Vector3(Pos_x, Pos_y, this.transform.position.z);
+
+              
+                Instantiate(PreTree, Pos, transform.rotation);
+
                 // 当为0的话，实例化树生效
                 Instantiate(PreTree, transform.position, transform.rotation);
                 // 自我消耗木头
