@@ -45,14 +45,14 @@ public class LevelSystem : MonoBehaviour
             experienceTxt.text = experience.ToString() + "/" + experienceToNextLevel.ToString();
         }
 
-        if(levelUpSlider.value >= levelUpSlider.maxValue)
+        if (levelUpSlider.value >= levelUpSlider.maxValue)
         {
             IncreaseLevel();
             experienceTxt.text = experience.ToString() + "/" + experienceToNextLevel.ToString();
         }
     }
 
-    private void IncreaseLevel()
+    public void IncreaseLevel()
     {
         level++;
         currentLevel.text = level.ToString();
@@ -70,5 +70,29 @@ public class LevelSystem : MonoBehaviour
     public void GainEXP(int exp)
     {
         experience += exp;
+    }
+
+    public void TestConstruct(int level, int experience, int expToNxtLvl)
+    {
+        this.level = level;
+        this.experience = experience;
+        this.experienceToNextLevel = expToNxtLvl;
+    }
+
+    public bool LevelledUp()
+    {
+        if(experience >= experienceToNextLevel)
+        {
+            level++;
+            experience -= experienceToNextLevel;
+
+            experienceToNextLevel = (int)(experienceToNextLevel * 1.8);
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
