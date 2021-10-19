@@ -12,7 +12,10 @@ You play as a hero who has been thrown into an apocalyptic world. The world is f
   - [Credits](#credits)
 
 ### Key Features
-
+- Farming
+- Crafting
+- Combat
+- Resource Gathering
 ### Installation
 
 First clone and open the project with unity, then go into file > build and build the file.
