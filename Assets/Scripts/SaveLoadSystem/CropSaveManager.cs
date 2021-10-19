@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Rendering.VirtualTexturing;
 
 public class CropSaveManager : MonoBehaviour, ISaveable
 {
@@ -28,17 +29,19 @@ public class CropSaveManager : MonoBehaviour, ISaveable
     public void LoadData()
     {
         CropSaveData loadedData = null;
+        //List<IndividualCrop> loadedData = new List<IndividualCrop>();
 
         if (File.Exists(CropDataPath))
         {
             loadedData = FileIO.ReadBinFromFile<CropSaveData>(CropDataPath);
-        } 
+        }
+        //streamIn, PrefixStyle.Base128, Serializer.ListItemTag
 
         if (loadedData != null)
         {
             Debug.Log("Clearing Farmland");
             crops.ClearAllFarmland();
-            ReconstructCropData(loadedData);
+            ReconstructCropData(loadedData.savedCrops);
             Debug.Log($"Crop data loaded from: {CropDataPath}");
         }
         else
@@ -47,10 +50,16 @@ public class CropSaveManager : MonoBehaviour, ISaveable
         }
     }
 
-    public void ReconstructCropData(CropSaveData data)
+    public void ReconstructCropData(List<IndividualCrop> data)
     {
-        foreach(IndividualCrop crop in data.savedCrops)
+        //foreach(IndividualCrop crop in data.savedCrops)
+        //{
+        //    crops.PlaceTile(crop.TilePosition, crop.TileName, crop.growthStage);
+        //}
+        IList list = data;
+        for(int i = 0; i < list.Count; i++)
         {
+            IndividualCrop crop = (IndividualCrop)list[i];
             crops.PlaceTile(crop.TilePosition, crop.TileName, crop.growthStage);
         }
     }

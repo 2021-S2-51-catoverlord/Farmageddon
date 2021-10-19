@@ -23,7 +23,7 @@ public class TimeDataManager : MonoBehaviour, ISaveable
     {
         FileIO.WriteBinToFile(TimeDataPath, new TimeSaveData(TimeController));
 
-        Debug.Log($"Time data loaded from: {TimeDataPath}");
+        Debug.Log($"Time data saved to: {TimeDataPath}");
     }
 
     /// <summary>

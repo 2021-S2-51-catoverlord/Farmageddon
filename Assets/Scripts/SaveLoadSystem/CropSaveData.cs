@@ -53,5 +53,4 @@ public class CropSaveData
             savedCrops.Add(new IndividualCrop(vector, cropType, growthStage));
         }
     }
-
 }
