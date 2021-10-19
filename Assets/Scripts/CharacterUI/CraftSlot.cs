@@ -52,6 +52,11 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler, IPointerEnterHand
         {
             toolTip = Resources.FindObjectsOfTypeAll<ItemToolTip>()[0];
         }
+        if (cManager == null)
+        {
+            cManager = Resources.FindObjectsOfTypeAll<CraftingManager>()[0];
+
+        }
     }
 
     // event methods
