@@ -21,7 +21,9 @@ public class CropSaveManager : MonoBehaviour, ISaveable
 
     public void SaveData()
     {
-        FileIO.WriteBinToFile(CropDataPath, new CropSaveData(crops));
+        CropSaveData saveData = new CropSaveData(crops);
+
+        FileIO.WriteBinToFile(CropDataPath, saveData);
 
         Debug.Log($"Crop data saved to: {CropDataPath}");
     }
@@ -29,19 +31,17 @@ public class CropSaveManager : MonoBehaviour, ISaveable
     public void LoadData()
     {
         CropSaveData loadedData = null;
-        //List<IndividualCrop> loadedData = new List<IndividualCrop>();
 
         if (File.Exists(CropDataPath))
         {
             loadedData = FileIO.ReadBinFromFile<CropSaveData>(CropDataPath);
         }
-        //streamIn, PrefixStyle.Base128, Serializer.ListItemTag
 
-        if (loadedData != null)
+        if(loadedData != null)
         {
             Debug.Log("Clearing Farmland");
             crops.ClearAllFarmland();
-            ReconstructCropData(loadedData.savedCrops);
+            ReconstructCropData(loadedData);
             Debug.Log($"Crop data loaded from: {CropDataPath}");
         }
         else
@@ -50,16 +50,10 @@ public class CropSaveManager : MonoBehaviour, ISaveable
         }
     }
 
-    public void ReconstructCropData(List<IndividualCrop> data)
+    public void ReconstructCropData(CropSaveData data)
     {
-        //foreach(IndividualCrop crop in data.savedCrops)
-        //{
-        //    crops.PlaceTile(crop.TilePosition, crop.TileName, crop.growthStage);
-        //}
-        IList list = data;
-        for(int i = 0; i < list.Count; i++)
+        foreach(IndividualCrop crop in data.savedCrops)
         {
-            IndividualCrop crop = (IndividualCrop)list[i];
             crops.PlaceTile(crop.TilePosition, crop.TileName, crop.growthStage);
         }
     }
