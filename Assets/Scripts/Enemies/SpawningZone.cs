@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceSpawningZone : MonoBehaviour
+public class SpawningZone : MonoBehaviour
 {
     //markers for spawning zone
     [SerializeField]
@@ -20,13 +20,13 @@ public class ResourceSpawningZone : MonoBehaviour
     [Range(1, 100)]
     private int spawnRate;
 
-    [Range(1, 20)]
-    public int MaxObjects;
-    private int currentCount;
+
+
 
     void Start()
     {
         CalcSpawnArea();
+<<<<<<< HEAD:Assets/Scripts/Enemies/ResourceSpawningZone.cs
 <<<<<<< Updated upstream:Assets/Scripts/Enemies/ResourceSpawningZone.cs
         //this.gameObject.SetActive(false);
         spawnListLength = spawnList.Length - 1;
@@ -35,13 +35,18 @@ public class ResourceSpawningZone : MonoBehaviour
 =======
         this.gameObject.SetActive(false);
 >>>>>>> Stashed changes:Assets/Scripts/Enemies/SpawningZone.cs
+=======
+        this.gameObject.SetActive(false);
+        spawnListLength = spawnList.Length - 1;
+>>>>>>> parent of ad7b8b5e (Made some Resouce Spawner Objects):Assets/Scripts/Enemies/SpawningZone.cs
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Random.Range(1, 101) < spawnRate)
+        if (Random.Range(1, 101) < spawnRate)
         {
+<<<<<<< HEAD:Assets/Scripts/Enemies/ResourceSpawningZone.cs
 <<<<<<< Updated upstream:Assets/Scripts/Enemies/ResourceSpawningZone.cs
             Instantiate(spawnList[Random.Range(0, spawnListLength)], GeneratePos(), Quaternion.identity);
             currentCount++;
@@ -54,6 +59,9 @@ public class ResourceSpawningZone : MonoBehaviour
 =======
             Instantiate(spawnList[Random.Range(0, spawnList.Length)], GenerateEnemyPos(), Quaternion.identity);
 >>>>>>> Stashed changes:Assets/Scripts/Enemies/SpawningZone.cs
+=======
+            Instantiate(spawnList[Random.Range(0, spawnListLength)], GenerateEnemyPos(), Quaternion.identity);
+>>>>>>> parent of ad7b8b5e (Made some Resouce Spawner Objects):Assets/Scripts/Enemies/SpawningZone.cs
         }
     }
 
@@ -65,10 +73,12 @@ public class ResourceSpawningZone : MonoBehaviour
         this.areaHeight = areaHeight;
     }
 
-    private Vector3 GeneratePos()
+    private Vector3 GenerateEnemyPos()
     {
         float newHeight = pointA.position.y - Random.Range(0, areaHeight);
         float newWidth = pointA.position.x + Random.Range(0, areaWidth);
         return new Vector3(newWidth, newHeight, -1);
     }
+
+
 }
