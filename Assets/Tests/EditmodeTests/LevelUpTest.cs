@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -9,7 +8,7 @@ public class LevelUpTest
     [UnityTest]
     public IEnumerator LevelIncreaseTest()
     {
-        var temp = new GameObject().GetComponent<LevelSystem>();
+        var temp = new GameObject().AddComponent<LevelSystem>();
 
         //temp.level = 1;
         //temp.experience = 10;
@@ -18,10 +17,9 @@ public class LevelUpTest
 
         temp.GainEXP(30);
 
-        bool result = temp.LevelledUp();
-
-        Assert.IsTrue(result);
 
         yield return null;
+
+        Assert.IsTrue(temp.LevelledUp());
     }
 }
