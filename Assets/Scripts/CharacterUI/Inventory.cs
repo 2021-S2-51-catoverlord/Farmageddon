@@ -216,7 +216,7 @@ public class Inventory : MonoBehaviour, IItemContainer
 
     public void Clear()
     {
-        for (int i = 0; i < itemSlots.Length; i++)
+        for(int i = 0; i < itemSlots.Length; i++)
         {
             itemSlots[i].Item = null;
         }
