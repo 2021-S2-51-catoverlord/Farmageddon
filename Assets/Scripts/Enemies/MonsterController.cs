@@ -91,6 +91,11 @@ public class MonsterController : EntityController
                 break;
         }
 
+        if (IsAlive)
+        {
+           
+            Destroy(this, (float).5);
+        }
         base.Update();
 
     }
@@ -241,7 +246,40 @@ public class MonsterController : EntityController
         }
 
     }
+    private void EnemyHit()
+    {
+        // take damage
+        this.TakeDamage(Player.Damage);
+        Debug.Log("taken damage: " + Player.Damage);
+        /*
+        switch (Player.LastDirection)
+        {
+            case PlayerController.LastDirect.up:
+            this.EntityRigidbody.AddRelativeForce(new Vector2Int(0, 10));
+                break;
+            case PlayerController.LastDirect.down:
+            this.EntityRigidbody.AddRelativeForce(new Vector2Int(0, -10));
+                break;
+            case PlayerController.LastDirect.left:
+            this.EntityRigidbody.AddRelativeForce(new Vector2Int(-10, 0));
+                break;
+            case PlayerController.LastDirect.right:
+            this.EntityRigidbody.AddRelativeForce(new Vector2Int(10, 0));
+                break;
+            default:
+                break;
+        }
+        */
+    }
 
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("enemy entered trigger");
+        if (collision.gameObject.tag == "Player")
+        {
+        Debug.Log("trigger owned by player");
+            EnemyHit();
+        }
+    }
 
 }

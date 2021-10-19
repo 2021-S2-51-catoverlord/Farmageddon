@@ -17,5 +17,5 @@ MonoBehaviour:
   icon: {fileID: 5408490227776730598, guid: 0961a55dd0be752438c43cb3925bf041, type: 3}
   itemDescription: Lumber taken from a tree.
   price: 20
-  maxStacks: 20
+  maxStacks: 50
   materialCat: 2
