@@ -34,15 +34,6 @@ public class ClockController : MonoBehaviour
     {
         time = FindObjectOfType<DayNightCycleBehaviour>();
 
-        springWindows[0] = GetSprite("Time/ui.png", "Spring Day");
-        springWindows[1] = GetSprite("Time/ui.png", "Spring Night");
-        summerWindows[0] = GetSprite("Time/ui.png", "Summer Day");
-        summerWindows[1] = GetSprite("Time/ui.png", "Summer Night");
-        autumnWindows[0] = GetSprite("Time/ui.png", "Autumn Day");
-        autumnWindows[1] = GetSprite("Time/ui.png", "Autumn Night");
-        winterWindows[0] = GetSprite("Time/ui.png", "Winter Day");
-        winterWindows[1] = GetSprite("Time/ui.png", "Winter Night");
-
         time.t_timeChange.AddListener(timeChange);
         time.t_lightChange.AddListener(lightChange);
         time.t_monthChange.AddListener(monthChange);
@@ -56,21 +47,6 @@ public class ClockController : MonoBehaviour
         seasonChange();
     }
 
-
-    public static Sprite GetSprite(string path, string name)
-    {
-        Sprite[] sprites = Resources.LoadAll<Sprite>(path);
-
-        foreach (Sprite sprite in sprites)
-        {
-            if (sprite.name.Contains(name))
-            {
-                return sprite;
-            }
-        }
-
-        return null;
-    }
 
     void timeChange()
     {
