@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scenes/GameMap 2.unity.meta
 guid: 67dc76f9b4b114390825e587e125da70
+=======
+guid: c2039047fe8b8b945b04c6598bc30aa9
+>>>>>>> EnemyCombat:Assets/Scenes/Inventory.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

@@ -185,4 +185,9 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
             }
         }
     }
+
+    public override string ToString()
+    {
+        return item.name; 
+    }
 }

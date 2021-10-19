@@ -4,21 +4,45 @@ using UnityEngine;
 
 public class PlayerController : EntityController
 {
-    protected static int MaxStamina = 30;
+    protected static int MAX_STAMINA = 30;
 
-    [SerializeField] protected StatBarController healthBar;
-    [SerializeField] protected StatBarController staminaBar;
-    [SerializeField] [Range(1, 30)] public int Damage;
+    [SerializeField]
+    protected StatBarController healthBar;
 
-    private Coroutine _regen;
-    private readonly WaitForSeconds _regenTick = new WaitForSeconds(0.1f);
-    public bool isInventoryActive; //Implementation for locking clicking status.
+    [SerializeField]
+    protected StatBarController staminaBar;
+
+    [SerializeField]
+    public int Damage;
+
+    private int staminaPoints;
+    private int experiencePoints;
+    private Coroutine regen;
+    private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
+    private bool inField;
+    private BoxCollider2D attackCollider = null;
+    private float attackTime;
+    private float attackDuration = 1;
+    public enum LastDirect
+    {
+        up,
+        down,
+        left,
+        right
+    }
+    private LastDirect lastDirection;
 
     // Get and set methods.
     public int StaminaPoints { get; set; }
     public int ExperiencePoints { get; set; }
+    public bool InField { get => inField; set => inField = value; }
+    public LastDirect LastDirection { get => lastDirection;}
 
     // Start is called before the first frame update
+
+    //Implementation for locking clicking status
+    public bool isInventoryActive;
+
     protected override void Start()
     {
         if(healthBar == null || staminaBar == null)
@@ -30,65 +54,73 @@ public class PlayerController : EntityController
         base.Start();
 
         InitStats();
+
+        // Get the instance of the Animator the GameObject is linked to and save it locally.
+        //base.animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     protected override void Update()
     {
-        if(IsAlive)
-        {
-            GetInput();
-        }
+        GetInput();
 
         healthBar.SetCurrentValue(HealthPoints);
-         
-        base.Update(); // Call the parent's Update method which will call the parent's Move method.
+
+        // Call the parent's Update method which will call the parent's Move method. 
+        base.Update();
     }
 
     /// <summary>
-    /// Initialise the player's statistics (name, stamina, exp, speed, damage) 
-    /// and stats bar (health and stamina bar).
+    /// Initialise the player's statistics (name, hp, stamina, exp) and 
+    /// stats bar (health and stamina bar).
     /// </summary>
     private void InitStats()
     {
         // Initialise entity name, stamina, and exp.
         EntityName = "Player";
-        StaminaPoints = MaxStamina;
+        StaminaPoints = PlayerController.MAX_STAMINA;
         ExperiencePoints = 0;
-        Speed = (Speed < 6f ? 6f : Speed);
-        Damage = (Damage < 5 ? 5 : Damage);
 
         // Initilise the sliders' max values.
-        healthBar.SetMaxValue(MaxHP);
-        staminaBar.SetMaxValue(MaxStamina);
+        healthBar.SetMaxValue(this.maxHP);
+        staminaBar.SetMaxValue(PlayerController.MAX_STAMINA);
     }
 
     /// <summary>
-    /// Poll input from user to compute a Direction for the player's character's movement.
+    /// Get input from user to compute a direction for the player's 
+    /// character's movement.
     /// </summary>
     private void GetInput()
     {
-        // Reset the vector and action bools at every loop/call.
-        Direction = Vector2.zero;
-        IsJumping = false;
-        IsAttacking = false;
+        // Reset the vector at every loop/call.
+        this.direction = Vector2.zero;
+        this.IsJumping = false;
+        this.IsAttacking = false;
 
-        /// Code for single Direction.
-        if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        /// Code for single direction.
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
-            Direction += Vector2.up;
+            // Move up.
+            this.direction += Vector2.up;
+            lastDirection = LastDirect.up;
         }
-        else if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            Direction += Vector2.left;
+            // Move left.
+            this.direction += Vector2.left;
+            lastDirection = LastDirect.left;
         }
-        else if(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
-            Direction += Vector2.down;
+            // Move down.
+            this.direction += Vector2.down;
+            lastDirection = LastDirect.down;
         }
-        else if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            Direction += Vector2.right;
+            // Move right.
+            this.direction += Vector2.right;
+            lastDirection = LastDirect.right;
         }
 
         // Input for jump.
@@ -98,48 +130,27 @@ public class PlayerController : EntityController
         }
 
         // Input for attack (left mouse-click)
-        if(!isInventoryActive && Input.GetMouseButton(0))
+        if(!isInventoryActive && Input.GetMouseButton(0) && !InField )
         {
+            PlayerAttack();
             Attack();
         }
 
         // Test health bar.
-        if(Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
-            TakeDamage(5);
+            TakeDamage(3);
         }
-        else if(Input.GetKeyDown(KeyCode.X))
+        else if (Input.GetKeyDown(KeyCode.X))
         {
             Heal(3);
         }
 
         // Test stamina bar.
-        if(Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             UseStamina(2);
         }
-    }
-
-    /// <summary>
-    /// Method to hide player after their death, reset statistics,
-    /// and lastly shift player to appear by their house. This method
-    /// is called at the end of the death animation.
-    /// </summary>
-    /// <returns></returns>
-    public IEnumerator RespawnPlayer()
-    {
-        SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>(); 
-        playerRenderer.enabled = false; // Hide Player.
-
-        yield return new WaitForSeconds(5f);
-
-        transform.position = new Vector3(8f, -17f, -1f); // Set respawn position to the house.
-        Start(); // Resets statistics (hp, stamina, exp, speed, damage, isalive...).
-        EntityAnimator.SetFloat("y", -0.5f); // Make player face down when respawn.
-        EntityAnimator.SetBool("Die", !IsAlive); // Exit death animation state.
-        playerRenderer.enabled = true; // Make player visible again.
-
-        Debug.Log("Player Respawned");
     }
 
     /// <summary>
@@ -148,24 +159,31 @@ public class PlayerController : EntityController
     /// <param name="amount"></param>
     public void UseStamina(int amount)
     {
-        if(StaminaPoints > 0)
+        // If there is still some stamina...
+        if (StaminaPoints > 0)
         {
+            // Decrement stamina.
             StaminaPoints -= amount;
-            StaminaPoints = (StaminaPoints < 0 ? 0 : StaminaPoints); // Ensure stamina is not a negative.
+
+            // Ensure stamina is not a negative.
+            StaminaPoints = StaminaPoints < 0 ? 0 : StaminaPoints;
         }
-        else
+        else // Otherwise...
         {
             Debug.Log("Not enough stamina!!");
         }
 
         // If stamina is already regenerating...
-        if(_regen != null)
+        if(regen != null)
         {
-            StopCoroutine(_regen); // Resets (Disallow player to regenerate while usiong stamina).
+            // Resets (Does not allow player to regenerate and use stamina at the same time).
+            StopCoroutine(regen);
         }
 
         // Starts the coroutine of regenerating.
-        _regen = StartCoroutine(RegenStamina());
+        regen = StartCoroutine(RegenStamina());
+
+        // Update the stamina bar slider.
         staminaBar.SetCurrentValue(StaminaPoints);
     }
 
@@ -175,13 +193,80 @@ public class PlayerController : EntityController
     /// <returns></returns>
     private IEnumerator RegenStamina()
     {
+        // Create a 1-second delay.
         yield return new WaitForSeconds(1.5f);
 
-        while(StaminaPoints < MaxStamina)
+        // While current stamina is less than the max stamina...
+        while(StaminaPoints < PlayerController.MAX_STAMINA)
         {
-            StaminaPoints++;
+            // Increment stamina.
+            StaminaPoints += 1;
+
+            // Update the stamina bar slider.
             staminaBar.SetCurrentValue(StaminaPoints);
-            yield return _regenTick;
+
+            // Create a 10 ms delay.
+            yield return regenTick; 
         }
     }
+
+    public void IncreaseHealth(int level)
+    {
+        maxHP += (int)(HealthPoints * 0.03) * (int)((100 - level) * 0.03);
+        HealthPoints = maxHP;
+        healthBar.SetMaxValue(maxHP);
+    }
+
+    public void IncreaseStamina(int level)
+    {
+        MAX_STAMINA += (int)(HealthPoints * 0.01) * (int)((100 - level) * 0.01);
+        StaminaPoints = MAX_STAMINA;
+        staminaBar.SetMaxValue(PlayerController.MAX_STAMINA);
+    }
+
+    private void Jump()
+    {
+        // Set the entity's state to jumping.
+        IsJumping = true;
+
+        // Set Attack in animator parameter to true.
+        EntityAnimator.SetBool("Jump", IsJumping);
+    }
+    public  void PlayerAttack()
+    {
+        //if player isnt attacking
+        if (attackCollider == null)
+        {
+            AttackTime = Time.time + attackDuration;
+            attackCollider = this.gameObject.AddComponent<BoxCollider2D>();
+            attackCollider.isTrigger = true;
+            //get players last movement direction
+            switch (lastDirection)
+            {
+                case LastDirect.up:
+                    attackCollider.offset = new Vector2((float)0.0, (float)1.36);
+                    attackCollider.size = new Vector2((float)1.29, (float)0.65);
+                    break;
+                case LastDirect.down:
+                    attackCollider.offset = new Vector2((float)0.0, (float)-.36);
+                    attackCollider.size = new Vector2((float)1.29, (float)0.65);
+                    break;
+                case LastDirect.left:
+                    attackCollider.offset = new Vector2((float)-.6, (float).5);
+                    attackCollider.size = new Vector2((float).65, (float)1.29);
+                    break;
+                case LastDirect.right:
+                    attackCollider.offset = new Vector2((float).6, (float).5);
+                    attackCollider.size = new Vector2((float).65, (float)1.29);
+                    break;
+                default:
+                    break;
+            }
+            Destroy(attackCollider, 5);
+        }
+
+        
+    }
+    
+
 }
