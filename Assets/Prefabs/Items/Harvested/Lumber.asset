@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee57696f0ebe0246836f45291f83683, type: 3}
+  m_Name: Lumber
+  m_EditorClassIdentifier: 
+  id: 69c94ab35871f7742aed1b3481281fb7
+  itemName: Lumber
+  icon: {fileID: 5408490227776730598, guid: 0961a55dd0be752438c43cb3925bf041, type: 3}
+  itemDescription: Lumber taken from a tree.
+  price: 20
+  maxStacks: 50
+  materialCat: 2

@@ -19,7 +19,6 @@ public class ResourceSpawningZone : MonoBehaviour
     [SerializeField]
     [Range(1, 100)]
     private int spawnRate;
-    private int spawnListLength;
 
     [Range(1, 20)]
     public int MaxObjects;
@@ -28,10 +27,14 @@ public class ResourceSpawningZone : MonoBehaviour
     void Start()
     {
         CalcSpawnArea();
+<<<<<<< Updated upstream:Assets/Scripts/Enemies/ResourceSpawningZone.cs
         //this.gameObject.SetActive(false);
         spawnListLength = spawnList.Length - 1;
         MaxObjects = MaxObjects > 3 ? MaxObjects : 3;
         currentCount = 0;
+=======
+        this.gameObject.SetActive(false);
+>>>>>>> Stashed changes:Assets/Scripts/Enemies/SpawningZone.cs
     }
 
     // Update is called once per frame
@@ -39,6 +42,7 @@ public class ResourceSpawningZone : MonoBehaviour
     {
         if(Random.Range(1, 101) < spawnRate)
         {
+<<<<<<< Updated upstream:Assets/Scripts/Enemies/ResourceSpawningZone.cs
             Instantiate(spawnList[Random.Range(0, spawnListLength)], GeneratePos(), Quaternion.identity);
             currentCount++;
         }
@@ -47,6 +51,9 @@ public class ResourceSpawningZone : MonoBehaviour
         if(currentCount >= MaxObjects)
         {
             this.gameObject.SetActive(false); // Stop spawning objects and set inactive.
+=======
+            Instantiate(spawnList[Random.Range(0, spawnList.Length)], GenerateEnemyPos(), Quaternion.identity);
+>>>>>>> Stashed changes:Assets/Scripts/Enemies/SpawningZone.cs
         }
     }
 

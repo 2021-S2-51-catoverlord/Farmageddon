@@ -4,7 +4,7 @@ public class TreeController : MonoBehaviour
 {
     public bool IsPlayerIn = false;
     public int Health = 3;
-
+    [SerializeField]
     public GameObject PreMT;
 
     void Start()
@@ -30,15 +30,14 @@ public class TreeController : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            IsPlayerIn = true;
+            Health--;
+
+            if (Health == 0)
+            {
+                Instantiate(PreMT, transform.position, transform.rotation);
+                Destroy(this.gameObject);
+            }
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if(collision.tag == "Player")
-        {
-            IsPlayerIn = false;
-        }
-    }
 }

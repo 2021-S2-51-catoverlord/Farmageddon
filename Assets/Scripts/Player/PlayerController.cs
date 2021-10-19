@@ -19,9 +19,9 @@ public class PlayerController : EntityController
     private int experiencePoints;
     private Coroutine regen;
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
-    private bool inField;
     private BoxCollider2D attackCollider = null;
-    private float attackTime;
+    //how long attack hitbox lasts in scene
+    [SerializeField]
     private float attackDuration = 1;
     public enum LastDirect
     {
@@ -35,8 +35,6 @@ public class PlayerController : EntityController
     // Get and set methods.
     public int StaminaPoints { get; set; }
     public int ExperiencePoints { get; set; }
-    public bool InField { get => inField; set => inField = value; }
-    public LastDirect LastDirection { get => lastDirection;}
 
     // Start is called before the first frame update
 
@@ -130,7 +128,7 @@ public class PlayerController : EntityController
         }
 
         // Input for attack (left mouse-click)
-        if(!isInventoryActive && Input.GetMouseButton(0) && !InField )
+        if(!isInventoryActive && Input.GetMouseButton(0))
         {
             PlayerAttack();
             Attack();
@@ -237,7 +235,6 @@ public class PlayerController : EntityController
         //if player isnt attacking
         if (attackCollider == null)
         {
-            AttackTime = Time.time + attackDuration;
             attackCollider = this.gameObject.AddComponent<BoxCollider2D>();
             attackCollider.isTrigger = true;
             //get players last movement direction
@@ -262,7 +259,7 @@ public class PlayerController : EntityController
                 default:
                     break;
             }
-            Destroy(attackCollider, 5);
+            Destroy(attackCollider, attackDuration);
         }
 
         
