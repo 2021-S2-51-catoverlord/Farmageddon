@@ -5,7 +5,7 @@ using UnityEngine;
 public class InsRock : MonoBehaviour
 {
     public bool IsIns = false; //check availibility
-    public float InsTime = 15; //倒计时，木头变成树的时间
+    public float InsTime = 15; //counting down lumber become tree
 
     public GameObject PreRock; //pre made rock
     public GameObject stone;
@@ -40,7 +40,7 @@ public class InsRock : MonoBehaviour
 
                
                 Instantiate(PreRock, Pos, transform.rotation);
-                //当为0的话，实例化树生效
+                //when equal to 0 , start instantiate.
                 Instantiate(PreRock, transform.position, transform.rotation);
                
                 Destroy(gameObject);

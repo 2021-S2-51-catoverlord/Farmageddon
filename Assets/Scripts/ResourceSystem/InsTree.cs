@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class InsTree : MonoBehaviour
 {
-    public bool IsIns = false; //是否有生成
-    public float InsTime = 15; //倒计时，木头变成树的时间
+    public bool IsIns = false; //checking availibility
+    public float InsTime = 15; //counting down the lumber become tree倒计时，木头变成树的时间
 
-    public GameObject PreTree; //树预制体
-    public GameObject Lumber;
+    public GameObject PreTree; //preset tree
+    public GameObject Lumber;// lumber sprite
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +21,7 @@ public class InsTree : MonoBehaviour
     {
         if(IsIns == false)
         {
-            // 随时间变化
+            // varies with time
             InsTime -= Time.deltaTime;
 
             if(InsTime < 0)
@@ -41,7 +41,7 @@ public class InsTree : MonoBehaviour
               
                 Instantiate(PreTree, Pos, transform.rotation);
 
-                // 当为0的话，实例化树生效
+                //when 当为0的话，实例化树生效
                 Instantiate(PreTree, transform.position, transform.rotation);
                 // 自我消耗木头
                 Destroy(gameObject);
