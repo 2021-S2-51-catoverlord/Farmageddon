@@ -19,6 +19,7 @@ public class SpawningZone : MonoBehaviour
     [SerializeField]
     [Range(1, 100)]
     private int spawnRate;
+    private int spawnListLength;
 
 
 
@@ -26,43 +27,25 @@ public class SpawningZone : MonoBehaviour
     void Start()
     {
         CalcSpawnArea();
-<<<<<<< HEAD:Assets/Scripts/Enemies/ResourceSpawningZone.cs
-<<<<<<< Updated upstream:Assets/Scripts/Enemies/ResourceSpawningZone.cs
-        //this.gameObject.SetActive(false);
-        spawnListLength = spawnList.Length - 1;
-        MaxObjects = MaxObjects > 3 ? MaxObjects : 3;
-        currentCount = 0;
-=======
         this.gameObject.SetActive(false);
->>>>>>> Stashed changes:Assets/Scripts/Enemies/SpawningZone.cs
-=======
-        this.gameObject.SetActive(false);
-        spawnListLength = spawnList.Length - 1;
->>>>>>> parent of ad7b8b5e (Made some Resouce Spawner Objects):Assets/Scripts/Enemies/SpawningZone.cs
+        if (spawnList != null)
+        {
+            spawnListLength = spawnList.Length - 1;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Random.Range(1, 101) < spawnRate)
+        if (spawnCheck())
         {
-<<<<<<< HEAD:Assets/Scripts/Enemies/ResourceSpawningZone.cs
-<<<<<<< Updated upstream:Assets/Scripts/Enemies/ResourceSpawningZone.cs
-            Instantiate(spawnList[Random.Range(0, spawnListLength)], GeneratePos(), Quaternion.identity);
-            currentCount++;
-        }
-
-        // If quota is met
-        if(currentCount >= MaxObjects)
-        {
-            this.gameObject.SetActive(false); // Stop spawning objects and set inactive.
-=======
-            Instantiate(spawnList[Random.Range(0, spawnList.Length)], GenerateEnemyPos(), Quaternion.identity);
->>>>>>> Stashed changes:Assets/Scripts/Enemies/SpawningZone.cs
-=======
             Instantiate(spawnList[Random.Range(0, spawnListLength)], GenerateEnemyPos(), Quaternion.identity);
->>>>>>> parent of ad7b8b5e (Made some Resouce Spawner Objects):Assets/Scripts/Enemies/SpawningZone.cs
         }
+    }
+
+    private bool spawnCheck()
+    {
+        return Random.Range(1, 101) <= spawnRate;
     }
 
     private void CalcSpawnArea()
@@ -79,6 +62,17 @@ public class SpawningZone : MonoBehaviour
         float newWidth = pointA.position.x + Random.Range(0, areaWidth);
         return new Vector3(newWidth, newHeight, -1);
     }
+    public void TestConstruct(Transform pointA, Transform pointB)
+    {
+        this.pointA = pointA;
+        this.pointB = pointB;
+        this.gameObject.SetActive(true);
+        CalcSpawnArea();
+    }
 
+    public Vector3 TestBounds()
+    {
+        return GenerateEnemyPos();
+    }
 
 }
