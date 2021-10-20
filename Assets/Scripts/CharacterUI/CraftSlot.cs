@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class CraftSlot : MonoBehaviour , IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class CraftSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private Recipe recipe;
@@ -20,9 +20,29 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler, IPointerEnterHand
 
     public Recipe Recipe { get => recipe; set => recipe = value; }
 
+    public void Awake()
+    {
+        if(image == null) // if the image is empty then get image
+        {
+            image = GetComponent<Image>();
+        }
+        if(playerInv == null) // if player inv is empty find the player inv
+        {
+            playerInv = Resources.FindObjectsOfTypeAll<Inventory>()[0];
+        }
+        if(amtTxt == null) // 
+        {
+            amtTxt = GetComponentInChildren<Text>();
+        }
+        if(toolTip == null)
+        {
+            toolTip = Resources.FindObjectsOfTypeAll<ItemToolTip>()[0];
+        }
+    }
+
     private void Start()
     {
-        if (recipe != null)
+        if(recipe != null)
         {
             image.sprite = recipe.item.icon;
             image.color = normalColor;
@@ -35,20 +55,20 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler, IPointerEnterHand
 
     protected virtual void OnValidate()
     {
-        if (image == null) // if the image is empty then get image
+        if(image == null) // if the image is empty then get image
         {
             image = GetComponent<Image>();
         }
-        if (playerInv == null) // if player inv is empty find the player inv
+        if(playerInv == null) // if player inv is empty find the player inv
         {
             playerInv = Resources.FindObjectsOfTypeAll<Inventory>()[0];
 
         }
-        if (amtTxt == null) // 
+        if(amtTxt == null) // 
         {
             amtTxt = GetComponentInChildren<Text>();
         }
-        if (toolTip == null)
+        if(toolTip == null)
         {
             toolTip = Resources.FindObjectsOfTypeAll<ItemToolTip>()[0];
         }
@@ -58,9 +78,9 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler, IPointerEnterHand
     public void OnPointerClick(PointerEventData eventData)
     {
         cManager.UpdateInv();
-        if (eventData != null && eventData.button == PointerEventData.InputButton.Left && isValid)
+        if(eventData != null && eventData.button == PointerEventData.InputButton.Left && isValid)
         {
-            for (int i = 0; i < recipe.RequiredItem.Length; i++)
+            for(int i = 0; i < recipe.RequiredItem.Length; i++)
             {
                 playerInv.RemoveMultipleItems(recipe.RequiredItem[i], recipe.QuantityRequired[i]);
             }
@@ -74,7 +94,7 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler, IPointerEnterHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (recipe != null)
+        if(recipe != null)
         {
             toolTip.ShowRecipeTip(recipe);
         }
@@ -82,7 +102,7 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler, IPointerEnterHand
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (recipe !=  null)
+        if(recipe != null)
         {
             toolTip.HideTooltip();
         }
