@@ -5,7 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Rendering.VirtualTexturing;
 
-public class CropSaveManager : MonoBehaviour, ISaveable
+public class CropDataManager : MonoBehaviour, ISaveable
 {
     protected string CropDataPath;
     public TileController crops;
