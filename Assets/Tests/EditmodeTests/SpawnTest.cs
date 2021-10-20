@@ -25,8 +25,7 @@ public class SpawnTest
 
         yield return null;
 
-        
-
+    
 
 
         Assert.True(pointA.transform.localPosition.x < Spawnloc.x && Spawnloc.x < pointB.transform.localPosition.x && pointB.transform.localPosition.y < Spawnloc.y && Spawnloc.y < pointA.transform.localPosition.y);

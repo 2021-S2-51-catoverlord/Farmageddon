@@ -5,7 +5,7 @@ using UnityEngine;
 public class HurtEnemy : MonoBehaviour
 {
     private int playerDamage;
-
+    
     public void Start()
     {
         playerDamage = GameObject.Find("Player").GetComponent<PlayerController>().Damage;
@@ -17,7 +17,7 @@ public class HurtEnemy : MonoBehaviour
         {
             MonsterController enemy = collision.gameObject.GetComponent(typeof(MonsterController)) as MonsterController;
             enemy.TakeDamage(playerDamage);
-            Debug.Log("Dealing damage: HP=" + enemy.HealthPoints);
+            Debug.Log("Dealing damage: HP=" + enemy.HealthPoints);            
         }
     }
 }

@@ -12,7 +12,7 @@ public class MusicController : MonoBehaviour
 
     public AudioSource AudioSrc { get; set; }
 
-    private void Awake()
+    public void Awake()
     {
         ConfigSingleton();
 
@@ -40,7 +40,7 @@ public class MusicController : MonoBehaviour
     /// Method to ensure there is only one audio listener throughout the 
     /// scene. Destroys any surplus.
     /// </summary>
-    private void CheckAudioListener()
+    public void CheckAudioListener()
     {
         AudioListener[] audioListeners = FindObjectsOfType<AudioListener>();
 
@@ -58,7 +58,7 @@ public class MusicController : MonoBehaviour
     /// Method to determine whether to set this object up as a singleton 
     /// or not depending on the boolean set by user.
     /// </summary>
-    private void ConfigSingleton()
+    public void ConfigSingleton()
     {
         if(IsSingleton)
         {
@@ -80,7 +80,7 @@ public class MusicController : MonoBehaviour
     /// Method to auto-load all music from the Resource-->Music folder if 
     /// no specific music had been specified by the user in the Inspector.
     /// </summary>
-    private void LoadResources()
+    public void LoadResources()
     {
         if(BGMusicPlaylist == null || BGMusicPlaylist.Length == 0)
         {
@@ -98,7 +98,7 @@ public class MusicController : MonoBehaviour
     /// <summary>
     /// Shuffles a random track from the loaded list into the Music Player.
     /// </summary>
-    protected IEnumerator PlayRandomTrack()
+    public IEnumerator PlayRandomTrack()
     {
         AudioSrc.clip = BGMusicPlaylist[Random.Range(0, BGMusicPlaylist.Length)] as AudioClip; // Load a random track.
         AudioSrc.Play();
