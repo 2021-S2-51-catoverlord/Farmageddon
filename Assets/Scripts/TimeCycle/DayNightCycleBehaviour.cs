@@ -70,10 +70,13 @@ public class DayNightCycleBehaviour : MonoBehaviour
     private GradientColorKey[] seasonKey;
     private GradientAlphaKey[] seasonalAlpha;
 
-    private int totalDayCount;
+    public int TotalDayCount;
     private int seasonalDayCount;
     private float localTimeElapsed;
     private int yearLength;
+
+    [SerializeField]
+    private GameObject[] spawningZones;
 
     [HideInInspector]
     public UnityEvent t_timeChange = new UnityEvent();
@@ -142,7 +145,7 @@ public class DayNightCycleBehaviour : MonoBehaviour
         if(initDay != 0 && initDay <= monthLength)
         {
             dayCount += initDay - 1;
-            totalDayCount += initDay;
+            TotalDayCount += initDay;
         }
         else
         {
@@ -198,12 +201,14 @@ public class DayNightCycleBehaviour : MonoBehaviour
             isNight = false;
             isDay = true;
             t_lightChange.Invoke();
+            ToggleSpawnZones(false);
         }
         else if((time < 0.25 || time > 0.75) && !isNight)
         {
             isNight = true;
             isDay = false;
             t_lightChange.Invoke();
+            ToggleSpawnZones(true);
         }
 
         timelight.color = gradient.Evaluate(timeRatio);
@@ -215,10 +220,18 @@ public class DayNightCycleBehaviour : MonoBehaviour
         }
     }
 
+    private void ToggleSpawnZones(bool setActive)
+    {
+        for(int i = 0; i < spawningZones.Length; i++)
+        {
+            spawningZones[i].SetActive(setActive);
+        }
+    }
+
     private void DayIncrease()
     {
         dayCount++;
-        totalDayCount++;
+        TotalDayCount++;
         seasonalDayCount++;
 
         uniqueTime.Clear();
@@ -243,10 +256,10 @@ public class DayNightCycleBehaviour : MonoBehaviour
 
         EvalSeasonGradient();
 
-        if(totalDayCount >= yearLength)
+        if(TotalDayCount >= yearLength)
         {
             yearLength++;
-            totalDayCount = 0;
+            TotalDayCount = 0;
         }
     }
 
@@ -343,7 +356,7 @@ public class DayNightCycleBehaviour : MonoBehaviour
 
     public void GetBackgroundValues(TimeSaveData timeModel)
     {
-        timeModel.TotalDayCount = totalDayCount;
+        timeModel.TotalDayCount = TotalDayCount;
         timeModel.SeasonalDayCount = seasonalDayCount;
         timeModel.YearLength = yearLength;
         timeModel.LocalTimeElapsed = localTimeElapsed;
@@ -351,7 +364,7 @@ public class DayNightCycleBehaviour : MonoBehaviour
 
     public void SetBackgroundValues(TimeSaveData timeModel)
     {
-        totalDayCount = timeModel.TotalDayCount;
+        TotalDayCount = timeModel.TotalDayCount;
         seasonalDayCount = timeModel.SeasonalDayCount;
         yearLength = timeModel.YearLength;
         localTimeElapsed = timeModel.LocalTimeElapsed;

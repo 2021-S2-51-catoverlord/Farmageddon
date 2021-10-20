@@ -35,7 +35,7 @@ public class MonsterController : EntityController
     private float timeStamp = -1; //timeStamp starts negative so we can initially set the timeStamp
     private bool playerSeen = false;
     private bool playerInSight = false;
-     
+
 
     public bool PlayerInSight { get => playerInSight; set => playerInSight = value; }
 
@@ -47,7 +47,6 @@ public class MonsterController : EntityController
         target = targetObj.transform;
         Player = targetObj.GetComponent(typeof(PlayerController)) as PlayerController;
 
-        
         base.Start();
     }
 
@@ -130,7 +129,7 @@ public class MonsterController : EntityController
         //increase 
         enemyDamage = Mathf.FloorToInt(baseDmg * ((TimeController.TotalDayCount + scalingByDay) / scalingByDay));
 
-        this.maxHP = Mathf.FloorToInt(baseHP * ((TimeController.TotalDayCount + scalingByDay) / scalingByDay));
+        this.MaxHP = Mathf.FloorToInt(baseHP * ((TimeController.TotalDayCount + scalingByDay) / scalingByDay));
 
         Debug.Log("dmg" + Mathf.FloorToInt(baseDmg * ((TimeController.TotalDayCount + scalingByDay) / scalingByDay)));
         Debug.Log("HP" + Mathf.FloorToInt(baseHP * ((TimeController.TotalDayCount + scalingByDay) / scalingByDay)));
@@ -184,7 +183,7 @@ public class MonsterController : EntityController
                 if(AttackCounter <= 0)
                 {
                     StopAttack();
-                    AttackCounter = 5f;
+                    AttackCounter = 3f;
                 }
             }
             else
@@ -206,7 +205,7 @@ public class MonsterController : EntityController
         {
             base.Attack();
             timeStamp = Time.time + attackCooldownInSeconds;
-            Player.TakeDamage(damageDelt);
+            Player.TakeDamage(baseDmg);
         }
     }
 

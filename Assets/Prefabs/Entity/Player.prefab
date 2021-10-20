@@ -117,6 +117,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 1483895024657042040}
   inventoryUI: {fileID: 0}
   equipmentUI: {fileID: 0}
+  craftingUI: {fileID: 0}
   sellUI: {fileID: 0}
   saveManager: {fileID: 1525203471}
   SaveButton: {fileID: 1483895024304937917}
@@ -1532,22 +1533,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a33699c0985ae4585f2036d910308b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 0
+  Speed: 7
   EntityAnimator: {fileID: 3901984750243660531}
   EntityRigidbody: {fileID: 8021334143088886673}
-  IsAlive: 0
+  IsAlive: 1
   IsJumping: 0
   IsAttacking: 0
   AttackCounter: 0
-  MaxHP: 0
-  HealthPoints: 0
+  MaxHP: 100
+  HealthPoints: 100
   HealthBar: {fileID: 0}
   StaminaBar: {fileID: 0}
   Level: {fileID: 0}
   Money: {fileID: 0}
-  Damage: 0
-  MaxStamina: 0
-  StaminaPoints: 0
+  Damage: 30
+  MaxStamina: 30
+  StaminaPoints: 30
   IsInventoryActive: 0
 --- !u!50 &8021334143088886673
 Rigidbody2D:
