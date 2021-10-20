@@ -76,7 +76,7 @@ public class CraftSlot : MonoBehaviour , IPointerClickHandler, IPointerEnterHand
     {
         if (recipe != null)
         {
-            toolTip.showRecipeTip(recipe);
+            toolTip.ShowRecipeTip(recipe);
         }
     }
 

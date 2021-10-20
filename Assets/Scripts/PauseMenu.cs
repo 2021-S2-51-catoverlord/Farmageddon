@@ -20,6 +20,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
     public GameObject inventoryUI;
     public GameObject equipmentUI;
+    public GameObject craftingUI;
     public GameObject sellUI;
     public SaveManager saveManager;
     [Space]
@@ -65,6 +66,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         inventoryUI.SetActive(false);
         equipmentUI.SetActive(false);
+        craftingUI.SetActive(false);
         sellUI.SetActive(false);
         Time.timeScale = 0f;
         isPaused = true;

@@ -114,7 +114,7 @@ public class PlayerController : EntityController
         }
 
         // Input for attack (left mouse-click)
-        if(!IsInventoryActive && Input.GetMouseButton(0))
+        if(Input.GetMouseButton(0))
         {
             Attack();
         }
@@ -135,7 +135,7 @@ public class PlayerController : EntityController
         }
 
         // Test stamina bar.
-        if(Input.GetKeyDown(KeyCode.LeftAlt))
+        if(Input.GetKeyDown(KeyCode.V))
         {
             UseStamina(2);
         }

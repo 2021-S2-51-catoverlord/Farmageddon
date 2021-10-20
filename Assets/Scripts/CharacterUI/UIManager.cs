@@ -169,7 +169,7 @@ public class UIManager : MonoBehaviour
 
     private void AddStacks(ItemSlot dropItemSlot)
     {
-        int addableStack = dropItemSlot.Item.maxStacks - dropItemSlot.Amount;
+        int addableStack = dropItemSlot.Item.MaxStacks - dropItemSlot.Amount;
         int stackAdd = Mathf.Min(addableStack, draggedSlot.Amount);
 
         dropItemSlot.Amount += stackAdd;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 884bc62521c32414cae0b3320441c2a5, type: 3}
   m_Name: Armor 1
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: dc47c8f29021a07499bf0a2f3139c2ca, type: 2}
+  item: {fileID: 11400000, guid: a459d37c1efc4a949829c06cf18a8dfb, type: 2}
   requiredItem:
-  - {fileID: 11400000, guid: f602f100f59204d4a8fe3081b39e5e6a, type: 2}
+  - {fileID: 11400000, guid: f4bbb44a0ca1d4945bcb77ed83808fb5, type: 2}
   quantityRequired: 05000000

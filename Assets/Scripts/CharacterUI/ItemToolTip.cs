@@ -53,7 +53,7 @@ public class ItemToolTip : MonoBehaviour
 
         gameObject.SetActive(true);
     }
-    public void showRecipeTip(Recipe recipe)
+    public void ShowRecipeTip(Recipe recipe)
     {
         itemNameText.text = recipe.item.itemName;
         itemInfoText.text = GetRecipeInfo(recipe);

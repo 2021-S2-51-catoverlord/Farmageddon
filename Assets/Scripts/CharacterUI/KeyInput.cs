@@ -13,16 +13,18 @@ public class KeyInput : MonoBehaviour
 {
     [SerializeField] GameObject inventoryUI;
     [SerializeField] GameObject equipUI;
+    [SerializeField] GameObject craftingUI;
     [SerializeField] GameObject tooltip;
     [SerializeField] GameObject sellArea;
     [SerializeField] PlayerController player;
 
     public void Awake()
     {
-        if(inventoryUI == null || equipUI == null || tooltip == null || sellArea == null || player == null)
+        if(inventoryUI == null || equipUI == null || craftingUI == null || tooltip == null || sellArea == null || player == null)
         {
             inventoryUI = Resources.FindObjectsOfTypeAll<Inventory>()[0].gameObject;
             equipUI = Resources.FindObjectsOfTypeAll<EquipUI>()[0].gameObject;
+            craftingUI = Resources.FindObjectsOfTypeAll<CraftingManager>()[0].gameObject;
             tooltip = Resources.FindObjectsOfTypeAll<ItemToolTip>()[0].gameObject;
             sellArea = Resources.FindObjectsOfTypeAll<SellArea>()[0].gameObject;
             player = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -33,6 +35,7 @@ public class KeyInput : MonoBehaviour
     {
         inventoryUI.SetActive(false);
         equipUI.SetActive(false);
+        craftingUI.SetActive(false);
         sellArea.SetActive(false);
     }
 
@@ -51,7 +54,12 @@ public class KeyInput : MonoBehaviour
             equipUI.SetActive(!equipUI.activeSelf);
         }
 
-        if(!(equipUI.activeSelf || inventoryUI.activeSelf))
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            craftingUI.SetActive(!craftingUI.activeSelf);
+        }
+
+        if(!(equipUI.activeSelf || inventoryUI.activeSelf || craftingUI.activeSelf))
         {
             tooltip.SetActive(false);
         }
