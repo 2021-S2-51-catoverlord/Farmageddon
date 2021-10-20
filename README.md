@@ -16,6 +16,7 @@ You play as a hero who has been thrown into an apocalyptic world. The world is f
 ### Key Features
 - Farming
 - Crafting
+- Store and Sell Items
 - Combat
 - Resource Gathering
 
@@ -39,7 +40,10 @@ First clone and open the project with unity, then go into file > build and build
 ![PlantCrops](https://user-images.githubusercontent.com/80317637/138160579-b3ee7d93-fffe-4a90-a09f-de1f0cd34e17.png)![CropsGrowing](https://user-images.githubusercontent.com/80317637/138160585-0800165e-e79e-4392-ab22-345be78b8c4a.png)
 
 - Crafting
-![CraftItems](https://user-images.githubusercontent.com/80317637/138160439-88c5277e-cc2b-4a8e-8ed1-cf0e409f7c29.png)![StoreAndSellItems](https://user-images.githubusercontent.com/80317637/138160443-60529057-830d-4f3d-8960-ea375d49dfc2.png)
+![CraftItems](https://user-images.githubusercontent.com/80317637/138160439-88c5277e-cc2b-4a8e-8ed1-cf0e409f7c29.png)
+
+- Store and Sell Items
+![StoreAndSellItems](https://user-images.githubusercontent.com/80317637/138160443-60529057-830d-4f3d-8960-ea375d49dfc2.png)
 
 - Combat
 ![ZombieBattle](https://user-images.githubusercontent.com/80317637/138160695-ed9f9324-1eb5-43a8-a7df-b94258dc19f7.png)
