@@ -38,7 +38,7 @@ public class MonsterController : EntityController
         targetObj = GameObject.FindWithTag("Player");
         target = targetObj.transform;
         Player = targetObj.GetComponent(typeof(PlayerController)) as PlayerController;
-
+        
         base.Start();
     }
 

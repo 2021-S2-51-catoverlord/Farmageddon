@@ -9,6 +9,7 @@ TagManager:
   - Limited Inventory
   - Audio
   - HUD
+  - CraftingMenu
   layers:
   - Default
   - TransparentFX

@@ -130,6 +130,31 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
         tooltip.HideTooltip();
     }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (item is Tool || item is Weapon || item is Equipment)
+        {
+            tooltip.ShowTooltip((Equipment)Item);
+        }
+        if (Item is Food)
+        {
+            tooltip.ShowTooltip((Food)Item);
+        }
+        if (Item is Seed)
+        {
+            tooltip.ShowTooltip((Seed)Item);
+        }
+        if (Item is Mat)
+        {
+            tooltip.ShowTooltip((Mat)Item);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        tooltip.HideTooltip();
+    }
+
     /// Getter and Setters-----------------------------------------------------------------
     public Item Item
     {
@@ -183,5 +208,10 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
                 }
             }
         }
+    }
+
+    public override string ToString()
+    {
+        return item.name; 
     }
 }

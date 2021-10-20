@@ -53,6 +53,12 @@ public class ItemToolTip : MonoBehaviour
 
         gameObject.SetActive(true);
     }
+    public void showRecipeTip(Recipe recipe)
+    {
+        itemNameText.text = recipe.item.itemName;
+        itemInfoText.text = GetRecipeInfo(recipe);
+        gameObject.SetActive(true);
+    }
 
     public void HideTooltip()
     {
@@ -119,5 +125,15 @@ public class ItemToolTip : MonoBehaviour
         sb.Append(material.materialCat);
 
         return sb.ToString();
+    }
+    private string GetRecipeInfo(Recipe recipe)
+    {
+        sb.Length = 0;
+        sb.AppendLine("Requires:");
+        for (int i = 0; i < recipe.RequiredItem.Length; i++)
+        {
+            sb.AppendLine(recipe.RequiredItem[i].itemName + ": " + recipe.QuantityRequired[i] + "x");
+        }
+        return sb.ToString();    
     }
 }
