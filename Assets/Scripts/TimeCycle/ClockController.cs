@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ClockController : MonoBehaviour
@@ -15,40 +12,37 @@ public class ClockController : MonoBehaviour
 
     public Image Window;
 
-    [SerializeField]
-    private Sprite[] springWindows;
-
-    [SerializeField]
-    private Sprite[] summerWindows;
-
-    [SerializeField]
-    private Sprite[] autumnWindows;
-
-    [SerializeField]
-    private Sprite[] winterWindows;
+    [SerializeField] private Sprite[] springWindows;
+    [SerializeField] private Sprite[] summerWindows;
+    [SerializeField] private Sprite[] autumnWindows;
+    [SerializeField] private Sprite[] winterWindows;
 
     private Sprite currWindowSprite;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         time = FindObjectOfType<DayNightCycleBehaviour>();
 
-        time.t_timeChange.AddListener(timeChange);
-        time.t_lightChange.AddListener(lightChange);
-        time.t_monthChange.AddListener(monthChange);
-        time.t_dayChange.AddListener(dayChange);
-        time.t_seasonChange.AddListener(seasonChange);
+        time.t_timeChange.AddListener(TimeChange);
+        time.t_lightChange.AddListener(LightChange);
+        time.t_monthChange.AddListener(MonthChange);
+        time.t_dayChange.AddListener(DayChange);
+        time.t_seasonChange.AddListener(SeasonChange);
 
-        lightChange();
-        timeChange();
-        monthChange();
-        dayChange();
-        seasonChange();
+        LightChange();
+        TimeChange();
+        MonthChange();
+        DayChange();
+        SeasonChange();
     }
 
+    private void LightChange()
+    {
+        UpdateWindowSprite();
+    }
 
-    void timeChange()
+    private void TimeChange()
     {
         int minutes = (int)time.relativeTime;
         int hours = minutes / 60;
@@ -59,136 +53,46 @@ public class ClockController : MonoBehaviour
             hours -= 12;
         }
 
-        if (time.relativeTime >= 1440 / 2)
-        {
-            amtext.text = "PM";
-        }
-        else
-        {
-            amtext.text = "AM";
-        }
-
-        timetext.text = hours.ToString("00") + ":" + minutes.ToString("00");
-    }
-    void lightChange()
-    {
-        switch (time.season)
-        {
-            case Season.SPRIMMER:
-                if (time.isDay)
-                {
-                    currWindowSprite = springWindows[0];
-                }
-                else
-                {
-                    currWindowSprite = springWindows[1];
-                }
-                break;
-            case Season.SUMTUMN:
-                if (time.isDay)
-                {
-                    currWindowSprite = summerWindows[0];
-                }
-                else
-                {
-                    currWindowSprite = summerWindows[1];
-                }
-                break;
-            case Season.AUNTER:
-                if (time.isDay)
-                {
-                    currWindowSprite = autumnWindows[0];
-                }
-                else
-                {
-                    currWindowSprite = autumnWindows[1];
-                }
-                break;
-            case Season.WINTING:
-                if (time.isDay)
-                {
-                    currWindowSprite = winterWindows[0];
-                }
-                else
-                {
-                    currWindowSprite = winterWindows[1];
-                }
-                break;
-            default:
-                if (time.isDay)
-                {
-                    currWindowSprite = springWindows[0];
-                }
-                else
-                {
-                    currWindowSprite = springWindows[1];
-                }
-                break;
-        }
-        Window.sprite = currWindowSprite;
+        amtext.text = time.relativeTime >= 1440 / 2 ? "PM" : "AM";
+        timetext.text = $"{hours:00}:{minutes:00}";
     }
 
-    void dayChange()
+    private void MonthChange()
     {
-        daytext.text = (time.dayCount +1 ).ToString("00");
+        monthtext.text = time.GetMonth();
     }
-    void monthChange()
+
+    private void DayChange()
     {
-        monthtext.text = time.getMonth();
+        daytext.text = (time.dayCount + 1).ToString("00");
     }
-    void seasonChange()
+
+    private void SeasonChange()
     {
-        switch (time.season)
+        UpdateWindowSprite();
+    }
+
+    private void UpdateWindowSprite()
+    {
+        switch(time.season)
         {
             case Season.SPRIMMER:
-                if (time.isDay)
-                {
-                    currWindowSprite = springWindows[0];
-                }
-                else
-                {
-                    currWindowSprite = springWindows[1];
-                }
+                currWindowSprite = time.isDay ? springWindows[0] : springWindows[1];
                 break;
             case Season.SUMTUMN:
-                if (time.isDay)
-                {
-                    currWindowSprite = summerWindows[0];
-                }
-                else
-                {
-                    currWindowSprite = summerWindows[1];
-                }
+                currWindowSprite = time.isDay ? summerWindows[0] : summerWindows[1];
                 break;
             case Season.AUNTER:
-                if (time.isDay)
-                {
-                    currWindowSprite = autumnWindows[0];
-                }
-                else
-                {
-                    currWindowSprite = autumnWindows[1];
-                }
+                currWindowSprite = time.isDay ? autumnWindows[0] : autumnWindows[1];
                 break;
             case Season.WINTING:
-                if (time.isDay)
-                {
-                    currWindowSprite = winterWindows[0];
-                }
-                else
-                {
-                    currWindowSprite = winterWindows[1];
-                }
+                currWindowSprite = time.isDay ? winterWindows[0] : winterWindows[1];
+                break;
+            case Season.UNDEFINED:
+                currWindowSprite = time.isDay ? summerWindows[0] : summerWindows[1];
                 break;
             default:
-                if (time.isDay)
-                {
-                    currWindowSprite = springWindows[0];
-                }
-                else
-                {
-                    currWindowSprite = springWindows[1];
-                }
+                currWindowSprite = time.isDay ? springWindows[0] : springWindows[1];
                 break;
         }
         Window.sprite = currWindowSprite;

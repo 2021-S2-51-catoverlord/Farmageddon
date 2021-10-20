@@ -1,8 +1,8 @@
-using UnityEngine;
-using System.Collections.Generic;
 using Gameplay;
-using UnityEngine.Tilemaps;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class TileLibrary : MonoBehaviour
 {
@@ -12,11 +12,11 @@ public class TileLibrary : MonoBehaviour
 
     private void Awake()
     {
-        if (!instance)
+        if(!instance)
         {
             instance = this;
         }
-        else if (instance != this)
+        else if(instance != this)
         {
             Destroy(gameObject);
         }
@@ -37,33 +37,54 @@ public class TileLibrary : MonoBehaviour
         return clonedTile;
     }
 
+    //public IGameTile GetClonedTile(string id)
+    //{
+    //    IGameTile originalTile = Tiles[id];
+    //    GameTile copy = new GameTile();
+
+    //    copy.ID = Guid.NewGuid().ToString();
+    //    //copy.LocalPlace.x = originalTile.LocalPlace.x;
+    //    //copy.LocalPlace.y = originalTile.LocalPlace.y;
+    //    copy.LocalPlace = new Vector3Int(originalTile.LocalPlace.x, originalTile.LocalPlace.y, originalTile.LocalPlace.z);
+    //    copy.WorldLocation = new Vector3(originalTile.WorldLocation.x, originalTile.WorldLocation.y, originalTile.WorldLocation.z);
+    //    copy.TileBase = originalTile.TileBase;
+    //    copy.TilemapMember = originalTile.TilemapMember;
+    //    copy.Description = originalTile.Description;
+    //    copy.Cost = originalTile.Cost;
+    //    copy.TileData = originalTile.TileData;
+
+    //    print(copy.Description);
+
+    //    return copy;
+    //}
+
     private void InitLibrary()
     {
         Tiles.Add("beetroot", new CropTile()
         {
-            Description = "Beetroot - Seeds",
-            TileBase = Resources.Load<TileBase>("Crops/beet_1"), 
+            Description = "beetroot - Seeds",
+            TileBase = Resources.Load<TileBase>("Crops/beet_1"),
             TileData = Resources.Load<Tile>("Crops/beet_1"),
             GrowthStageTiles = new GrowthStage[]
             {
                  new GrowthStage() {
-                    Description = "Beetroot - Stage 2",
+                    Description = "beetroot - Stage 2",
                     Tile = Resources.Load<Tile>("Crops/beet_2"),
                 },
                  new GrowthStage() {
-                    Description = "Beetroot - Stage 3",
+                    Description = "beetroot - Stage 3",
                     Tile = Resources.Load<Tile>("Crops/beet_3"),
                 },
                 new GrowthStage() {
-                    Description = "Beetroot - Stage 4",
+                    Description = "beetroot - Stage 4",
                     Tile = Resources.Load<Tile>("Crops/beet_4"),
                 },
                 new GrowthStage() {
-                    Description = "Beetroot - Stage 5",
+                    Description = "beetroot - Stage 5",
                     Tile = Resources.Load<Tile>("Crops/beet_5"),
                 },
                 new GrowthStage() {
-                    Description = "Beetroot - Grown",
+                    Description = "beetroot - Grown",
                     Tile = Resources.Load<Tile>("Crops/beet_6"),
                 },
             },
@@ -71,25 +92,25 @@ public class TileLibrary : MonoBehaviour
         });
         Tiles.Add("carrot", new CropTile()
         {
-            Description = "Carrot - Seeds",
+            Description = "carrot - Seeds",
             TileBase = Resources.Load<TileBase>("Crops/carrot_1"),  // location to the art sprites
             TileData = Resources.Load<Tile>("Crops/carrot_1"),
             GrowthStageTiles = new GrowthStage[]
             {
                  new GrowthStage() {
-                    Description = "Carrot - Stage 2",
+                    Description = "carrot - Stage 2",
                     Tile = Resources.Load<Tile>("Crops/carrot_2"),
                 },
                  new GrowthStage() {
-                    Description = "Carrot - Stage 3",
+                    Description = "carrot - Stage 3",
                     Tile = Resources.Load<Tile>("Crops/carrot_3"),
                 },
                 new GrowthStage() {
-                    Description = "Carrot - Stage 4",
+                    Description = "carrot - Stage 4",
                     Tile = Resources.Load<Tile>("Crops/carrot_4"),
                 },
                 new GrowthStage() {
-                    Description = "Carrot - Grown",
+                    Description = "carrot - Grown",
                     Tile = Resources.Load<Tile>("Crops/carrot_5"),
                 },
             },
@@ -187,29 +208,29 @@ public class TileLibrary : MonoBehaviour
         });
         Tiles.Add("pumpkin", new CropTile()
         {
-            Description = "pump - Seeds",
+            Description = "pumpkin - Seeds",
             TileBase = Resources.Load<TileBase>("Crops/pump_1"),  // location to the art sprites
             TileData = Resources.Load<Tile>("Crops/pump_1"),
             GrowthStageTiles = new GrowthStage[]
             {
                  new GrowthStage() {
-                    Description = "pump - Stage 2",
+                    Description = "pumpkin - Stage 2",
                     Tile = Resources.Load<Tile>("Crops/pump_2"),
                 },
                  new GrowthStage() {
-                    Description = "pump - Stage 3",
+                    Description = "pumpkin - Stage 3",
                     Tile = Resources.Load<Tile>("Crops/pump_3"),
                 },
                 new GrowthStage() {
-                    Description = "pump - Stage 4",
+                    Description = "pumpkin - Stage 4",
                     Tile = Resources.Load<Tile>("Crops/pump_4"),
                 },
                 new GrowthStage() {
-                    Description = "pump - Stage 5",
+                    Description = "pumpkin - Stage 5",
                     Tile = Resources.Load<Tile>("Crops/pump_5"),
                 },
                 new GrowthStage() {
-                    Description = "pump - Grown",
+                    Description = "pumpkin - Grown",
                     Tile = Resources.Load<Tile>("Crops/pump_6"),
                 },
             },
