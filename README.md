@@ -10,6 +10,7 @@ You play as a hero who has been thrown into an apocalyptic world. The world is f
 ## Table of Contents
   - [Key Features](#key-features)
   - [Installation](#installation)
+  - [Game Controls](#game-controls)
   - [Credits](#credits)
   - [Gameplay](#gameplay)
 
@@ -23,6 +24,24 @@ You play as a hero who has been thrown into an apocalyptic world. The world is f
 ### Installation
 
 First clone and open the project with unity, then go into file > build and build the file.
+
+### Game Controls
+
+ - "W" or "Up Arrow" Key : Move Player Up
+ - "A" or "Left Arrow" Key : Move Player Left
+ - "S" or "Down Arrow" Key : Move Player Down
+ - "D" or "Right Arrow" Key : Move Player Right
+ - "I" : Toggle Inventory Pop-Up
+ - "E" : Toggle Equipment Pop-Up
+ - "C" : Toggle Crafting Pop-Up
+ - "Left-Mouse-Click" : Attack/Plant Crops
+ - "Right-Mouse-Click" : Equip Item/Consume Item/Craft Item (When Inventory/Equipment/Crafting UIs are Open)
+ - "Mouse-Hover-Over" : View Tooltip (When Inventory/Equipment/Crafting UIs are Open)
+ - "Escape" Key : Toggle Pause Menu
+ - "Z" Key : Debug Decrement Health
+ - "X" Key : Debug Increment Health
+ - "V" Key : Debug Decrement Stamina
+ - "P" Key : Debug Level Up
 
 ### Credits
 
